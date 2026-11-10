@@ -1,0 +1,3832 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Hành trình chinh phục thử thách</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+    :root {
+      --night: #080d1b;
+      --night2: #101a31;
+      --panel: #111d35;
+      --panel2: #172642;
+      --red: #ff4268;
+      --coral: #ff765e;
+      --gold: #ffd166;
+      --mint: #4ee0b2;
+      --ink: #f5f7ff;
+      --muted: #a7b3cc;
+      --line: rgba(190, 207, 245, .16);
+      --shadow: 0 28px 90px rgba(0, 0, 0, .38);
+      --glow: 0 0 34px rgba(255, 66, 104, .2);
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      min-height: 100%;
+      scroll-behavior: smooth
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+      background: radial-gradient(ellipse at 12% 8%, rgba(91, 113, 255, .18), transparent 34%),
+        radial-gradient(ellipse at 92% 88%, rgba(255, 66, 104, .13), transparent 34%),
+        linear-gradient(135deg, #080d1b 0%, #0d1428 48%, #10152b 100%);
+      overflow-x: hidden
+    }
+
+    body:before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .22;
+      z-index: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(to bottom, black, transparent 85%)
+    }
+
+    button,
+    input {
+      font: inherit
+    }
+
+    button {
+      cursor: pointer
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh
+    }
+
+    .screen {
+      display: none;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1
+    }
+
+    .screen.active {
+      display: flex
+    }
+
+    .welcome {
+      align-items: center;
+      justify-content: center;
+      padding: clamp(16px, 4vw, 56px);
+      overflow: hidden
+    }
+
+    .welcome:before,
+    .welcome:after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(1px);
+      pointer-events: none
+    }
+
+    .welcome:before {
+      width: 420px;
+      height: 420px;
+      border: 1px solid rgba(122, 151, 255, .2);
+      top: -230px;
+      left: -120px;
+      box-shadow: 0 0 0 42px rgba(122, 151, 255, .025), 0 0 0 90px rgba(122, 151, 255, .02)
+    }
+
+    .welcome:after {
+      width: 320px;
+      height: 320px;
+      border: 1px solid rgba(255, 118, 94, .22);
+      right: -190px;
+      bottom: -160px;
+      box-shadow: 0 0 0 38px rgba(255, 118, 94, .025), 0 0 0 80px rgba(255, 118, 94, .02)
+    }
+
+    .welcome-shell {
+      width: min(1160px, 100%);
+      border: 1px solid rgba(190, 207, 245, .2);
+      border-radius: 30px;
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(21, 34, 60, .96), rgba(11, 19, 37, .97));
+      box-shadow: var(--shadow);
+      position: relative;
+      animation: riseIn .8s cubic-bezier(.2, .8, .2, 1) both
+    }
+
+    .welcome-top {
+      min-height: 280px;
+      padding: clamp(32px, 6vw, 40px) clamp(32px, 6vw, 72px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(circle at 82% 45%, rgba(255, 66, 104, .22), transparent 28%), linear-gradient(115deg, #172747, #111a32 66%, #231a39)
+    }
+
+    .welcome-top:after {
+      content: "✦";
+      position: absolute;
+      right: 15%;
+      top: 5%;
+      font-size: 230px;
+      line-height: 1;
+      color: rgba(255, 255, 255, .035);
+      transform: rotate(12deg);
+      animation: slowFloat 8s ease-in-out infinite
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border: 1px solid rgba(255, 118, 94, .35);
+      border-radius: 999px;
+      color: #ffc3c9;
+      background: rgba(255, 66, 104, .1);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 1.5px
+    }
+
+    .welcome-top h1 {
+      max-width: 720px;
+      margin: 22px 0 14px;
+      font: 900 clamp(34px, 5.4vw, 66px)/1.03 'Space Grotesk', 'Be Vietnam Pro', sans-serif;
+      letter-spacing: -2px
+    }
+
+    .welcome-top h1 span {
+      display: block;
+      background: linear-gradient(90deg, #ff6b83, #ffb36b 75%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      line-height: normal;
+      color: transparent
+    }
+
+    .welcome-top p {
+      max-width: 620px;
+      margin: 0;
+      color: #b9c5dd;
+      font-size: clamp(14px, 1.5vw, 17px);
+      line-height: 1.8
+    }
+
+    .welcome-progress {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      min-width: 100px;
+      position: relative;
+      z-index: 1
+    }
+
+    .welcome-progress i {
+      display: block;
+      width: 74px;
+      height: 7px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .13);
+      transform: skewX(-28deg)
+    }
+
+    .welcome-progress i:first-child {
+      background: linear-gradient(90deg, var(--red), var(--coral));
+      box-shadow: 0 0 18px rgba(255, 66, 104, .45)
+    }
+
+    .welcome-progress i:nth-child(2) {
+      width: 58px;
+      margin-left: 12px
+    }
+
+    .welcome-progress i:nth-child(3) {
+      width: 42px;
+      margin-left: 24px
+    }
+
+    .welcome-body {
+      display: grid;
+      grid-template-columns: 1.02fr .98fr;
+      gap: 0
+    }
+
+    .welcome-info,
+    .welcome-start {
+      padding: clamp(26px, 4vw, 48px)
+    }
+
+    .welcome-info {
+      border-right: 1px solid var(--line);
+      background: rgba(255, 255, 255, .018)
+    }
+
+    .welcome-info h2,
+    .welcome-start h2 {
+      margin: 0 0 20px;
+      font: 700 23px 'Space Grotesk', sans-serif;
+      letter-spacing: -.5px
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 24px
+    }
+
+    .stat {
+      padding: 17px 18px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .025));
+      transition: .25s
+    }
+
+    .stat:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 118, 94, .45);
+      box-shadow: var(--glow)
+    }
+
+    .stat b {
+      display: block;
+      margin-bottom: 5px;
+      color: #fff;
+      font: 700 22px 'Space Grotesk', sans-serif
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .2px
+    }
+
+    .guide {
+      padding: 18px 20px;
+      border: 1px solid rgba(255, 209, 102, .23);
+      border-radius: 17px;
+      background: linear-gradient(135deg, rgba(255, 209, 102, .09), rgba(255, 209, 102, .025))
+    }
+
+    .guide h3 {
+      margin: 0 0 11px;
+      color: var(--gold);
+      font: 700 15px 'Space Grotesk', sans-serif
+    }
+
+    .guide ol {
+      margin: 0;
+      padding-left: 19px;
+      color: #b9c5dd;
+      font-size: 12px;
+      line-height: 1.85
+    }
+
+    .guide li {
+      padding-left: 4px;
+      margin: 3px 0
+    }
+
+    .guide b {
+      color: #fff
+    }
+
+    .welcome-start {
+      display: flex;
+      flex-direction: column;
+      justify-content: center
+    }
+
+    .start-note {
+      margin: -10px 0 22px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7
+    }
+
+    .mode-box {
+      margin: 0 0 21px;
+      padding: 0;
+      border: 0;
+      min-width: 0
+    }
+
+    .mode-box legend {
+      margin-bottom: 11px;
+      color: #dbe4f6;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .7px;
+      text-transform: uppercase
+    }
+
+    .mode-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      margin: 9px 0;
+      padding: 15px 16px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, .035);
+      cursor: pointer;
+      transition: .22s
+    }
+
+    .mode-card:hover {
+      border-color: rgba(255, 118, 94, .5);
+      background: rgba(255, 66, 104, .055);
+      transform: translateX(3px)
+    }
+
+    .mode-card:has(input:checked) {
+      border-color: var(--red);
+      background: linear-gradient(100deg, rgba(255, 66, 104, .16), rgba(255, 118, 94, .045));
+      box-shadow: inset 0 0 0 1px rgba(255, 66, 104, .14), 0 8px 24px rgba(255, 66, 104, .08)
+    }
+
+    .mode-card input {
+      accent-color: var(--red);
+      margin: 4px 0 0;
+      width: 17px;
+      height: 17px;
+      flex: 0 0 auto
+    }
+
+    .mode-card b {
+      display: block;
+      color: #fff;
+      font-size: 14px;
+      margin-bottom: 5px
+    }
+
+    .mode-card small {
+      display: block;
+      color: #aebbd3;
+      font-size: 11px;
+      line-height: 1.6;
+      font-weight: 400
+    }
+
+    .welcome-start>label {
+      font-size: 12px;
+      color: #dce5f7;
+      margin: 0 0 9px
+    }
+
+    .optional {
+      font-weight: 400;
+      color: #8492ad
+    }
+
+    .name {
+      width: 100%;
+      padding: 15px 17px;
+      color: #fff;
+      background: rgba(5, 10, 22, .55);
+      border: 1px solid rgba(190, 207, 245, .23);
+      border-radius: 13px;
+      outline: none;
+      font-size: 14px;
+      transition: .2s
+    }
+
+    .name::placeholder {
+      color: #71809c
+    }
+
+    .name:focus {
+      border-color: #ff7188;
+      box-shadow: 0 0 0 4px rgba(255, 66, 104, .13)
+    }
+
+    .error {
+      color: #ff8195;
+      min-height: 23px;
+      margin: 5px 0;
+      font-size: 12px
+    }
+
+    .primary {
+      border: 0;
+      border-radius: 14px;
+      padding: 15px 22px;
+      color: #fff;
+      background: linear-gradient(105deg, #ff4268, #ff765e);
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing: .8px;
+      box-shadow: 0 12px 28px rgba(255, 66, 104, .24);
+      transition: transform .2s, box-shadow .2s, filter .2s
+    }
+
+    .primary:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 17px 34px rgba(255, 66, 104, .34);
+      filter: saturate(1.12)
+    }
+
+    .primary:active:not(:disabled) {
+      transform: translateY(0) scale(.985)
+    }
+
+    .primary:disabled {
+      opacity: .42;
+      cursor: not-allowed;
+      box-shadow: none
+    }
+
+    .primary:focus-visible,
+    .answer:focus-visible,
+    .secondary:focus-visible,
+    .power:focus-visible {
+      outline: 3px solid #91a9ff;
+      outline-offset: 3px
+    }
+
+    #startBtn {
+      width: 100%;
+      margin-top: 4px;
+      min-height: 52px
+    }
+
+    .game {
+      display: none;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1
+    }
+
+    .game.active {
+      display: block;
+      animation: fadeIn .45s ease both
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 15px clamp(16px, 4vw, 58px);
+      display: grid;
+      grid-template-columns: 1.1fr 1.5fr auto;
+      gap: 28px;
+      align-items: center;
+      background: rgba(8, 13, 27, .88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, .2)
+    }
+
+    .brand {
+      font: 800 14px 'Space Grotesk', sans-serif;
+      letter-spacing: 1px;
+      color: #fff
+    }
+
+    .stage {
+      margin-top: 5px;
+      color: #ff9eaa;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .4px
+    }
+
+    .center {
+      min-width: 100px
+    }
+
+    .progress-wrap {
+      height: 9px;
+      background: rgba(255, 255, 255, .1);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, .3)
+    }
+
+    .progress {
+      height: 100%;
+      width: 0;
+      border-radius: 20px;
+      background: linear-gradient(90deg, #ff4268, #ffb36b);
+      box-shadow: 0 0 18px rgba(255, 66, 104, .55);
+      transition: width .65s cubic-bezier(.2, .8, .2, 1)
+    }
+
+    .hud {
+      display: flex;
+      gap: clamp(9px, 1.6vw, 22px);
+      align-items: center
+    }
+
+    .hud-item {
+      text-align: center;
+      min-width: 54px
+    }
+
+    .hud-item b {
+      display: block;
+      color: #fff;
+      font: 700 17px 'Space Grotesk', sans-serif;
+      font-variant-numeric: tabular-nums
+    }
+
+    .hud-item span {
+      display: block;
+      margin-top: 3px;
+      color: #8492ad;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .8px
+    }
+
+    .timer {
+      padding: 8px 12px;
+      border: 1px solid rgba(78, 224, 178, .2);
+      border-radius: 12px;
+      background: rgba(78, 224, 178, .06)
+    }
+
+    .timer b {
+      color: var(--mint)
+    }
+
+    .timer.warn {
+      border-color: rgba(255, 209, 102, .3);
+      background: rgba(255, 209, 102, .07)
+    }
+
+    .timer.warn b {
+      color: var(--gold)
+    }
+
+    .timer.danger {
+      border-color: rgba(255, 66, 104, .4);
+      background: rgba(255, 66, 104, .1);
+      animation: timerPulse 1s infinite
+    }
+
+    .timer.danger b {
+      color: #ff7188
+    }
+
+    .main {
+      width: min(1080px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: clamp(28px, 5vh, 54px) 0 70px
+    }
+
+    .subhead {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px
+    }
+
+    .qmeta {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: #ff9eaa;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 1.5px
+    }
+
+    .qmeta:before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 13px var(--red)
+    }
+
+    .question-card {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(25px, 4.5vw, 48px);
+      border: 1px solid rgba(190, 207, 245, .19);
+      border-radius: 26px;
+      background: linear-gradient(145deg, rgba(24, 39, 68, .96), rgba(14, 24, 45, .98));
+      box-shadow: var(--shadow);
+      animation: cardIn .55s cubic-bezier(.2, .8, .2, 1) both
+    }
+
+    .question-card:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--red), var(--gold), #8c9cff);
+      opacity: .9
+    }
+
+    .question-card:after {
+      content: "?";
+      position: absolute;
+      right: 25px;
+      top: -50px;
+      color: rgba(255, 255, 255, .025);
+      font: 900 250px 'Space Grotesk';
+      pointer-events: none
+    }
+
+    .question {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 30px;
+      color: #fff;
+      /* font: 700 clamp(19px, 2.2vw, 26px)/1.55 'Be Vietnam Pro', sans-serif; */
+      letter-spacing: -.4px;
+      max-height: 38vh;
+      overflow: auto;
+      scrollbar-color: #536789 transparent
+    }
+
+    .answers {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px
+    }
+
+    .answer {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      min-height: 82px;
+      padding: 17px 18px;
+      text-align: left;
+      color: #dce5f7;
+      line-height: 1.55;
+      font-size: 14px;
+      border: 1px solid rgba(190, 207, 245, .18);
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .018));
+      transition: transform .2s, border-color .2s, background .2s, box-shadow .2s
+    }
+
+    .answer:hover:not(:disabled) {
+      transform: translateY(-3px);
+      border-color: rgba(255, 118, 94, .65);
+      background: rgba(255, 66, 104, .08);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, .16)
+    }
+
+    .answer .letter {
+      display: grid;
+      place-items: center;
+      flex: 0 0 35px;
+      height: 35px;
+      border: 1px solid rgba(190, 207, 245, .18);
+      border-radius: 11px;
+      color: #9eacc7;
+      background: rgba(255, 255, 255, .055);
+      font: 700 13px 'Space Grotesk';
+      transition: .2s
+    }
+
+    .answer.selected {
+      border-color: var(--red);
+      background: linear-gradient(110deg, rgba(255, 66, 104, .17), rgba(255, 118, 94, .055));
+      box-shadow: 0 0 0 1px rgba(255, 66, 104, .16), 0 10px 25px rgba(255, 66, 104, .08);
+      color: #fff
+    }
+
+    .answer.selected .letter {
+      color: #fff;
+      border-color: rgba(255, 118, 94, .65);
+      background: linear-gradient(135deg, var(--red), var(--coral))
+    }
+
+    .answer.correct {
+      border-color: rgba(78, 224, 178, .75);
+      background: rgba(78, 224, 178, .1);
+      color: #d9fff3;
+      box-shadow: 0 0 0 1px rgba(78, 224, 178, .15)
+    }
+
+    .answer.correct .letter {
+      background: rgba(78, 224, 178, .18);
+      border-color: rgba(78, 224, 178, .5);
+      color: var(--mint)
+    }
+
+    .answer.wrong {
+      border-color: rgba(255, 93, 114, .75);
+      background: rgba(255, 66, 104, .12);
+      color: #ffdce2
+    }
+
+    .answer.wrong .letter {
+      background: rgba(255, 66, 104, .2);
+      color: #ff9eaa;
+      border-color: rgba(255, 66, 104, .45)
+    }
+
+    .answer:disabled {
+      cursor: default
+    }
+
+    .answer.hidden {
+      visibility: hidden
+    }
+
+    .actions {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: 27px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line)
+    }
+
+    .feedback {
+      min-height: 43px;
+      display: flex;
+      align-items: center;
+      color: #aab7d0;
+      font-size: 13px;
+      font-weight: 800
+    }
+
+    .feedback.ok {
+      color: var(--mint)
+    }
+
+    .feedback.bad {
+      color: #ff8497
+    }
+
+    .confirm,
+    .next {
+      min-width: 170px
+    }
+
+    .next {
+      display: none
+    }
+
+    .secondary {
+      padding: 13px 18px;
+      border: 1px solid rgba(190, 207, 245, .22);
+      border-radius: 13px;
+      color: #dce5f7;
+      background: rgba(255, 255, 255, .045);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .5px;
+      transition: .2s
+    }
+
+    .secondary:hover {
+      border-color: rgba(255, 118, 94, .55);
+      background: rgba(255, 66, 104, .08);
+      transform: translateY(-2px)
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(3, 7, 17, .82);
+      backdrop-filter: blur(12px)
+    }
+
+    .overlay.show {
+      display: flex;
+      animation: fadeIn .2s
+    }
+
+    .modal {
+      width: min(590px, 100%);
+      padding: clamp(28px, 5vw, 44px);
+      text-align: center;
+      border: 1px solid rgba(190, 207, 245, .22);
+      border-radius: 26px;
+      background: linear-gradient(145deg, #1a2a49, #101a31);
+      box-shadow: var(--shadow);
+      animation: modalIn .4s cubic-bezier(.2, .8, .2, 1)
+    }
+
+    .modal .trophy {
+      font-size: 58px;
+      filter: drop-shadow(0 8px 18px rgba(255, 209, 102, .25));
+      animation: trophyFloat 2.5s ease-in-out infinite
+    }
+
+    .modal h2 {
+      margin: 13px 0;
+      color: #fff;
+      font: 800 25px 'Space Grotesk', sans-serif
+    }
+
+    .modal p {
+      margin: 0 0 25px;
+      color: #b9c5dd;
+      font-size: 14px;
+      line-height: 1.8
+    }
+
+    .modal p b {
+      color: var(--gold)
+    }
+
+    .bonus {
+      position: fixed;
+      left: 50%;
+      top: 25%;
+      z-index: 60;
+      transform: translate(-50%, -50%);
+      padding: 20px 30px;
+      border: 1px solid rgba(255, 209, 102, .5);
+      border-radius: 18px;
+      background: linear-gradient(135deg, #273451, #111a30);
+      color: var(--gold);
+      text-align: center;
+      font-weight: 900;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .4);
+      animation: bonusPop 1.6s forwards
+    }
+
+    .result {
+      align-items: center;
+      justify-content: center;
+      padding: clamp(14px, 4vw, 48px)
+    }
+
+    .result-card {
+      width: min(980px, 100%);
+      padding: clamp(25px, 5vw, 56px);
+      text-align: center;
+      border: 1px solid rgba(190, 207, 245, .2);
+      border-radius: 30px;
+      background: radial-gradient(circle at 50% 0, rgba(255, 66, 104, .12), transparent 38%), linear-gradient(145deg, #172642, #0e182e);
+      box-shadow: var(--shadow);
+      animation: riseIn .65s both
+    }
+
+    .result-icon {
+      font-size: 66px;
+      filter: drop-shadow(0 10px 22px rgba(255, 209, 102, .2));
+      animation: trophyFloat 3s ease-in-out infinite
+    }
+
+    .result h1 {
+      margin: 10px auto 12px;
+      max-width: 760px;
+      color: #fff;
+      font: 800 clamp(26px, 4.2vw, 44px)/1.15 'Space Grotesk', sans-serif;
+      letter-spacing: -1px
+    }
+
+    .result-card>p {
+      color: #aebbd3;
+      font-size: 14px;
+      line-height: 1.7
+    }
+
+    .result-status {
+      display: inline-block;
+      margin: 10px 0 2px;
+      padding: 8px 17px;
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 1.2px
+    }
+
+    .result-status.pass {
+      color: #83f2ce;
+      border: 1px solid rgba(78, 224, 178, .35);
+      background: rgba(78, 224, 178, .1)
+    }
+
+    .result-status.fail {
+      color: #ff9eaa;
+      border: 1px solid rgba(255, 66, 104, .35);
+      background: rgba(255, 66, 104, .1)
+    }
+
+    .score-big {
+      margin: 18px 0 15px;
+      color: #fff;
+      font: 800 clamp(38px, 6vw, 60px) 'Space Grotesk', sans-serif;
+      letter-spacing: -2px
+    }
+
+    .recommendation {
+      max-width: 760px;
+      margin: 18px auto 4px;
+      padding: 16px 19px;
+      text-align: left;
+      color: #ffe7b1;
+      border: 1px solid rgba(255, 209, 102, .24);
+      border-left: 4px solid var(--gold);
+      border-radius: 13px;
+      background: rgba(255, 209, 102, .07);
+      font-size: 13px;
+      line-height: 1.75
+    }
+
+    .recommendation.good {
+      color: #b9ffeb;
+      border-color: rgba(78, 224, 178, .25);
+      border-left-color: var(--mint);
+      background: rgba(78, 224, 178, .06)
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 25px 0
+    }
+
+    .result-grid div {
+      padding: 19px 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .04)
+    }
+
+    .result-grid b {
+      display: block;
+      margin-bottom: 6px;
+      color: #fff;
+      font: 700 22px 'Space Grotesk';
+      font-variant-numeric: tabular-nums
+    }
+
+    .result-grid span {
+      color: #8998b4;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .6px
+    }
+
+    .result-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap
+    }
+
+    .review {
+      display: none;
+      margin-top: 30px;
+      padding-top: 25px;
+      text-align: left;
+      border-top: 1px solid var(--line)
+    }
+
+    .review.show {
+      display: block;
+      animation: fadeIn .3s
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 17px
+    }
+
+    .filter.active {
+      color: #fff;
+      border-color: var(--red);
+      background: rgba(255, 66, 104, .16)
+    }
+
+    .review-item {
+      margin: 12px 0;
+      padding: 18px 20px;
+      border: 1px solid rgba(255, 66, 104, .25);
+      border-left: 4px solid var(--red);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .035);
+      color: #b9c5dd
+    }
+
+    .review-item.good {
+      border-color: rgba(78, 224, 178, .25);
+      border-left-color: var(--mint)
+    }
+
+    .review-item h3 {
+      margin: 0 0 12px;
+      color: #fff;
+      font-size: 14px;
+      line-height: 1.6
+    }
+
+    .review-item p {
+      margin: 7px 0;
+      font-size: 12px;
+      line-height: 1.65
+    }
+
+    .review-item b {
+      color: #e8edfa
+    }
+
+    .confetti {
+      position: fixed;
+      inset: 0;
+      z-index: 70;
+      pointer-events: none;
+      overflow: hidden
+    }
+
+    .confetti i {
+      position: absolute;
+      top: -20px;
+      width: 9px;
+      height: 15px;
+      border-radius: 2px;
+      animation: confettiFall 3.4s linear forwards
+    }
+
+    #fx {
+      position: relative;
+      z-index: 60
+    }
+
+    @keyframes riseIn {
+      from {
+        opacity: 0;
+        transform: translateY(22px) scale(.985)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1)
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px) scale(.99)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1)
+      }
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(.94)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1)
+      }
+    }
+
+    @keyframes slowFloat {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(12deg)
+      }
+
+      50% {
+        transform: translateY(-13px) rotate(17deg)
+      }
+    }
+
+    @keyframes trophyFloat {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(-3deg)
+      }
+
+      50% {
+        transform: translateY(-8px) rotate(3deg)
+      }
+    }
+
+    @keyframes timerPulse {
+      50% {
+        box-shadow: 0 0 20px rgba(255, 66, 104, .18)
+      }
+    }
+
+    @keyframes bonusPop {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -20%) scale(.7)
+      }
+
+      18%,
+      75% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1)
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -100%) scale(.95)
+      }
+    }
+
+    @keyframes confettiFall {
+      to {
+        transform: translateY(110vh) rotate(760deg);
+        opacity: .75
+      }
+    }
+
+    @media(max-width:850px) {
+      .welcome-body {
+        grid-template-columns: 1fr
+      }
+
+      .welcome-info {
+        border-right: 0;
+        border-bottom: 1px solid var(--line)
+      }
+
+      .welcome-top {
+        min-height: 245px
+      }
+
+      .topbar {
+        grid-template-columns: 1fr auto;
+        gap: 12px
+      }
+
+      .topbar .center {
+        grid-column: 1/-1;
+        grid-row: 2
+      }
+
+      .answers {
+        grid-template-columns: 1fr
+      }
+
+      .question {
+        max-height: none
+      }
+
+      .main {
+        width: min(100% - 28px, 720px)
+      }
+    }
+
+    @media(max-width:600px) {
+      .welcome {
+        padding: 10px
+      }
+
+      .welcome-shell {
+        border-radius: 22px
+      }
+
+      .welcome-top {
+        padding: 29px 23px;
+        min-height: 0
+      }
+
+      .welcome-top h1 {
+        font-size: 36px;
+        letter-spacing: -1.5px
+      }
+
+      .welcome-top p {
+        font-size: 13px
+      }
+
+      .welcome-progress {
+        min-width: 50px;
+        gap: 8px
+      }
+
+      .welcome-progress i {
+        width: 42px;
+        height: 5px
+      }
+
+      .welcome-progress i:nth-child(2) {
+        width: 32px;
+        margin-left: 7px
+      }
+
+      .welcome-progress i:nth-child(3) {
+        width: 22px;
+        margin-left: 14px
+      }
+
+      .welcome-info,
+      .welcome-start {
+        padding: 24px 19px
+      }
+
+      .welcome-info h2,
+      .welcome-start h2 {
+        font-size: 20px
+      }
+
+      .stats {
+        gap: 8px
+      }
+
+      .stat {
+        padding: 13px
+      }
+
+      .stat b {
+        font-size: 19px
+      }
+
+      .stat span {
+        font-size: 10px
+      }
+
+      .guide {
+        padding: 15px
+      }
+
+      .guide ol {
+        font-size: 11px
+      }
+
+      .topbar {
+        padding: 11px 13px;
+        grid-template-columns: 1fr
+      }
+
+      .topbar>div:first-child {
+        display: none
+      }
+
+      .topbar .center {
+        grid-column: 1;
+        grid-row: auto
+      }
+
+      .hud {
+        justify-content: space-between;
+        gap: 5px
+      }
+
+      .hud-item {
+        min-width: 0;
+        flex: 1
+      }
+
+      .hud-item b {
+        font-size: 15px
+      }
+
+      .hud-item span {
+        font-size: 8px
+      }
+
+      .timer {
+        padding: 6px
+      }
+
+      .main {
+        width: calc(100% - 22px);
+        padding: 25px 0 45px
+      }
+
+      .question-card {
+        padding: 22px 17px;
+        border-radius: 20px
+      }
+
+      .question {
+        font-size: 15px;
+        line-height: 1.55;
+        margin-bottom: 22px
+      }
+
+      .answer {
+        min-height: 66px;
+        padding: 13px;
+        font-size: 12px;
+        gap: 11px
+      }
+
+      .answer .letter {
+        flex-basis: 31px;
+        height: 31px
+      }
+
+      .actions {
+        align-items: stretch;
+        flex-direction: column
+      }
+
+      .feedback {
+        min-height: 28px
+      }
+
+      .actions>div:last-child {
+        display: flex;
+        gap: 8px
+      }
+
+      .confirm,
+      .next {
+        width: 100%;
+        min-width: 0
+      }
+
+      .result {
+        padding: 10px
+      }
+
+      .result-card {
+        padding: 25px 17px;
+        border-radius: 22px
+      }
+
+      .result h1 {
+        font-size: 28px
+      }
+
+      .result-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px
+      }
+
+      .result-grid div {
+        padding: 14px 8px
+      }
+
+      .result-grid b {
+        font-size: 19px
+      }
+
+      .result-grid span {
+        font-size: 9px
+      }
+
+      .result-actions {
+        flex-direction: column
+      }
+
+      .result-actions button {
+        width: 100%
+      }
+
+      .score-big {
+        font-size: 39px
+      }
+
+      .modal {
+        padding: 27px 20px
+      }
+
+      .modal h2 {
+        font-size: 21px
+      }
+    }
+
+    @media(max-height:650px) and (min-width:851px) {
+      .welcome {
+        padding: 14px
+      }
+
+      .welcome-top {
+        min-height: 200px;
+        padding: 30px 48px
+      }
+
+      .welcome-info,
+      .welcome-start {
+        padding: 24px 34px
+      }
+
+      .stats {
+        margin-bottom: 14px
+      }
+
+      .stat {
+        padding: 12px
+      }
+
+      .guide {
+        padding: 12px 15px
+      }
+
+      .guide ol {
+        line-height: 1.55
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+
+      *,
+      *:before,
+      *:after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important
+      }
+    }
+  </style>
+  <style>
+    /* ===== Accessible bright Prudential-inspired refresh ===== */
+    :root {
+      --night: #fffaf7;
+      --night2: #fff;
+      --panel: #fff;
+      --panel2: #fff7f4;
+      --red: #DA291C;
+      --coral: #EC948D;
+      --gold: #f4c56a;
+      --mint: #16865f;
+      --ink: #252525;
+      --muted: #5f6268;
+      --line: rgba(75, 54, 48, .16);
+      --shadow: 0 18px 50px rgba(78, 40, 30, .11);
+      --glow: 0 0 24px rgba(218, 41, 28, .12);
+    }
+
+    body {
+      color: #262626;
+      background: radial-gradient(ellipse at 8% 0%, rgba(218, 41, 28, .065), transparent 34%),
+        radial-gradient(ellipse at 95% 95%, rgba(236, 148, 141, .13), transparent 32%),
+        linear-gradient(135deg, #fffdfb 0%, #fff8f5 55%, #fff 100%);
+      font-size: 16px;
+    }
+
+    body:before {
+      opacity: .28;
+      background-image: radial-gradient(rgba(170, 105, 90, .16) .8px, transparent .8px);
+      background-size: 23px 23px;
+      mask-image: linear-gradient(to bottom, black, transparent 80%);
+    }
+
+    .welcome {
+      padding: clamp(12px, 3vw, 42px)
+    }
+
+    .welcome:before {
+      border-color: rgba(218, 41, 28, .13);
+      box-shadow: 0 0 0 42px rgba(218, 41, 28, .018), 0 0 0 90px rgba(218, 41, 28, .012)
+    }
+
+    .welcome:after {
+      border-color: rgba(218, 41, 28, .13);
+      box-shadow: 0 0 0 38px rgba(218, 41, 28, .018), 0 0 0 80px rgba(218, 41, 28, .012)
+    }
+
+    .welcome-shell {
+      border: 1px solid rgba(120, 70, 55, .16);
+      background: rgba(255, 255, 255, .97);
+      box-shadow: 0 22px 65px rgba(93, 49, 37, .12);
+    }
+
+    .welcome-top {
+      background: radial-gradient(circle at 82% 45%, rgba(255, 255, 255, .2), transparent 28%),
+        linear-gradient(112deg, #fff 0%, #fff8f5 54%, #fce9e5 100%);
+      border-bottom: 1px solid rgba(218, 41, 28, .12);
+    }
+
+    .welcome-top:after {
+      color: rgba(218, 41, 28, .055)
+    }
+
+    .eyebrow {
+      color: #a71e15;
+      background: rgba(218, 41, 28, .07);
+      border-color: rgba(218, 41, 28, .24);
+      font-size: 12px;
+    }
+
+    .welcome-top h1 {
+      color: #292929;
+      font-size: clamp(38px, 5.4vw, 68px)
+    }
+
+    .welcome-top h1 span {
+      background: linear-gradient(90deg, #DA291C, #a51d14 75%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .welcome-top p {
+      color: #5f6268;
+      font-size: clamp(16px, 1.6vw, 19px)
+    }
+
+    .welcome-progress i {
+      background: rgba(218, 41, 28, .12)
+    }
+
+    .welcome-progress i:first-child {
+      background: linear-gradient(90deg, #DA291C, #EC948D);
+      box-shadow: 0 0 14px rgba(218, 41, 28, .22)
+    }
+
+    .welcome-info,
+    .welcome-start {
+      padding: clamp(28px, 4vw, 50px)
+    }
+
+    .welcome-info {
+      border-right: 1px solid var(--line);
+      background: #fff
+    }
+
+    .welcome-info h2,
+    .welcome-start h2 {
+      color: #292929;
+      font-size: 26px
+    }
+
+    .stats {
+      gap: 14px
+    }
+
+    .stat {
+      background: linear-gradient(145deg, #fff, #fff8f5);
+      border: 1px solid rgba(120, 70, 55, .15);
+      box-shadow: 0 5px 16px rgba(93, 49, 37, .035);
+    }
+
+    .stat:hover {
+      border-color: rgba(218, 41, 28, .4);
+      box-shadow: 0 10px 24px rgba(93, 49, 37, .08)
+    }
+
+    .stat b {
+      color: #DA291C;
+      font-size: 26px
+    }
+
+    .stat span {
+      color: #60636a;
+      font-size: 13px
+    }
+
+    .guide {
+      background: linear-gradient(135deg, #fff9ec, #fffdf8);
+      border-color: rgba(192, 139, 48, .25);
+    }
+
+    .guide h3 {
+      color: #8b5c14;
+      font-size: 17px
+    }
+
+    .guide ol {
+      color: #55585e;
+      font-size: 14px;
+      line-height: 1.9
+    }
+
+    .guide b {
+      color: #292929
+    }
+
+    .start-note {
+      color: #62656b;
+      font-size: 15px
+    }
+
+    .mode-box legend {
+      color: #45484e;
+      font-size: 14px
+    }
+
+    .mode-card {
+      background: #fff;
+      border-color: rgba(90, 65, 55, .18);
+      padding: 17px 18px;
+    }
+
+    .mode-card:hover {
+      border-color: rgba(218, 41, 28, .42);
+      background: #fff9f7
+    }
+
+    .mode-card:has(input:checked) {
+      border-color: #DA291C;
+      background: linear-gradient(100deg, rgba(218, 41, 28, .08), rgba(236, 148, 141, .08));
+      box-shadow: inset 0 0 0 1px rgba(218, 41, 28, .12), 0 6px 18px rgba(218, 41, 28, .07);
+    }
+
+    .mode-card input {
+      accent-color: #DA291C;
+      width: 19px;
+      height: 19px
+    }
+
+    .mode-card b {
+      color: #292929;
+      font-size: 16px
+    }
+
+    .mode-card small {
+      color: #5f6268;
+      font-size: 13px;
+      line-height: 1.65
+    }
+
+    .welcome-start>label {
+      font-size: 14px;
+      color: #45484e
+    }
+
+    .name {
+      color: #292929;
+      background: #fff;
+      border-color: rgba(90, 65, 55, .24);
+      font-size: 16px;
+      padding: 16px 18px;
+    }
+
+    .name::placeholder {
+      color: #85878c
+    }
+
+    .name:focus {
+      border-color: #DA291C;
+      box-shadow: 0 0 0 4px rgba(218, 41, 28, .1)
+    }
+
+    .error {
+      font-size: 14px
+    }
+
+    .primary {
+      background: linear-gradient(105deg, #DA291C, #b82017);
+      font-size: 14px;
+      box-shadow: 0 9px 22px rgba(218, 41, 28, .18);
+      min-height: 52px;
+    }
+
+    .primary:hover:not(:disabled) {
+      box-shadow: 0 13px 27px rgba(218, 41, 28, .24)
+    }
+
+    .topbar {
+      background: rgba(255, 255, 255, .96);
+      border-bottom: 1px solid rgba(90, 65, 55, .15);
+      box-shadow: 0 7px 25px rgba(70, 40, 30, .07);
+    }
+
+    .brand {
+      color: #292929;
+      font-size: 16px
+    }
+
+    .stage {
+      color: #B3261E;
+      font-size: 13px
+    }
+
+    .progress-wrap {
+      background: #f0e8e5
+    }
+
+    .progress {
+      background: linear-gradient(90deg, #DA291C, #EC948D);
+      box-shadow: 0 0 12px rgba(218, 41, 28, .22)
+    }
+
+    .hud-item b {
+      color: #292929;
+      font-size: 20px
+    }
+
+    .hud-item span {
+      color: #666a70;
+      font-size: 11px
+    }
+
+    .timer {
+      border-color: rgba(22, 134, 95, .22);
+      background: #effaf5
+    }
+
+    .timer b {
+      color: #16734f
+    }
+
+    .timer.warn {
+      border-color: rgba(176, 120, 20, .28);
+      background: #fff8e8
+    }
+
+    .timer.warn b {
+      color: #94610d
+    }
+
+    .timer.danger {
+      border-color: rgba(218, 41, 28, .32);
+      background: #fff0ed
+    }
+
+    .timer.danger b {
+      color: #B3261E
+    }
+
+    .main {
+      padding-top: clamp(28px, 5vh, 54px)
+    }
+
+    .qmeta {
+      color: #B3261E;
+      font-size: 13px
+    }
+
+    .qmeta:before {
+      background: #DA291C;
+      box-shadow: 0 0 10px rgba(218, 41, 28, .25)
+    }
+
+    .question-card {
+      background: #fff;
+      border: 1px solid rgba(90, 65, 55, .16);
+      box-shadow: 0 15px 45px rgba(70, 40, 30, .09);
+    }
+
+    .question-card:before {
+      background: linear-gradient(90deg, #DA291C, #EC948D, #f4c56a)
+    }
+
+    .question-card:after {
+      color: rgba(218, 41, 28, .035)
+    }
+
+    .question {
+      color: #252525;
+      /* font-size: clamp(21px, 2.4vw, 29px); */
+      line-height: 1.6
+    }
+
+    .answers {
+      gap: 16px
+    }
+
+    .answer {
+      color: #33363b;
+      background: #fff;
+      border: 1.5px solid #dedbd9;
+      font-size: 16px;
+      line-height: 1.65;
+      min-height: 92px;
+      padding: 19px;
+      box-shadow: 0 3px 10px rgba(50, 35, 30, .025);
+    }
+
+    .answer:hover:not(:disabled) {
+      border-color: #DA291C;
+      background: #fff8f6;
+      box-shadow: 0 8px 20px rgba(70, 40, 30, .07);
+    }
+
+    .answer .letter {
+      color: #8e3a32;
+      background: #fff1ee;
+      border-color: rgba(218, 41, 28, .18);
+      font-size: 15px;
+      flex-basis: 39px;
+      height: 39px;
+      border-radius: 12px;
+    }
+
+    .answer.selected {
+      color: #292929;
+      border-color: #DA291C;
+      background: #fff3f0;
+      box-shadow: 0 0 0 2px rgba(218, 41, 28, .08);
+    }
+
+    .answer.selected .letter {
+      background: #DA291C;
+      color: #fff;
+      border-color: #DA291C
+    }
+
+    .answer.correct {
+      border-color: #16865f;
+      background: #effaf5;
+      color: #185d45
+    }
+
+    .answer.correct .letter {
+      background: #d8f3e7;
+      border-color: #a8ddc5;
+      color: #16734f
+    }
+
+    .answer.wrong {
+      border-color: #c43a31;
+      background: #fff1ef;
+      color: #9f261e
+    }
+
+    .answer.wrong .letter {
+      background: #ffe0dc;
+      color: #a51d14;
+      border-color: #efb4ac
+    }
+
+    .actions {
+      border-top-color: rgba(90, 65, 55, .14)
+    }
+
+    .feedback {
+      color: #555b63;
+      font-size: 15px
+    }
+
+    .feedback.ok {
+      color: #16734f
+    }
+
+    .feedback.bad {
+      color: #B3261E
+    }
+
+    .secondary {
+      color: #45484e;
+      background: #fff;
+      border-color: #d9d3d0;
+      font-size: 13px;
+    }
+
+    .secondary:hover {
+      border-color: #DA291C;
+      background: #fff7f5
+    }
+
+    .overlay {
+      background: rgba(40, 25, 22, .52)
+    }
+
+    .modal {
+      background: #fff;
+      border-color: rgba(90, 65, 55, .17);
+      box-shadow: 0 24px 70px rgba(40, 25, 22, .2);
+    }
+
+    .modal h2 {
+      color: #292929;
+      font-size: 28px
+    }
+
+    .modal p {
+      color: #5c6066;
+      font-size: 16px
+    }
+
+    .modal p b {
+      color: #B3261E
+    }
+
+    .bonus {
+      background: #fff;
+      border-color: #e6c98c;
+      color: #8b5c14;
+      box-shadow: 0 15px 45px rgba(70, 40, 30, .18)
+    }
+
+    .result-card {
+      background: radial-gradient(circle at 50% 0, rgba(218, 41, 28, .08), transparent 38%), #fff;
+      border-color: rgba(90, 65, 55, .16);
+      box-shadow: 0 20px 60px rgba(70, 40, 30, .11);
+    }
+
+    .result h1 {
+      color: #292929
+    }
+
+    .result-card>p {
+      color: #5f6268;
+      font-size: 16px
+    }
+
+    .result-status.pass {
+      color: #16734f;
+      border-color: rgba(22, 134, 95, .28);
+      background: #effaf5
+    }
+
+    .result-status.fail {
+      color: #B3261E;
+      border-color: rgba(218, 41, 28, .25);
+      background: #fff1ef
+    }
+
+    .score-big {
+      color: #DA291C
+    }
+
+    .recommendation {
+      color: #76520f;
+      border-color: rgba(192, 139, 48, .25);
+      border-left-color: #d29b36;
+      background: #fff9ec;
+      font-size: 15px
+    }
+
+    .recommendation.good {
+      color: #185d45;
+      border-color: rgba(22, 134, 95, .22);
+      border-left-color: #16865f;
+      background: #effaf5
+    }
+
+    .result-grid div {
+      background: #fff9f7;
+      border-color: rgba(90, 65, 55, .14)
+    }
+
+    .result-grid b {
+      color: #292929;
+      font-size: 25px
+    }
+
+    .result-grid span {
+      color: #62656b;
+      font-size: 11px
+    }
+
+    .review {
+      border-top-color: rgba(90, 65, 55, .14)
+    }
+
+    .review-item {
+      background: #fff8f6;
+      color: #555b63;
+      border-color: rgba(218, 41, 28, .2);
+      border-left-color: #DA291C
+    }
+
+    .review-item.good {
+      background: #f2fbf6;
+      border-color: rgba(22, 134, 95, .2);
+      border-left-color: #16865f
+    }
+
+    .review-item h3 {
+      color: #292929;
+      font-size: 16px
+    }
+
+    .review-item p {
+      font-size: 14px
+    }
+
+    .review-item b {
+      color: #333
+    }
+
+    @media(max-width:850px) {
+      .welcome-info {
+        border-right: 0;
+        border-bottom: 1px solid var(--line)
+      }
+    }
+
+    @media(max-width:600px) {
+      .welcome-top h1 {
+        font-size: clamp(34px, 9vw, 35px)
+      }
+
+      .welcome-top p {
+        font-size: 15px
+      }
+
+      .welcome-info h2,
+      .welcome-start h2 {
+        font-size: 23px
+      }
+
+      .stat b {
+        font-size: 23px
+      }
+
+      .stat span {
+        font-size: 12px
+      }
+
+      .guide ol {
+        font-size: 13px
+      }
+
+      .mode-card b {
+        font-size: 16px
+      }
+
+      .mode-card small {
+        font-size: 13px
+      }
+
+      .topbar {
+        background: rgba(255, 255, 255, .97)
+      }
+
+      .hud-item b {
+        font-size: 18px
+      }
+
+      .hud-item span {
+        font-size: 10px
+      }
+
+      .question {
+        font-size: 21px;
+        line-height: 1.6
+      }
+
+      .answer {
+        font-size: 16px;
+        min-height: 76px;
+        padding: 16px
+      }
+
+      .answer .letter {
+        flex-basis: 36px;
+        height: 36px
+      }
+
+      .feedback {
+        font-size: 14px
+      }
+
+      .result h1 {
+        font-size: 29px
+      }
+
+      .result-card>p {
+        font-size: 15px
+      }
+
+      .result-grid b {
+        font-size: 22px
+      }
+
+      .result-grid span {
+        font-size: 10px
+      }
+
+      .modal h2 {
+        font-size: 24px
+      }
+
+      .modal p {
+        font-size: 15px
+      }
+    }
+  </style>
+
+  <style>
+    /* =========================================================
+   DEVICE-SPECIFIC RESPONSIVE LAYOUT
+   Desktop / Laptop / Tablet / Mobile / Landscape / Touch
+   ========================================================= */
+
+    /* Fluid baseline and modern mobile viewport handling */
+    html {
+      min-height: 100%;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100svh;
+    }
+
+    button,
+    input {
+      touch-action: manipulation;
+    }
+
+    img,
+    svg,
+    video,
+    canvas {
+      max-width: 100%;
+    }
+
+    .screen,
+    .game,
+    .welcome,
+    .result {
+      min-width: 0;
+    }
+
+    .welcome,
+    .result {
+      padding-left: max(12px, env(safe-area-inset-left));
+      padding-right: max(12px, env(safe-area-inset-right));
+    }
+
+    .topbar {
+      padding-top: max(12px, env(safe-area-inset-top));
+    }
+
+    .game {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .main {
+      min-width: 0;
+    }
+
+    .question-card,
+    .welcome-shell,
+    .result-card,
+    .modal {
+      min-width: 0;
+    }
+
+    .question,
+    .answer,
+    .feedback,
+    .review-item,
+    .guide {
+      overflow-wrap: anywhere;
+    }
+
+    /* Large desktop monitors */
+    @media (min-width:1440px) {
+      .welcome-shell {
+        width: min(1240px, 100%);
+      }
+
+      .welcome-top {
+        min-height: 330px;
+        padding: 76px 82px;
+      }
+
+      .welcome-top h1 {
+        max-width: 790px;
+        font-size: 72px;
+      }
+
+      .welcome-body {
+        grid-template-columns: 1.05fr .95fr;
+      }
+
+      .welcome-info,
+      .welcome-start {
+        padding: 54px 58px;
+      }
+
+      .main {
+        width: min(1120px, calc(100% - 80px));
+      }
+
+      .question-card {
+        padding: 54px 58px;
+      }
+
+      .question {
+        font-size: 29px;
+      }
+
+      .answer {
+        min-height: 100px;
+        font-size: 17px;
+        padding: 22px;
+      }
+
+      .topbar {
+        padding-left: max(58px, calc((100vw - 1320px)/2));
+        padding-right: max(58px, calc((100vw - 1320px)/2));
+      }
+    }
+
+    /* Standard laptop and compact desktop */
+    @media (min-width:901px) and (max-width:1199px) {
+      .welcome-shell {
+        width: min(1040px, 100%);
+      }
+
+      .welcome-top {
+        min-height: 250px;
+        padding: 48px 54px;
+      }
+
+      .welcome-top h1 {
+        font-size: clamp(42px, 5vw, 58px);
+      }
+
+      .welcome-info,
+      .welcome-start {
+        padding: 32px;
+      }
+
+      .main {
+        width: min(980px, calc(100% - 56px));
+      }
+
+      .question-card {
+        padding: 38px;
+      }
+
+      .question {
+        font-size: 25px;
+      }
+
+      .answer {
+        min-height: 86px;
+        font-size: 15px;
+      }
+
+      .topbar {
+        gap: 18px;
+      }
+    }
+
+    /* Tablet landscape and tablet portrait */
+    @media (min-width:641px) and (max-width:900px) {
+      .welcome {
+        padding: 22px;
+      }
+
+      .welcome-shell {
+        width: min(760px, 100%);
+      }
+
+      .welcome-top {
+        min-height: 225px;
+        padding: 34px 38px;
+      }
+
+      .welcome-top h1 {
+        font-size: clamp(38px, 5.5vw, 50px);
+      }
+
+      .welcome-top p {
+        max-width: 560px;
+        font-size: 16px;
+      }
+
+      .welcome-body {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome-info {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .welcome-info,
+      .welcome-start {
+        padding: 30px 36px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .stat {
+        padding: 14px 10px;
+      }
+
+      .stat b {
+        font-size: 21px;
+      }
+
+      .stat span {
+        font-size: 11px;
+      }
+
+      .main {
+        width: min(720px, calc(100% - 36px));
+        padding-top: 30px;
+      }
+
+      .topbar {
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        padding: 12px 20px;
+      }
+
+      .topbar .center {
+        grid-column: 1/-1;
+        grid-row: 2;
+      }
+
+      .hud {
+        gap: 12px;
+      }
+
+      .question-card {
+        padding: 30px;
+      }
+
+      .question {
+        font-size: 23px;
+        max-height: none;
+      }
+
+      .answers {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .answer {
+        min-height: 88px;
+        font-size: 14px;
+        padding: 15px;
+      }
+
+      .result-card {
+        width: min(760px, 100%);
+      }
+    }
+
+    /* Phones and narrow portrait screens */
+    @media (max-width:640px) {
+
+      html,
+      body {
+        width: 100%;
+        overflow-x: hidden;
+      }
+
+      .welcome {
+        align-items: flex-start;
+        padding: 10px;
+      }
+
+      .welcome-shell {
+        width: 100%;
+        border-radius: 19px;
+      }
+
+      .welcome-top {
+        min-height: 0;
+        padding: 25px 20px 27px;
+        gap: 12px;
+      }
+
+      .welcome-top h1 {
+        margin: 17px 0 10px;
+        font-size: clamp(31px, 8.4vw, 42px);
+        line-height: 1.08;
+        letter-spacing: -1.1px;
+      }
+
+      .welcome-top p {
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .welcome-progress {
+        min-width: 38px;
+      }
+
+      .welcome-progress i {
+        width: 34px;
+      }
+
+      .welcome-progress i:nth-child(2) {
+        width: 26px;
+      }
+
+      .welcome-progress i:nth-child(3) {
+        width: 18px;
+      }
+
+      .welcome-info,
+      .welcome-start {
+        padding: 22px 17px;
+      }
+
+      .welcome-info h2,
+      .welcome-start h2 {
+        font-size: 21px;
+        margin-bottom: 15px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+      }
+
+      .stat {
+        min-width: 0;
+        padding: 13px 12px;
+        border-radius: 13px;
+      }
+
+      .stat b {
+        font-size: 21px;
+      }
+
+      .stat span {
+        font-size: 11px;
+        line-height: 1.45;
+      }
+
+      .guide {
+        padding: 15px;
+      }
+
+      .guide h3 {
+        font-size: 15px;
+      }
+
+      .guide ol {
+        padding-left: 18px;
+        font-size: 12px;
+        line-height: 1.75;
+      }
+
+      .start-note {
+        font-size: 14px;
+      }
+
+      .mode-box legend,
+      .welcome-start>label {
+        font-size: 13px;
+      }
+
+      .mode-card {
+        margin: 8px 0;
+        padding: 14px 13px;
+        gap: 11px;
+        border-radius: 13px;
+      }
+
+      .mode-card input {
+        width: 20px;
+        height: 20px;
+      }
+
+      .mode-card b {
+        font-size: 14px;
+      }
+
+      .mode-card small {
+        font-size: 12px;
+        line-height: 1.55;
+      }
+
+      .name {
+        min-height: 50px;
+        padding: 14px;
+        font-size: 16px;
+      }
+
+      #startBtn {
+        min-height: 54px;
+        font-size: 14px;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        grid-template-columns: 1fr;
+        gap: 9px;
+        padding: 10px 12px;
+        padding-top: max(9px, env(safe-area-inset-top));
+      }
+
+      .topbar>div:first-child {
+        display: none;
+      }
+
+      .topbar .center {
+        grid-column: 1;
+        grid-row: auto;
+      }
+
+      .hud {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 6px;
+        align-items: center;
+      }
+
+      .hud-item {
+        min-width: 0;
+        padding: 4px 2px;
+      }
+
+      .hud-item b {
+        font-size: 17px;
+      }
+
+      .hud-item span {
+        font-size: 9px;
+        letter-spacing: .3px;
+      }
+
+      .timer {
+        padding: 7px 4px;
+        border-radius: 10px;
+      }
+
+      .main {
+        width: calc(100% - 20px);
+        padding: 22px 0 36px;
+      }
+
+      .subhead {
+        margin-bottom: 12px;
+      }
+
+      .qmeta {
+        font-size: 11px;
+        letter-spacing: 1px;
+      }
+
+      .question-card {
+        padding: 21px 16px 17px;
+        border-radius: 18px;
+      }
+
+      .question {
+        margin-bottom: 19px;
+        font-size: 19px;
+        line-height: 1.58;
+        max-height: none;
+      }
+
+      .answers {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .answer {
+        min-height: 66px;
+        padding: 13px 12px;
+        gap: 11px;
+        border-radius: 13px;
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .answer .letter {
+        flex: 0 0 34px;
+        height: 34px;
+        font-size: 13px;
+      }
+
+      .actions {
+        margin-top: 19px;
+        padding-top: 15px;
+        gap: 10px;
+      }
+
+      .feedback {
+        min-height: 34px;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .actions>div:last-child {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 9px;
+        width: 100%;
+      }
+
+      .confirm,
+      .next {
+        width: 100%;
+        min-width: 0;
+        min-height: 50px;
+      }
+
+      .secondary {
+        min-height: 46px;
+        padding: 12px 14px;
+      }
+
+      .result {
+        min-height: 100svh;
+        padding: 10px;
+      }
+
+      .result-card {
+        width: 100%;
+        padding: 24px 16px;
+        border-radius: 19px;
+      }
+
+      .result-icon {
+        font-size: 52px;
+      }
+
+      .result h1 {
+        font-size: clamp(25px, 7vw, 31px);
+      }
+
+      .result-card>p {
+        font-size: 14px;
+      }
+
+      .score-big {
+        font-size: 40px;
+      }
+
+      .result-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin: 18px 0;
+      }
+
+      .result-grid div {
+        min-width: 0;
+        padding: 13px 8px;
+      }
+
+      .result-grid b {
+        font-size: 20px;
+      }
+
+      .result-grid span {
+        font-size: 9px;
+      }
+
+      .recommendation {
+        padding: 13px;
+        font-size: 13px;
+      }
+
+      .result-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 9px;
+      }
+
+      .result-actions button {
+        width: 100%;
+        min-height: 49px;
+      }
+
+      .review-item {
+        padding: 14px;
+      }
+
+      .review-item h3 {
+        font-size: 14px;
+      }
+
+      .review-item p {
+        font-size: 12px;
+      }
+
+      .modal {
+        padding: 25px 17px;
+        border-radius: 19px;
+      }
+
+      .modal .trophy {
+        font-size: 48px;
+      }
+
+      .modal h2 {
+        font-size: 21px;
+      }
+
+      .modal p {
+        font-size: 14px;
+      }
+    }
+
+    /* Small phones: prevent cramped controls and tiny type */
+    @media (max-width:380px) {
+      .welcome-top {
+        padding: 22px 16px;
+      }
+
+      .welcome-top h1 {
+        font-size: 30px;
+      }
+
+      .welcome-info,
+      .welcome-start {
+        padding: 19px 14px;
+      }
+
+      .stat {
+        padding: 11px 9px;
+      }
+
+      .stat b {
+        font-size: 19px;
+      }
+
+      .topbar {
+        padding-left: 9px;
+        padding-right: 9px;
+      }
+
+      .hud {
+        gap: 3px;
+      }
+
+      .hud-item b {
+        font-size: 15px;
+      }
+
+      .hud-item span {
+        font-size: 8px;
+      }
+
+      .timer {
+        padding: 6px 2px;
+      }
+
+      .main {
+        width: calc(100% - 14px);
+      }
+
+      .question-card {
+        padding: 18px 13px 15px;
+      }
+
+      .question {
+        font-size: 18px;
+      }
+
+      .answer {
+        font-size: 13px;
+        padding: 12px 10px;
+      }
+
+      .answer .letter {
+        flex-basis: 31px;
+        height: 31px;
+      }
+
+      .result-card {
+        padding: 21px 13px;
+      }
+    }
+
+    /* Landscape phone: use the width while keeping controls reachable */
+    @media (max-height:520px) and (orientation:landscape) {
+      .welcome {
+        align-items: flex-start;
+        padding: 8px;
+      }
+
+      .welcome-top {
+        min-height: 0;
+        padding: 18px 26px;
+      }
+
+      .welcome-top h1 {
+        margin: 10px 0 7px;
+        font-size: 32px;
+      }
+
+      .welcome-top p {
+        font-size: 12px;
+      }
+
+      .welcome-info,
+      .welcome-start {
+        padding: 17px 24px;
+      }
+
+      .welcome-body {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .welcome-info {
+        border-right: 1px solid var(--line);
+        border-bottom: 0;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .topbar {
+        position: relative;
+        grid-template-columns: 1fr auto;
+        padding: 7px 14px;
+      }
+
+      .topbar>div:first-child {
+        display: block;
+      }
+
+      .topbar .center {
+        grid-column: auto;
+        grid-row: auto;
+      }
+
+      .hud-item b {
+        font-size: 15px;
+      }
+
+      .main {
+        padding-top: 14px;
+      }
+
+      .question-card {
+        padding: 18px 22px;
+      }
+
+      .question {
+        margin-bottom: 14px;
+        font-size: 18px;
+        max-height: 24vh;
+      }
+
+      .answers {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .answer {
+        min-height: 52px;
+        padding: 9px 11px;
+        font-size: 12px;
+        justify-items: center;
+      }
+
+      .answer .letter {
+        flex-basis: 29px;
+        height: 29px;
+      }
+
+      .actions {
+        margin-top: 12px;
+        padding-top: 10px;
+      }
+
+      .result {
+        align-items: flex-start;
+      }
+    }
+
+    /* Touch-first devices: generous hit areas and no hover-only feedback */
+    @media (hover:none),
+    (pointer:coarse) {
+
+      .primary,
+      .secondary,
+      .answer,
+      .mode-card {
+        -webkit-tap-highlight-color: rgba(218, 41, 28, .12);
+      }
+
+      .primary,
+      .secondary {
+        min-height: 48px;
+      }
+
+      .answer {
+        cursor: pointer;
+      }
+
+      .answer:hover:not(:disabled) {
+        transform: none;
+      }
+
+      .mode-card:hover {
+        transform: none;
+      }
+    }
+
+    /* Accessibility: respect OS text scaling and reduced motion preference */
+    @media (prefers-reduced-motion:reduce) {
+
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+
+  <style>
+    /* ===== Compact-first welcome screen: phone is the primary device ===== */
+    .guide {
+      color: #555;
+    }
+
+    .guide summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      list-style: none;
+      cursor: pointer;
+      min-height: 30px;
+    }
+
+    .guide summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .guide summary h3 {
+      margin: 0;
+    }
+
+    .guide-toggle {
+      flex: 0 0 auto;
+      color: #a3261d;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .guide[open] .guide-toggle {
+      font-size: 0;
+    }
+
+    .guide[open] .guide-toggle:after {
+      content: "Thu gọn";
+      font-size: 12px;
+    }
+
+    .guide ol {
+      margin-top: 13px;
+    }
+
+    @media (max-width:640px) {
+      .welcome {
+        align-items: flex-start;
+        padding: 8px;
+      }
+
+      .welcome-shell {
+        border-radius: 16px;
+      }
+
+      /* A short hero: title and purpose, without decorative empty space. */
+      .welcome-top {
+        min-height: 0;
+        padding: 19px 17px 18px;
+        gap: 8px;
+        align-items: flex-start;
+      }
+
+      .welcome-top:after {
+        display: none;
+      }
+
+      .eyebrow {
+        padding: 6px 10px;
+        font-size: 9px;
+        letter-spacing: .8px;
+      }
+
+      .welcome-top h1 {
+        margin: 12px 0 7px;
+        font-size: clamp(25px, 7.2vw, 34px);
+        line-height: 1.08;
+        letter-spacing: -.8px;
+      }
+
+      .welcome-top h1 span {
+        display: inline;
+      }
+
+      .welcome-top p {
+        font-size: 12px;
+        line-height: 1.5;
+        max-width: 100%;
+      }
+
+      .welcome-progress {
+        display: none;
+      }
+
+      /* Put the action area first so users can start without scrolling through details. */
+      .welcome-body {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .welcome-start {
+        order: 0;
+        padding: 18px 16px 10px;
+      }
+
+      .welcome-info {
+        order: 1;
+        padding: 15px 16px 17px;
+        border: 0;
+        border-top: 1px solid rgba(90, 65, 55, .12);
+        background: #fff;
+      }
+
+      .welcome-info h2 {
+        margin: 0 0 11px;
+        font-size: 17px;
+      }
+
+      .welcome-start h2 {
+        margin: 0 0 5px;
+        font-size: 21px;
+      }
+
+      .start-note {
+        margin: 0 0 0px;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .mode-box {
+        margin: 0 0 6px;
+      }
+
+      .mode-box legend {
+        margin-bottom: 6px;
+        font-size: 11px;
+      }
+
+      .mode-card {
+        margin: 6px 0;
+        padding: 11px 12px;
+        gap: 10px;
+        border-radius: 11px;
+      }
+
+      .mode-card input {
+        width: 18px;
+        height: 18px;
+        margin-top: 2px;
+      }
+
+      .mode-card b {
+        margin-bottom: 2px;
+        font-size: 13px;
+      }
+
+      .mode-card small {
+        font-size: 11px;
+        line-height: 1.4;
+      }
+
+      .welcome-start>label {
+        margin: 0 0 13px;
+        font-size: 12px;
+      }
+
+      .name {
+        min-height: 45px;
+        padding: 11px 13px;
+        font-size: 14px;
+        border-radius: 10px;
+      }
+
+      .error {
+        min-height: 17px;
+        margin: 2px 0;
+        font-size: 11px;
+      }
+
+      #startBtn {
+        min-height: 47px;
+        margin-top: 2px;
+        padding: 12px 16px;
+        font-size: 12px;
+        border-radius: 11px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 6px;
+        margin: 0;
+      }
+
+      .stat {
+        padding: 9px 5px;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .stat b {
+        margin-bottom: 2px;
+        font-size: 16px;
+        line-height: 1.2;
+      }
+
+      .stat span {
+        display: block;
+        font-size: 9px;
+        line-height: 1.3;
+        letter-spacing: 0;
+      }
+
+      .guide {
+        margin-top: 10px;
+        padding: 10px 12px;
+        border-radius: 11px;
+      }
+
+      .guide summary {
+        min-height: 26px;
+      }
+
+      .guide h3 {
+        font-size: 12px;
+      }
+
+      .guide-toggle {
+        font-size: 10px;
+      }
+
+      .guide[open] .guide-toggle:after {
+        font-size: 10px;
+      }
+
+      .guide ol {
+        margin-top: 9px;
+        padding-left: 17px;
+        font-size: 11px;
+        line-height: 1.55;
+      }
+
+      .guide li {
+        margin: 4px 0;
+      }
+    }
+
+    @media (max-width:380px) {
+      .welcome-top {
+        padding: 16px 14px;
+      }
+
+      .welcome-top h1 {
+        font-size: 25px;
+      }
+
+      .welcome-start {
+        padding: 16px 13px 17px;
+      }
+
+      .welcome-info {
+        padding: 13px;
+      }
+
+      .stats {
+        gap: 5px;
+      }
+
+      .stat {
+        padding: 8px 3px;
+      }
+
+      .stat b {
+        font-size: 15px;
+      }
+
+      .stat span {
+        font-size: 8px;
+      }
+    }
+
+    @media (min-width:641px) {
+      .guide summary {
+        cursor: pointer;
+      }
+
+      .guide-toggle {
+        font-size: 11px;
+      }
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ===== Roboto typography, heading clipping fix and mobile question scale ===== */
+    :root {
+      font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    html,
+    body,
+    button,
+    input,
+    select,
+    textarea,
+    option,
+    label,
+    p,
+    h1,
+    h2,
+    h3,
+    span,
+    div {
+      font-family: 'Roboto', Arial, sans-serif !important;
+    }
+
+    .welcome-top h1 {
+      overflow: visible;
+      line-height: 1.22;
+      padding-top: .08em;
+      padding-bottom: .12em;
+    }
+
+    .welcome-top h1 span {
+      display: inline-block;
+      line-height: 1.22;
+      padding: .02em 0 .1em;
+    }
+
+    .session-label {
+      display: block;
+      margin: 14px 0 10px;
+      color: #45484e;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .45px;
+    }
+
+    .session-select {
+      display: block;
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 42px 12px 14px;
+      color: #292929;
+      background: #fff;
+      border: 1px solid #d9d3d0;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      outline: none;
+    }
+
+    .session-select:focus {
+      border-color: #DA291C;
+      box-shadow: 0 0 0 4px rgba(218, 41, 28, .1);
+    }
+
+    @media (max-width:640px) {
+      .welcome-top h1 {
+        font-size: clamp(30px, 8vw, 42px);
+        line-height: 1.24;
+      }
+
+      .welcome-top h1 span {
+        line-height: 1.24;
+        padding-bottom: .14em;
+      }
+
+      .question {
+        font-size: clamp(16px, 4.2vw, 19px) !important;
+        line-height: 1.5;
+      }
+
+      .question-card {
+        padding: 18px 14px 16px;
+      }
+
+      .session-label {
+        margin-top: 12px;
+        font-size: 11px;
+      }
+
+      .session-select {
+        min-height: 46px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width:380px) {
+      .question {
+        font-size: 16px !important;
+        line-height: 1.48;
+      }
+    }
+  </style>
+  <style>
+    /* Desktop + tablet: calmer question typography, less visual heaviness */
+    @media (min-width: 641px) {
+      .game .question-card .question {
+        font-size: 20px !important;
+        line-height: 1.55 !important;
+        letter-spacing: -.15px !important;
+        font-weight: 600 !important;
+        margin-bottom: 24px !important;
+      }
+
+      .game .question-card {
+        padding: clamp(22px, 3vw, 36px) !important;
+      }
+    }
+
+    @media (min-width: 641px) and (max-width: 1024px) {
+      .game .question-card .question {
+        font-size: 18px !important;
+        line-height: 1.55 !important;
+        letter-spacing: 0 !important;
+        margin-bottom: 20px !important;
+      }
+
+      .game .question-card {
+        padding: 22px !important;
+      }
+    }
+
+    @media (min-width: 1025px) and (max-width: 1280px) {
+      .game .question-card .question {
+        font-size: 19px !important;
+      }
+    }
+  </style>
+  <style>
+    /* ===== Select spacing and start-screen hierarchy ===== */
+    .session-select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      padding: 12px 54px 12px 16px;
+      background-color: #fff;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23934b43' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 18px center;
+      background-size: 18px 18px;
+    }
+
+    .start-note {
+      margin: 11px 0 17px;
+      line-height: 1.5;
+    }
+
+    .mode-box {
+      margin-top: 21px !important;
+    }
+
+    /* .mode-box legend {
+      margin-bottom: 12px !important;
+    } */
+
+    @media (max-width:640px) {
+      .session-select {
+        min-height: 48px;
+        padding: 12px 52px 12px 15px;
+        background-position: right 17px center;
+      }
+
+      .start-note {
+        margin: 0px 0 10px;
+      }
+
+      .mode-box {
+        margin-top: 18px !important;
+      }
+
+      /* .mode-box legend {
+        margin-bottom: 10px !important;
+      } */
+    }
+  </style>
+  <style>
+    /* Center answer content vertically within each answer card */
+    .game .answer {
+      align-items: center;
+    }
+
+    .game .answer .letter {
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <section id="welcome" class="screen welcome active">
+      <div class="welcome-shell">
+        <div class="welcome-top">
+          <div>
+            <h1><span>ÔN TẬP</span></h1>
+            <p>Nội dung ôn tập tương ứng với kiến thức của 3 Buổi đã ôn tập để vượt qua cần 15/20 câu đúng với chế độ dễ
+              và 20/20 câu đúng với chế độ khó.</p>
+          </div>
+          <div class="welcome-progress" aria-hidden="true"><i></i><i></i><i></i></div>
+        </div>
+        <div class="welcome-body">
+          <div class="welcome-info">
+            <h2>Cấu trúc bài ôn tập</h2>
+            <div class="stats">
+              <div class="stat"><b>20 câu</b><span>7 - 7 - 6 theo 3 buổi</span></div>
+              <div class="stat"><b>40 phút</b><span>Thời gian tối đa</span></div>
+              <div class="stat"><b id="targetPercent">75%</b><span>Mục tiêu hoàn thành</span></div>
+              <div class="stat"><b id="targetCorrect">15/20</b><span>Số câu đúng tối thiểu</span></div>
+            </div>
+            <details class="guide">
+              <summary>
+                <h3>Hướng dẫn chơi</h3><span class="guide-toggle">Xem hướng dẫn</span>
+              </summary>
+              <ol>
+                <li>Chọn <b>Chế độ dễ</b> để hoàn thành đủ 20 câu và xét kết quả cuối cùng.</li>
+                <li>Chọn <b>Chế độ khó</b> để thử thách: từng chặng phải đúng toàn bộ câu mới được đi tiếp.</li>
+                <li>Chọn một đáp án rồi bấm <b>Xác nhận</b>. Sau khi xác nhận, đáp án sẽ được khóa.</li>
+                <li>Trả lời đúng được 100 điểm; chuỗi 3, 5 và 10 câu đúng nhận thêm điểm thưởng.</li>
+                <li>Kết quả hoàn thành dựa trên số câu đúng, không dựa trên điểm trò chơi.</li>
+              </ol>
+            </details>
+          </div>
+          <div class="welcome-start">
+            <h2>Sẵn sàng bắt đầu?</h2>
+            <label for="sessionSelect" class="session-label">CHỌN NỘI DUNG ÔN TẬP</label>
+            <select id="sessionSelect" class="session-select">
+              <option value="all">Ôn tập tổng hợp – cả 3 buổi</option>
+              <option value="Buổi 1">Buổi 1</option>
+              <option value="Buổi 2">Buổi 2</option>
+              <option value="Buổi 3">Buổi 3</option>
+            </select>
+            
+            <fieldset class="mode-box">
+              <legend>Chọn chế độ chơi</legend>
+              <p class="start-note">Chọn chế độ chơi và nhập tên để bắt đầu.</p>
+              <label class="mode-card"><input type="radio" name="gameMode" value="easy"
+                  checked><span><b>Chế độ dễ</b><small>Hoàn thành đủ 20 câu. Đạt tối thiểu 15/20 câu
+                    đúng.</small></span></label><label class="mode-card"><input type="radio" name="gameMode"
+                  value="hard"><span><b>Chế độ khó</b><small>Mỗi chặng phải trả lời đúng toàn bộ câu mới được đi
+                    tiếp.</small></span></label>
+            </fieldset><label for="playerName">Họ và tên <span class="optional">(không bắt buộc)</span></label><input
+              id="playerName" class="name" maxlength="80" autocomplete="name"
+              placeholder="Nhập họ và tên của Anh/Chị (không bắt buộc)">
+            <div id="nameError" class="error" role="alert"></div><button id="startBtn" class="primary">BẮT ĐẦU THỬ
+              THÁCH</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="game" class="game">
+      <header class="topbar">
+        <div>
+          <div class="brand">CHINH PHỤC THỬ THÁCH</div>
+          <div id="stage" class="stage">Chặng 1 · Khởi động</div>
+        </div>
+        <div class="center">
+          <div class="progress-wrap">
+            <div id="progress" class="progress"></div>
+          </div>
+        </div>
+        <div class="hud">
+          <div class="hud-item"><b id="currentHud">0/20</b><span>HOÀN THÀNH</span></div>
+          <div class="hud-item"><b id="scoreHud">0</b><span>ĐIỂM</span></div>
+          <div class="hud-item"><b id="streakHud">0 🔥</b><span>CHUỖI ĐÚNG</span></div>
+          <div id="timerBox" class="hud-item timer"><b id="timer">40:00</b><span>CÒN LẠI</span></div>
+        </div>
+      </header>
+      <main class="main">
+        <div class="subhead">
+          <div id="qmeta" class="qmeta">CÂU 1 / 20</div>
+        </div>
+        <article class="question-card">
+          <h2 id="question" class="question"></h2>
+          <div id="answers" class="answers"></div>
+          <div class="actions">
+            <div id="feedback" class="feedback" aria-live="polite"></div>
+            <div><button id="confirmBtn" class="primary confirm" disabled>XÁC NHẬN</button><button id="nextBtn"
+                class="primary next">CÂU TIẾP THEO</button></div>
+          </div>
+        </article>
+      </main>
+    </section>
+    <section id="result" class="screen result">
+      <div class="result-card">
+        <div id="resultIcon" class="result-icon"></div>
+        <h1 id="resultTitle"></h1>
+        <p id="resultMessage"></p>
+        <div id="resultStatus" class="result-status"></div>
+        <div id="scoreBig" class="score-big"></div>
+        <div id="recommendation" class="recommendation"></div>
+        <div class="result-grid">
+          <div><b id="resPercent"></b><span>Tỷ lệ đúng</span></div>
+          <div><b id="resTime"></b><span>Thời gian</span></div>
+          <div><b id="resScore"></b><span>Điểm trò chơi</span></div>
+          <div><b id="resStreak"></b><span>Chuỗi đúng tốt nhất</span></div>
+        </div>
+        <div class="result-actions"><button id="reviewBtn" class="secondary">XEM LẠI ĐÁP ÁN</button><button
+            id="replayBtn" class="primary">LÀM LẠI</button><button id="homeBtn" class="secondary">VỀ TRANG CHỦ</button></div>
+        <section id="review" class="review">
+          <div class="filters"><button class="secondary filter active" data-filter="all">Tất cả</button><button
+              class="secondary filter" data-filter="correct">Câu đúng</button><button class="secondary filter"
+              data-filter="wrong">Câu sai</button></div>
+          <div id="reviewList"></div>
+        </section>
+      </div>
+    </section>
+    <div id="overlay" class="overlay">
+      <div class="modal">
+        <div class="trophy">🏆</div>
+        <h2 id="modalTitle"></h2>
+        <p id="modalText"></p><button id="continueBtn" class="primary">TIẾP TỤC HÀNH TRÌNH →</button>
+      </div>
+    </div>
+    <div id="fx"></div>
+    <div id="confetti" class="confetti"></div>
+  </div>
+  <script>const QUESTION_BANK = [{ "id": 1, "source": "Buổi 1 - Câu 1", "question": "Chọn câu trả lời đúng nhất về chức năng của thị trường tài chính:", "options": ["Dẫn vốn từ những nơi thừa vốn sang những nơi thiếu vốn", "Hình thành giá của các tài sản tài chính, tạo tính thanh khoản cho tài sản tài chính", "Ổn định và điều hòa lưu thông tiền tệ, đảm bảo phát triển lành mạnh cho nền kinh tế", "Giảm thiểu chi phí tìm kiếm và chi phí thông tin cho các nhà đầu tư", "A, B, C và D đúng"], "correctAnswer": 4, "explanation": "", "hint": "" }, { "id": 2, "source": "Buổi 1 - Câu 2", "question": "Các tài sản đầu tư trên thị trường vốn bao gồm:", "options": ["Tín phiếu kho bạc, thương phiếu, chấp phiếu ngân hàng, hợp đồng thỏa thuận mua bán", "Cổ phiếu, trái phiếu, vay thế chấp, vay tiêu dùng, vay thương mại do các ngân hàng hay tổ chức tín dụng cấp, Chứng khoán của cơ quan chính phủ hoặc chính phủ", "Tín phiếu kho bạc, thương phiếu, chấp phiếu ngân hàng, trái phiếu, chứng chỉ quỹ đầu tư", "Tín phiếu kho bạc, thương phiếu, chấp phiếu ngân hàng, cổ phiếu, trái phiếu"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 3, "source": "Buổi 1 - Câu 3", "question": "Phát biểu nào sau đây đúng khi nói về thị trường tiền tệ:", "options": ["Là thị trường mua bán trao đổi các công cụ tài chính ngắn hạn", "Là thị trường mua bán, trao đổi các công cụ tài chính trung và dài hạn", "Các công cụ tài chính trên thị trường tiền tệ có tính thanh khoản kém hơn. Độ rủi ro cao hơn trên thị trường vốn", "A, C đúng"], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 4, "source": "Buổi 1 - Câu 4", "question": "Phát biểu nào sau đây đúng khi nói về thị trường nợ?", "options": ["Các công cụ giao dịch trên thị trường nợ đều có thời hạn thanh toán xác định rõ ràng", "Các công cụ giao dịch trên thị trường nợ đều không có thời hạn thanh toán xác định rõ ràng", "Hoạt động trên thị trường nợ không phụ thuộc vào biến động lãi suất ngân hàng", "A, C đúng"], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 5, "source": "Buổi 1 - Câu 5", "question": "Theo phân loại dựa trên tính chất của việc phát hành các công cụ tài chính, thị trường tài chính bao gồm:", "options": ["Thị trường tiền tệ, thị trường vốn", "Thị trường nợ, thị trường chứng khoán", "Thị trường sơ cấp, thị trường thứ cấp", "Thị trường tiền tệ, thị trường nợ, thị trường chứng khoán"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 6, "source": "Buổi 1 - Câu 6", "question": "Theo phân loại dựa trên công cụ tài chính (huy động vốn), thị trường tài chính bao gồm:", "options": ["Thị trường tiền tệ, thị trường vốn", "Thị trường nợ, thị trường chứng khoán", "Thị trường sơ cấp, thị trường thứ cấp", "Thị trường tiền tệ, thị trường nợ, thị trường chứng khoán"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 7, "source": "Buổi 1 - Câu 7", "question": "Phát biểu nào sau đây đúng khi nói về thị trường vốn:", "options": ["Là thị trường mua bán, trao đổi các công cụ tài chính ngắn hạn", "Là thị trường mua bán, trao đổi các công cụ tài chính trung và dài hạn", "Không có câu đúng"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 8, "source": "Buổi 1 - Câu 8", "question": "Theo phân loại dựa trên thời gian luân chuyển vốn, thị trường tài chính bao gồm:", "options": ["Thị trường tiền tệ, thị trường vốn", "Thị trường nợ, thị trường chứng khoán", "Thị trường sơ cấp, thị trường thứ cấp", "Thị trường tiền tệ, thị trường nợ, thị trường chứng khoán"], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 9, "source": "Buổi 1 - Câu 9", "question": "Nơi giao dịch, mua bán, trao đổi các sản phẩm tài chính ngắn - trung - dài hạn để đáp ứng các nhu cầu khác nhau của các đối tượng được gọi là:", "options": ["Thị trường mua bán gạo", "Thị trường giao dịch bất động sản", "Thị trường tài chính", "Thị trường mua bán café"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 10, "source": "Buổi 1 - Câu 10", "question": "Chọn đáp án đúng “ Chứng khoán được phát hành lần đầu trên thị trường………, sau đó được mua bán lại trên thị trường…………”:", "options": ["Thị trường sơ cấp, thị trường tiền tệ", "Thị trường tập trung, thị trường phi tập trung", "Thị trường sơ cấp, thị trường thứ cấp", "Thị trường thứ cấp, thị trường vốn"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 11, "source": "Buổi 1 - Câu 11", "question": "Công cụ nào giao dịch trên thị trường nợ:", "options": ["Trái phiếu, cổ phiếu", "Cổ phiếu, các khoản vay", "Các khoản vay, trái phiếu", "A, B đúng"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 12, "source": "Buổi 1 - Câu 12", "question": "Các tài sản đầu tư trên thị trường tiền tệ bao gồm:", "options": ["Tín phiếu kho bạc, các khoản vay liên ngân hàng, kỳ phiếu thương mại, chứng chỉ ngắn hạn, Giấy chấp nhận thanh toán của ngân hàng", "Cổ phiếu, trái phiếu, các khoản tín dụng cầm cố, các khoản tín dụng thương mại, chứng chỉ quỹ đầu tư", "Tín phiếu kho bạc, thương phiếu, chấp phiếu ngân hàng, trái phiếu, chứng chỉ quỹ đầu tư", "Tín phiếu kho bạc, thương phiếu, chấp phiếu ngân hàng, cổ phiếu, trái phiếu"], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 13, "source": "Buổi 1 - Câu 13", "question": "Quỹ liên kết đơn vị có thể đầu tư vào cổ phiếu, trong đó cổ phiếu là gì?", "options": ["Là loại chứng khoán đại diện cho phần sở hữu của cổ đông trong một công ty hay tập đoàn", "Là loại chứng khoán xác nhận quyền và lợi ích hợp pháp của người sở hữu được một phần nợ của tổ chức phát hành", "Là loại chứng khoán xác nhận quyền sở hữu của nhà đầu tư đối với 1 phần vốn góp của quỹ đầu tư chứng khoán", "Là loại chứng khoán được phát hành trên cơ sở chứng khoán của tổ chức được thành lập và hoạt động hợp pháp tại Việt Nam"], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 14, "source": "Buổi 1 - Câu 14", "question": "Loại công cụ tài chính nào sau đây có lợi nhuận phụ thuộc TRỰC TIẾP vào tình hình hoạt động và kết quả kinh doanh của doanh nghiệp phát hành:", "options": ["Cổ phiếu", "Chứng chỉ quỹ", "Trái phiếu", "A và B đều đúng"], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 15, "source": "Buổi 1 - Câu 15", "question": "Công ty ABC phát hành trái phiếu kỳ hạn 2 năm để tài trợ một dự án ngắn hạn. Đây là hoạt động của thị trường nào?", "options": ["Thị trường tiền tệ", "Thị trường vốn", "Thị trường sơ cấp", "Thị trường thứ cấp"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 16, "source": "Buổi 1 - Câu 16", "question": "Thị trường nào chuyên giao dịch các công cụ nợ như trái phiếu chính phủ, trái phiếu doanh nghiệp?", "options": ["Thị trường chứng khoán", "Thị trường nợ", "Thị trường vốn", "Thị trường sơ cấp"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 17, "source": "Buổi 1 - Câu 17", "question": "Chị Hương bán cổ phiếu đã mua trước đó cho người khác trên sàn giao dịch. Đây là hoạt động của thị trường nào?", "options": ["Thị trường tiền tệ", "Thị trường vốn", "Thị trường sơ cấp", "Thị trường thứ cấp"], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 18, "source": "Buổi 1 - Câu 18", "question": "Nhà đầu tư mua cổ phiếu của một công ty niêm yết trên sàn giao dịch chứng khoán. Đây là giao dịch thuộc loại thị trường nào?", "options": ["Thị trường sơ cấp", "Thị trường chứng khoán", "Thị trường tiền tệ", "Thị trường nợ"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 19, "source": "Buổi 1 - Câu 19", "question": "Nhà đầu tư mua trái phiếu kỳ hạn 10 năm. Đây là giao dịch thuộc thị trường nào?", "options": ["Thị trường sơ cấp", "Thị trường vốn", "Thị trường tiền tệ", "Thị trường chứng khoán"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 20, "source": "Buổi 1 - Câu 20", "question": "Anh Hùng gửi tiền vào ngân hàng kỳ hạn 6 tháng để hưởng lãi suất. Đây là hoạt động của thị trường nào?", "options": ["Thị trường vốn", "Thị trường tiền tệ", "Thị trường sơ cấp", "Thị trường chứng khoán"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 21, "source": "Buổi 1 - Câu 21", "question": "Công ty ABC phát hành cổ phiếu lần đầu để huy động vốn mở rộng sản xuất. Đây là hoạt động của:", "options": ["Thị trường sơ cấp", "Thị trường thứ cấp", "Thị trường tiền tệ", "Thị trường nợ"], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 22, "source": "Buổi 1 - Câu 22", "question": "Anh Tuấn mua cổ phiếu của công ty ABC từ một nhà đầu tư khác trên sàn giao dịch. Đây là giao dịch thuộc thị trường nào?", "options": ["Thị trường sơ cấp", "Thị trường thứ cấp", "Thị trường tiền tệ", "Thị trường vốn"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 23, "source": "Buổi 1 - Câu 23", "question": "Nếu bạn đầu tư vào cổ phiếu để kỳ vọng tăng giá trong dài hạn, bạn đang tham gia vào loại thị trường nào?", "options": ["Thị trường nợ", "Thị trường thứ cấp", "Thị trường tiền tệ", "Thị trường vốn"], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 24, "source": "Buổi 1 - Câu 24", "question": "Ngân hàng Nhà nước phát hành tín phiếu kho bạc kỳ hạn 3 tháng. Đây là sản phẩm của thị trường nào?", "options": ["Thị trường vốn", "Thị trường thứ cấp", "Thị trường tiền tệ", "Thị trường chứng khoán"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 25, "source": "Buổi 1 - Câu 25", "question": "Trái phiếu doanh nghiệp là sản phẩm của thị trường nào?", "options": ["Thị trường vốn", "Thị trường sơ cấp", "Thị trường tiền tệ", "Thị trường chứng khoán"], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 26, "source": "Buổi 1 - Câu 26", "question": "Đầu tư là việc mua một tài sản với mục tiêu duy nhất là sử dụng cho nhu cầu cá nhân.", "options": ["Đúng", "Sai"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 27, "source": "Buổi 1 - Câu 27", "question": "Anh B mua một chiếc xe hơi để chạy dịch vụ Grab với mục tiêu kiếm thêm thu nhập. Đây có được xem là đầu tư không?", "options": ["Không, vì xe là tài sản tiêu dùng", "Có, vì mục tiêu là tạo ra thu nhập trong tương lai"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 28, "source": "Buổi 1 - Câu 28", "question": "Chọn câu đúng nhất:", "options": ["Lợi nhuận càng cao, rủi ro càng lớn.", "Tính thanh khoản càng cao, rủi ro càng lớn.", "Lợi nhuận càng thấp, rủi ro càng lớn.", "Cả ba câu trên đều sai."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 29, "source": "Buổi 1 - Câu 29", "question": "Hãy chọn câu đúng khi nói về Quỹ đầu tư của sản phẩm Bảo Hiểm Liên Kết Đơn Vị: (1) Để đầu tư vào các Quỹ của sản phẩm BH liên kết đơn vị thì Nhà đầu tư phải có vốn thật lớn. (2) Các Quỹ đầu tư của sản phẩm BH liên kết đơn vị đều có mức độ rủi ro cao. (3) Đầu tư thông qua sản phẩm BH liên kết đơn vị, các nhà đầu tư nhỏ có thể tiếp cận với các cơ hội đầu tư tốt mà chỉ các nhà đầu tư lớn mới có. (4) Quỹ đầu tư được quản lý rất chuyên nghiệp.", "options": ["1 & 2 đều đúng", "1 & 2 đều sai", "3 & 4 đúng", "2 & 3 đúng"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 30, "source": "Buổi 1 - Câu 30", "question": "Anh A đầu tư vào Bảo hiểm nhân thọ liên kết đầu tư để vừa bảo vệ tài chính cho gia đình, vừa có cơ hội sinh lời. Mục đích đầu tư của anh A thuộc nhóm nào?", "options": ["Chỉ tạo dựng tài sản.", "Chỉ gia tăng thu nhập.", "Bảo vệ tài chính và gia tăng thu nhập."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 31, "source": "Buổi 1 - Câu 31", "question": "Điểm khác biệt cơ bản giữa đầu tư và tiết kiệm là gì?", "options": ["Đầu tư không có rủi ro, tiết kiệm có rủi ro.", "Tiết kiệm luôn mang lại lợi nhuận cao hơn đầu tư.", "Đầu tư có khả năng sinh lời cao hơn nhưng rủi ro lớn hơn, tiết kiệm an toàn hơn nhưng lợi nhuận thấp.", "Cả hai đều giống nhau, không có điểm khác biệt."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 32, "source": "Buổi 1 - Câu 32", "question": "Anh A gửi 100 triệu vào ngân hàng kỳ hạn 12 tháng với lãi suất 5%/năm. Anh B dùng 100 triệu mua cổ phiếu kỳ vọng tăng giá 15% trong 1 năm. Ai đang thực hiện đầu tư?", "options": ["Anh A.", "Anh B.", "Cả hai đều đầu tư.", "Không ai đầu tư."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 33, "source": "Buổi 1 - Câu 33", "question": "Tiết kiệm thường được gửi vào ngân hàng với lãi suất cố định, trong khi đầu tư có thể biến động về lợi nhuận.", "options": ["Đúng", "Sai"], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 34, "source": "Buổi 1 - Câu 34", "question": "Lãi kép là gì?", "options": ["Lãi chỉ tính trên số tiền gốc ban đầu.", "Lãi tính trên cả gốc và lãi đã tích lũy trước đó.", "Lãi cố định không thay đổi theo thời gian.", "Lãi chỉ tính vào cuối kỳ hạn."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 35, "source": "Buổi 1 - Câu 35", "question": "Anh A gửi 100 triệu đồng vào ngân hàng với lãi suất kép 6%/năm. Theo quy luật 72, khoảng bao lâu số tiền này sẽ tăng gấp đôi?", "options": ["09 năm", "12 năm", "15 năm", "18 năm"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 36, "source": "Buổi 1 - Câu 36", "question": "Chọn câu đúng nhất:", "options": ["Rủi ro trong đầu tư là khả năng mất một phần hoặc toàn bộ vốn ban đầu mà nhà đầu tư không lường trước được.", "Rủi ro trong đầu tư là khả năng mất toàn bộ vốn ban đầu mà nhà đầu tư không lường trước được.", "Rủi ro trong đầu tư là sự thay đổi hay biến động của lãi gộp mà nhà đầu tư không lường trước được.", "Rủi ro trong đầu tư là sự thay đổi hay biến động của vốn ban đầu mà nhà đầu tư chỉ lường trước được không quá 50%."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 37, "source": "Buổi 1 - Câu 37", "question": "Trong Đầu tư chứng khoán, nếu mã cổ phiếu giảm thì gọi là rủi ro gì?", "options": ["Rủi ro Thanh khoản", "Rủi ro Lạm phát", "Rủi ro Thị trường", "Rủi ro Lãi suất"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 38, "source": "Buổi 1 - Câu 38", "question": "Rủi ro thanh toán:", "options": ["Là rủi ro khi giá tài sản đầu tư bị ảnh hưởng bởi các sự kiện xảy ra trong công ty phát hành cũng như ngành nghề kinh doanh đó.", "Là rủi ro khi đồng tiền mất giá gây ảnh hưởng đến giá trị của các khoản đầu tư và thu nhập từ các khoản đầu tư đó.", "Là rủi ro khi tài sản đầu tư khó có khả năng chuyển đổi thành tiền mặt tại mức giá hợp lý.", "Là rủi ro bên vay không hoàn trả khoản vay và/hoặc lãi suất khi đến hạn trả."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 39, "source": "Buổi 1 - Câu 39", "question": "Anh A đầu tư vào trái phiếu dài hạn với lãi suất cố định 6%/năm. Sau đó, lãi suất thị trường tăng lên 9%. Anh A đang gặp rủi ro gì?", "options": ["Rủi ro thị trường", "Rủi ro lãi suất", "Rủi ro thanh khoản", "Rủi ro sự kiện"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 40, "source": "Buổi 1 - Câu 40", "question": "Chị B đầu tư vào bất động sản nhưng khi cần tiền gấp, chị không thể bán được hoặc phải bán lỗ. Đây là ví dụ của rủi ro nào?", "options": ["Rủi ro thị trường", "Rủi ro thanh toán", "Rủi ro thanh khoản", "Rủi ro lạm phát"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 41, "source": "Buổi 1 - Câu 41", "question": "Lợi thế dài hạn của đầu tư ủy thác so với đầu tư cá nhân là gì?", "options": ["Chiến lược đầu tư liên tục, dài hạn và kiểm soát rủi ro tốt hơn.", "Không bao giờ thua lỗ.", "Đảm bảo lợi nhuận cố định", "Không cần vốn lớn"], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 42, "source": "Buổi 1 - Câu 42", "question": "Điểm khác biệt lớn nhất giữa đầu tư cá nhân và đầu tư ủy thác là gì?", "options": ["Cả hai đều yêu cầu kiến thức chuyên sâu", "Đầu tư ủy thác có đội ngũ chuyên gia quản lý, trong khi đầu tư cá nhân phụ thuộc vào nhà đầu tư.", "Đầu tư cá nhân luôn ít rủi ro hơn", "Đầu tư ủy thác không cần vốn ban đầu"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 43, "source": "Buổi 1 - Câu 43", "question": "Tại sao đầu tư ủy thác qua Quỹ thường có khả năng đa dạng hóa danh mục tốt hơn?", "options": ["Vì nhà đầu tư cá nhân không được phép đa dạng hóa", "Vì quỹ có nguồn vốn lớn và chiến lược phân bổ chuyên nghiệp", "Vì quỹ không chịu rủi ro", "Vì quỹ chỉ đầu tư vào một ngành"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 44, "source": "Buổi 1 - Câu 44", "question": "Sản phẩm nào sau đây thuộc nghiệp vụ liên kết đầu tư:", "options": ["Sản phẩm bảo hiểm tử kỳ và sinh kỳ.", "Sản phẩm bảo hiểm trọn đời và trả tiền định kỳ.", "Sản phẩm bảo hiểm liên kết chung và liên kết đơn vị.", "Sản phẩm bảo hiểm hưu trí."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 45, "source": "Buổi 1 - Câu 45", "question": "Điểm giống nhau giữa Bảo hiểm liên kết chung và Bảo hiểm liên kết đơn vị là?", "options": ["Cơ cấu phí bảo hiểm và quyền lợi bảo hiểm được tách bạch giữa phần bảo hiểm rủi ro và phần đầu tư.", "Bên mua bảo hiểm được doanh nghiệp bảo hiểm cam kết lãi suất đầu tư tối thiểu.", "Chỉ có 1 quỹ đầu tư duy nhất.", "Bên mua bảo hiểm không được linh hoạt trong việc xác định phí bảo hiểm và số tiền bảo hiểm."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 46, "source": "Buổi 1 - Câu 46", "question": "Quyền lợi rủi ro của sản phẩm liên kết đầu tư gồm:", "options": ["Quyền lợi tử vong, thương tật toàn bộ vĩnh viễn.", "Quyền lợi tử vong, thương tật toàn bộ vĩnh viễn, bệnh hiểm nghèo.", "Quyền lợi tử vong, thương tật toàn bộ vĩnh viễn, bệnh hiểm nghèo và các quyền lợi bảo vệ khác theo thỏa thuận."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 47, "source": "Buổi 1 - Câu 47", "question": "Đối với nghiệp vụ bảo hiểm liên kết đầu tư, quy định nào về “hưởng kết quả đầu tư” nào dưới đây là đúng nhất:", "options": ["Người được bảo hiểm được hưởng toàn bộ kết quả đầu tư từ phần phí đem đi đầu tư sau khi khấu trừ các khoản phí quy định.", "Người thụ hưởng được hưởng toàn bộ kết quả đầu tư từ phần phí đem đầu tư sau khi khấu trừ các khoản phí quy định.", "Doanh nghiệp được hưởng toàn bộ kết quả đầu tư.", "Bên mua bảo hiểm được hưởng toàn bộ kết quả đầu tư từ phần phí đem đi đầu tư sau khi khấu trừ các khoản phí quy định."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 48, "source": "Buổi 1 - Câu 48", "question": "Nghiệp vụ bảo hiểm liên kết đầu tư bao gồm:", "options": ["Bảo hiểm tử kỳ và bảo hiểm sinh kỳ.", "Bảo hiểm trả tiền định kỳ và bảo hiểm hỗn hợp.", "Cả A và B.", "Bảo hiểm liên kết chung và bảo hiểm liên kết đơn vị."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 49, "source": "Buổi 1 - Câu 49", "question": "Chọn đáp án đúng:", "options": ["Phí rủi ro được khấu trừ theo tỷ lệ % Phí bảo hiểm khi Bên mua bảo hiểm thực hiện đóng phí bảo hiểm.", "Phí rủi ro được khấu trừ từ Giá trị tài khoản của khách hàng. Được dùng để chi trả quyền lợi bảo hiểm rủi ro theo cam kết tại Hợp đồng bảo hiểm.", "Phí rủi ro được khấu trừ từ Giá trị tài khoản của khách hàng. Được dùng để bù đắp chi phí liên quan đến việc duy trì hợp đồng bảo hiểm.", "Phí rủi ro được xác định bằng tỷ lệ % Giá trị tài sản ròng của Quỹ liên kết đầu tư."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 50, "source": "Buổi 1 - Câu 50", "question": "Chọn phương án đúng về phí bảo hiểm đóng thêm của Hợp đồng bảo hiểm liên kết đầu tư đóng phí định kỳ:", "options": ["Trong mỗi năm hợp đồng, tổng số phí bảo hiểm đóng thêm không được vượt quá 05 lần mức phí bảo hiểm cơ bản định kỳ của năm hợp đồng hiện tại.", "Trong mỗi năm hợp đồng, tổng số phí bảo hiểm đóng thêm không được vượt quá 05 lần mức phí bảo hiểm cơ bản quy năm của năm hợp đồng hiện tại.", "Không có giới hạn đối với phí bảo hiểm đóng thêm."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 51, "source": "Buổi 1 - Câu 51", "question": "Trong thời gian bắt buộc đóng phí của Hợp đồng bảo hiểm liên kết đầu tư đóng phí cơ bản định kỳ, trường hợp khách hàng đã đóng đủ phí bảo hiểm cơ bản và không có giao dịch rút trước Giá trị tài khoản, Hợp đồng bảo hiểm sẽ:", "options": ["Bị mất hiệu lực nếu giá trị tài khoản không đủ để khấu trừ phí rủi ro hàng tháng.", "Bị mất hiệu lực nếu giá trị tài khoản không đủ để khấu trừ phí rủi ro và phí quản lý hợp đồng hàng tháng.", "Bị mất hiệu lực nếu giá trị tài khoản nhỏ hơn số tiền bảo hiểm.", "Không bị mất hiệu lực."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 52, "source": "Buổi 1 - Câu 52", "question": "Chọn đáp án đúng: Giá trị tài khoản hợp đồng đối với sản phẩm bảo hiểm liên kết đầu tư, bảo hiểm hưu trí là:", "options": ["Số tiền được tích luỹ từ các khoản phí bảo hiểm trừ đi phí ban đầu, các khoản khấu trừ hàng tháng, các chi phí khác có liên quan (nếu có), và cộng vào các khoản lãi và thưởng khác (nếu có).", "Số tiền được tích luỹ từ các khoản phí bảo hiểm trừ đi phí ban đầu, các chi phí khác có liên quan (nếu có), và cộng vào các khoản lãi và thưởng khác (nếu có).", "Số tiền được tích luỹ từ các khoản phí bảo hiểm trừ đi phí ban đầu, các khoản khấu trừ hàng tháng, các chi phí khác có liên quan (nếu có), và cộng vào các khoản thưởng khác (nếu có).", "Số tiền được tích luỹ từ các khoản phí bảo hiểm trừ đi các khoản khấu trừ hàng tháng, các chi phí khác có liên quan (nếu có), và cộng vào các khoản lãi và thưởng khác (nếu có)."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 53, "source": "Buổi 1 - Câu 53", "question": "Sản phẩm bảo hiểm liên kết đầu tư bao gồm quyền lợi nào sau đây:", "options": ["Quyền lợi bảo hiểm rủi ro.", "Quyền lợi đầu tư.", "Quyền lợi thưởng khác (nếu có) nhằm tăng giá trị tài khoản trong HĐBH liên kết đầu tư.", "Cả 3 đáp án trên."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 54, "source": "Buổi 1 - Câu 54", "question": "Chọn đáp đúng đối với quy định liên quan đến thời gian bắt buộc đóng phí của sản phẩm liên kết đầu tư đóng phí định kỳ:", "options": ["Thời gian bắt buộc đóng phí không vượt quá 04 năm.", "Trong thời gian bắt buộc đóng phí, Doanh nghiệp bảo hiểm phải bảo đảm Hợp đồng bảo hiểm liên kết đầu tư không bị mất hiệu lực nếu khách hàng đã đóng đủ phí bảo hiểm cơ bản và không có giao dịch rút trước giá trị tài khoản.", "Thời gian bắt buộc đóng phí không vượt quá 05 năm.", "A và B đúng.", "A và B sai."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 55, "source": "Buổi 1 - Câu 55", "question": "Phát biểu nào sau đây đúng về Phí bảo hiểm đóng thêm của hợp đồng bảo hiểm liên kết đầu tư đóng phí một lần:", "options": ["Trong mỗi năm hợp đồng, tổng số phí bảo hiểm đóng thêm không được vượt quá phí bảo hiểm cơ bản.", "Trong mỗi năm hợp đồng, tổng số phí bảo hiểm đóng thêm không được vượt quá 05 lần phí bảo hiểm cơ bản.", "A và B đúng."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 56, "source": "Buổi 1 - Câu 56", "question": "Trong cơ chế hoạt động của nghiệp vụ bảo hiểm liên kết đầu tư, khoản khấu trừ từ Giá trị tài khoản hợp đồng bảo hiểm gồm:", "options": ["Phí bảo hiểm rủi ro, phí quản lý hợp đồng.", "Phí bảo hiểm rủi ro, phí phát hành hợp đồng.", "Phí bảo hiểm rủi ro, phí thẩm định sức khỏe.", "Không có đáp án nào đúng."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 57, "source": "Buổi 1 - Câu 57", "question": "Phí ban đầu được khấu trừ theo:", "options": ["Tỷ lệ % phí bảo hiểm khi Bên mua bảo hiểm thực hiện đóng phí bảo hiểm.", "Tỷ lệ % lợi nhuận từ kết quả đầu tư.", "Số tiền cố định khi Bên mua bảo hiểm thực hiện đóng phí bảo hiểm.", "Tỷ lệ % Phí bảo hiểm khi Bên mua bảo hiểm thực hiện đóng phí đầu tư thêm."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 58, "source": "Buổi 1 - Câu 58", "question": "Với sản phẩm Bảo hiểm liên kết đầu tư, Doanh nghiệp bảo hiểm tính phí bảo hiểm rủi ro nhằm:", "options": ["Bù đắp duy trì hợp đồng và cung cấp thông tin.", "Chi trả quyền lợi rủi ro theo cam kết.", "Trả cho hoạt động đầu tư, hoạt động định giá tài sản, hoạt động quản lý quỹ.", "Bù đắp chi phí khai thác hợp đồng, vốn doanh nghiệp."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 59, "source": "Buổi 1 - Câu 59", "question": "DNBH và BMBH thỏa thuận về quyền lợi bảo hiểm rủi ro trong HĐBH liên kết đơn vị đóng phí định kỳ nhưng phải đảm bảo quyền lợi tối thiểu trong trường hợp NĐBH tử vong bằng:", "options": ["50 triệu đồng hoặc 5 lần của số phí BH đóng hàng năm, tùy số nào lớn hơn.", "100 triệu đồng hoặc 5 lần của số phí BH đóng phí một lần, tùy số nào lớn hơn.", "50 triệu đồng hoặc 125% của số phí BH đóng phí một lần, tùy số nào lớn hơn.", "50 triệu đồng hoặc 150% của số phí BH đóng phí một lần, tùy số nào lớn hơn."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 60, "source": "Buổi 1 - Câu 60", "question": "Điểm khác nhau giữa Bảo hiểm liên kết chung và Bảo hiểm liên kết đơn vị là?", "options": ["Cơ cấu phí bảo hiểm và quyền lợi bảo hiểm được tách bạch giữa phần bảo hiểm rủi ro và phần đầu tư.", "Đối với BH liên kết chung thì BMBH được hưởng toàn bộ kết quả đầu tư từ Quỹ liên kết chung của DNBH nhưng không thấp hơn tỷ suất đầu tư tối thiểu được DNBH cam kết tại hợp đồng BH.", "Đối với BH liên kết đơn vị thì BMBH được lựa chọn đầu tư phí bảo hiểm của mình để mua các đơn vị của các Quỹ liên kết đơn vị.", "B và C đúng."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 61, "source": "Buổi 1 - Câu 61", "question": "Phát biểu nào dưới đây là đúng:", "options": ["Doanh nghiệp bảo hiểm được hưởng toàn bộ kết quả đầu tư.", "Doanh nghiệp bảo hiểm được hưởng các khoản phí tính cho khách hàng theo quy định và trích lập dự phòng nghiệp vụ theo quy định.", "Bên mua bảo hiểm được hưởng toàn bộ kết quả đầu tư.", "Người được bảo hiểm được hưởng toàn bộ kết quả đầu tư."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 62, "source": "Buổi 1 - Câu 62", "question": "Phát biểu nào sau đây không chính xác về nghiệp vụ bảo hiểm liên kết chung và liên kết đơn vị:", "options": ["Đều thuộc nghiệp vụ bảo hiểm liên kết đầu tư.", "Bên mua bảo hiểm được hưởng toàn bộ kết quả đầu tư từ quỹ liên kết chung/quỹ liên kết đơn vị.", "Doanh nghiệp bảo hiểm được hưởng toàn bộ kết quả đầu tư từ quỹ liên kết chung/quỹ liên kết đơn vị.", "Không có đáp án nào đúng."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 63, "source": "Buổi 2 - Câu 1", "question": "Phát biểu nào là SAI trong các câu sau đây:", "options": ["Sản phẩm Bảo hiểm liên kết đơn vị không phải là Sản phẩm tiết kiệm Ngân hàng mà là một sản phẩm bảo hiểm có tính năng đầu tư.", "Khách hàng cần lưu ý về sự đánh đổi rủi ro thu lại lợi nhuận (risk and return trade-off) khi tham gia sản phẩm BHLKĐV với các quỹ đầu tư có tính rủi ro cao.", "Khi tham gia dòng sản phẩm bảo hiểm – đầu tư, khách hàng sẽ nhận được tỷ suất lợi nhuận tối thiểu từ các quỹ.", "Khi tham gia dòng sản phẩm bảo hiểm – đầu tư, khách hàng được hưởng toàn bộ kết quả đầu tư và cũng như chịu mọi rủi ro trong đầu tư."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 64, "source": "Buổi 2 - Câu 2", "question": "Phát biểu nào sau đúng với sản phẩm Bảo hiểm liên kết đơn vị:", "options": ["Bên mua bảo hiểm được quyền lựa chọn đầu tư phí bảo hiểm của mình để mua các đơn vị của các quỹ liên kết đơn vị do Doanh nghiệp Bảo hiểm thành lập. Được hưởng toàn bộ kết quả đầu tư và chịu mọi rủi ro đầu tư từ các quỹ liên kết đơn vị đã lựa chọn tương ứng với phần phí đầu tư.", "Bên mua bảo hiểm được quyền lựa chọn đầu tư phí bảo hiểm của mình để mua các đơn vị của các quỹ liên kết đơn vị do Doanh nghiệp Bảo hiểm thành lập. Được hưởng toàn bộ kết quả đầu tư nhưng không chịu rủi ro đầu tư từ các quỹ liên kết đơn vị đã lựa chọn tương ứng với phần phí đầu tư.", "Việc mua bán các đơn vị quỹ liên kết đơn vị có thể được thực hiện giữa Doanh nghiệp bảo hiểm và Công ty quản lý quỹ.", "Doanh nghiệp bảo hiểm được hưởng toàn bộ kết quả đầu tư từ quỹ liên kết đơn vị."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 65, "source": "Buổi 2 - Câu 3", "question": "Phát biểu nào sau đây đúng khi nói về sản phẩm Bảo hiểm liên kết đơn vị:", "options": ["Là sản phẩm thuộc nghiệp vụ BH liên kết đầu tư có quyền lợi bảo hiểm được tách bạch giữa quyền lợi bảo hiểm rủi ro và quyền lợi đầu tư. Bên mua bảo hiểm không được lựa chọn chỉ tham gia quyền lợi đầu tư mà không tham gia quyền lợi bảo hiểm rủi ro.", "Là sản phẩm thuộc nghiệp vụ BH liên kết đầu tư có quyền lợi bảo hiểm được tách bạch giữa quyền lợi bảo hiểm rủi ro và quyền lợi đầu tư. Bên mua bảo hiểm được lựa chọn chỉ tham gia quyền lợi đầu tư mà không tham gia quyền lợi bảo hiểm rủi ro.", "Là sản phẩm thuộc nghiệp vụ bảo hiểm hỗn hợp có quyền lợi bảo hiểm được tách bạch giữa quyền lợi bảo hiểm rủi ro và quyền lợi đầu tư. Bên mua bảo hiểm không được lựa chọn chỉ tham gia quyền lợi đâu tư mà không tham gia quyền lợi bảo hiểm rủi ro.", "Là sản phẩm thuộc nghiệp vụ bảo hiểm hỗn hợp có quyền lợi bảo hiểm được tách bạch giữa quyền lợi bảo hiểm rủi ro và quyền lợi đầu tư. Bên mua bảo hiểm được lựa chọn chỉ tham gia quyền lợi đâu tư mà không tham gia quyền lợi bảo hiểm rủi ro."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 66, "source": "Buổi 2 - Câu 4", "question": "Doanh nghiệp bảo hiểm cần cung cấp thông tin về mục tiêu đầu tư, chính sách đầu tư, hạn mức đầu tư và các rủi ro đầu tư của các quỹ liên kết đơn vị khi:", "options": ["Bên mua bảo hiểm tham gia hợp đồng bảo hiểm liên kết đơn vị.", "Bên mua bảo hiểm có yêu cầu chuyển đổi quỹ liên kết đơn vị.", "Bên mua bảo hiểm thay đổi tỷ lệ đầu tư vào các quỹ đơn vị.", "A, B, và C."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 67, "source": "Buổi 2 - Câu 5", "question": "Phát biểu nào sau đây là không đúng về kết quả hoạt động của quỹ liên kết đơn vị:", "options": ["Lãi suất đầu tư của quỹ liên kết đơn vị được đảm bảo không thấp hơn lãi suất cam kết tối thiểu theo quy định tại hợp đồng bảo hiểm.", "Lãi suất đầu tư của quỹ liên kết đơn vị có thể cho kết quả âm và không được đảm bảo.", "Khách hàng chịu mọi rủi ro đầu tư và được hưởng toàn bộ kết quả đầu tư."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 68, "source": "Buổi 2 - Câu 6", "question": "Đối với sản phẩm Bảo hiểm liên kết đơn vị, phí chuyển đổi quỹ liên kết đơn vị là:", "options": ["Khoản phí dùng để trang trải chi phí phát hành hợp đồng bảo hiểm, chi phí thẩm định bảo hiểm, chi phí kiểm tra y tế, chi hoa hồng đại lý và chi phí khác.", "Khoản phí đối với quyền lợi bảo hiểm rủi ro theo cam kết tại Hợp đồng bảo hiểm.", "Khoản phí để bù đắp chi phí liên quan đến việc duy trì hợp đồng bảo hiểm và cung cấp thông tin liên quan đến hợp đồng bảo hiểm cho Bên mua bảo hiểm.", "Khoản phí tính cho Bên mua bảo hiểm khi thực hiện chuyển đổi tài sản đầu tư giữa các quỹ liên kết đơn vị."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 69, "source": "Buổi 2 - Câu 7", "question": "Những điều kiện để Doanh nghiệp bảo hiểm được triển khai sản phẩm Bảo hiểm liên kết đơn vị là:", "options": ["Biên khả năng thanh toán của Doanh nghiệp bảo hiểm lớn hơn biên khả năng thanh toán tối thiểu 200 tỷ đồng Việt Nam.", "Vốn chủ sở hữu không thấp hơn vốn pháp định, đáp ứng biên khả năng thanh toán, không bị xử phạt hành chính (về bảo hiểm).", "Hệ thống công nghệ thông tin phù hợp để quản lý & kiểm soát các Quỹ liên kết đơn vị thận trọng, hiệu quả.", "Có khả năng định giá tài sản & các đơn vị quỹ khách quan, chính xác, tối thiểu 1 lần/tuần; và công bố công khai giá mua – giá bán đơn vị quỹ.", "Tất cả các câu trên đều đúng."], "correctAnswer": 4, "explanation": "", "hint": "" }, { "id": 70, "source": "Buổi 2 - Câu 8", "question": "Phát biểu nào sau đây đúng về sản phẩm Bảo hiểm liên kết đơn vị:", "options": ["Là sản phẩm kết hợp giữa sản phẩm bảo hiểm và sản phẩm ngân hàng.", "Là sản phẩm ngân hàng và được ngân hàng đảm bảo mức lãi suất cố định.", "Là sản phẩm bảo hiểm vừa có yếu tố bảo vệ vừa có yếu tố đầu tư.", "Là sản phẩm bảo hiểm bán qua ngân hàng và được ngân hàng đảm bảo mức lãi suất cố định."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 71, "source": "Buổi 2 - Câu 9", "question": "Phát biểu nào sau đây đúng khi nói về việc mua và bán các đơn vị của Quỹ liên kết đơn vị:", "options": ["Doanh nghiệp bảo hiểm không được phép từ chối việc Bên mua bảo hiểm mua thêm hoặc bán lại đơn vị quỹ liên kết đơn vị khi Bên mua bảo hiểm đã đáp ứng các điều kiện theo quy định pháp luật về mua và bán các đơn vị quỹ liên kết đơn vị", "Bên mua bảo hiểm có quyền mua thêm đơn vị quỹ liên kết đơn vị trong trường hợp Hợp đồng bảo hiểm của Bên mua bảo hiểm hết hiệu lực.", "Bên mua bảo hiểm có quyền mua thêm hoặc bán lại đơn vị quỹ liên kết đơn vị cho ngân hàng giám sát."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 72, "source": "Buổi 2 - Câu 10", "question": "Quy định nào sau đây là đúng về quyền lợi của bảo hiểm liên kết đơn vị?", "options": ["Phải bao gồm quyền lợi bảo hiểm rủi ro và quyền lợi đầu tư.", "Tuỳ theo thỏa thuận giữa Doanh nghiệp bảo hiểm và Bên mua bảo hiểm, Doanh nghiệp bảo hiểm có thể thiết kế thêm các quyền lợi bảo hiểm khác.", "Bên mua bảo hiểm không được lựa chọn chỉ tham gia quyền lợi đầu tư mà không tham gia quyền lợi bảo hiểm rủi ro.", "A, B và C đều đúng."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 73, "source": "Buổi 2 - Câu 11", "question": "Đối với sản phẩm Bảo hiểm liên kết đơn vị, Doanh nghiệp bảo hiểm được khấu trừ các loại phí nào sau đây:", "options": ["Phí ban đầu, phí bảo hiểm rủi ro, phí quản lý HĐBH, phí quản lý quỹ, phí chuyển tài khoản bảo hiểm.", "Phí ban đầu, phí rủi ro, phí quản lý hợp đồng, phí quản lý quỹ, phí chuyển đổi quỹ liên kết đơn vị, phí chấm dứt hợp đồng trước hạn và các loại phí khác (nếu có) phải được Bộ tài chính chấp thuận bằng văn bản.", "Phí ban đầu, phí bảo hiểm rủi ro, phí quản lý HĐBH, phí quản lý quỹ, phí hủy bỏ HĐBH.", "Không đáp án nào đúng."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 74, "source": "Buổi 2 - Câu 12", "question": "Giá trị hoàn lại của một Hợp đồng bảo hiểm liên kết đơn vị được xác định:", "options": ["Được xác định dựa trên giá mua đơn vị quỹ liên kết đơn vị vào ngày định giá kế tiếp ngay sau ngày hủy bỏ hợp đồng bảo hiểm trừ đi phí hủy bỏ hợp đồng bảo hiểm.", "Được xác định dựa trên giá mua đơn vị quỹ liên kết đơn vị vào ngày định giá kế tiếp ngay sau ngày hủy bỏ hợp đồng bảo hiểm.", "Được xác định dựa trên giá mua đơn vị quỹ liên kết đơn vị vào ngày định giá ngay trước ngày hủy bỏ hợp đồng bảo hiểm trừ đi phí hủy bỏ hợp đồng bảo hiểm."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 75, "source": "Buổi 2 - Câu 13", "question": "Giá bán và giá mua các đơn vị của quỹ liên kết đơn vị được xác định dựa trên giá trị tài sản ròng của mỗi đơn vị của quỹ liên kết đơn vị vào ngày:", "options": ["Ngày định giá ngay trước ngày khi Doanh nghiệp bảo hiểm nhận được yêu cầu mua hoặc bán đơn vị của quỹ liên kết đơn vị.", "Ngày định giá ngay sau ngày khi Doanh nghiệp bảo hiểm nhận được yêu cầu mua hoặc bán đơn vị của quỹ liên kết đơn vị.", "Ngày định giá đầu tiên của tháng khi Doanh nghiệp bảo hiểm nhận được yêu cầu mua hoặc bán đơn vị của quỹ liên kết đơn vị.", "Ngày định giá cuối cùng của tháng khi Doanh nghiệp bảo hiểm nhận được yêu cầu mua hoặc bán đơn vị của quỹ liên kết đơn vị."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 76, "source": "Buổi 2 - Câu 14", "question": "Khi tham gia sản phẩm Bảo hiểm liên kết đơn vị, khách hàng được những quyền lợi nào?", "options": ["Quyền lợi bảo hiểm rủi ro về tử vong.", "Quyền lợi bảo hiểm rủi ro về Thương tật toàn bộ vĩnh viễn.", "Quyền lợi bảo hiểm đầu tư.", "Tất cả các quyền lợi trên."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 77, "source": "Buổi 2 - Câu 15", "question": "Trong sản phẩm Bảo hiểm liên kết đơn vị, khách hàng:", "options": ["Không phải chịu rủi ro đầu tư.", "Chịu một phần rủi ro đầu tư tương ứng với phần phí bảo hiểm đã đóng theo loại hình rủi ro của quỹ liên kết đơn vị khách hàng đã lựa chọn.", "Chịu toàn bộ rủi ro đầu tư tương ứng với phần phí bảo hiểm đã đóng theo loại hình rủi ro của quỹ liên kết đơn vị khách hàng đã lựa chọn.", "Chịu toàn bộ rủi ro đầu tư, không phụ thuộc vào quỹ đã chọn."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 78, "source": "Buổi 2 - Câu 16", "question": "Chọn phương án đúng khi Bên mua bảo hiểm rút một phần Giá trị tài khoản đối với Bảo hiểm liên kết đơn vị:", "options": ["Bên mua bảo hiểm phải chịu phí rút trước hạn.", "Bên mua bảo hiểm phải chịu phí chấm dứt hợp đồng trước hạn.", "Bên mua bảo hiểm không phải chịu phí.", "Bên mua bảo hiểm phải chịu phí chuyển đổi quỹ liên kết đơn vị."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 79, "source": "Buổi 2 - Câu 17", "question": "Theo quy định về việc thành lập của quỹ liên kết đơn vị. Doanh nghiệp bảo hiểm phải thành lập tối thiểu bao nhiêu quỹ liên kết đơn vị dành cho mỗi sản phẩm bảo hiểm liên kết đơn vị?", "options": ["Tối thiểu 05 Quỹ liên kết đơn vị.", "Tối thiểu 04 Quỹ liên kết đơn vị.", "Tối thiểu 03 Quỹ liên kết đơn vị.", "Tối thiểu 02 Quỹ liên kết đơn vị."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 80, "source": "Buổi 2 - Câu 18", "question": "Lựa chọn câu trả lời đúng?", "options": ["Mục tiêu đầu tư phải rõ ràng, chi tiết về mục tiêu hoạt động của quỹ liên kết đơn vị, tài sản của quỹ & các rủi ro mà quỹ có thể gặp phải để Bên mua bảo hiểm có thể đánh giá khách quan khi lựa chọn quỹ.", "Trong mọi trường hợp, quỹ liên kết đơn vị phải được quản lý và sử dụng đầu tư phù hợp với chính sách đầu tư, mục tiêu đầu tư và hạn mức đầu tư quy định.", "Mục tiêu đầu tư phải được thông báo đầy đủ, rõ ràng trong tài liệu giới thiệu sản phẩm và hợp đồng bảo hiểm.", "Tất cả đều đúng."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 81, "source": "Buổi 2 - Câu 19", "question": "Đáp án nào sau đây ĐÚNG khi nói về Quy định thành lập của Quỹ liên kết đơn vị?", "options": ["Doanh nghiệp bảo hiểm phải bảo đảm các tài sản hình thành từ các quỹ liên kết đơn vị phải được tách và quản lý riêng khỏi quỹ chủ sở hữu, các quỹ chủ hợp đồng khác và giữa các quỹ liên kết đơn vị của Doanh nghiệp bảo hiểm.", "Trong mọi trường hợp, Quỹ liên kết đơn vị phải được quản lý và sử dụng đầu tư phù hợp với mục tiêu, chính sách đầu tư và chế độ tài chính áp dụng đối với các Doanh nghiệp bảo hiểm.", "A&B đều đúng.", "A&B đều sai."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 82, "source": "Buổi 2 - Câu 20", "question": "Tài sản đầu tư của quỹ liên kết đơn vị không được đầu tư vào đâu?", "options": ["Các quỹ đầu tư chứng khoán, cổ phiếu của các công ty đầu tư chứng khoán thành lập và hoạt động tại Việt Nam.", "Trực tiếp vào bất động sản, vàng, bạc, kim loại quý, đá quý.", "A&B đều sai.", "A&B đều đúng."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 83, "source": "Buổi 2 - Câu 21", "question": "Hợp đồng Bảo Hiểm Liên Kết Đơn Vị?", "options": ["Là Hợp đồng bảo hiểm nhân thọ cho phép Công ty bảo hiểm chủ động đầu tư mà không cần tham khảo bất cứ ý kiến nào của khách hàng, kể cả việc lựa chọn quỹ đầu tư.", "Là Hợp đồng bảo hiểm nhân thọ cho phép cả Công ty bảo hiểm và khách hàng cùng đầu tư thông qua các Qũy đã chọn.", "Là Hợp đồng bảo hiểm nhân thọ cho phép khách hàng tham gia đầu tư thông qua các Quỹ đã chọn.", "Cả 3 câu trên đều sai."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 84, "source": "Buổi 2 - Câu 22", "question": "Doanh nghiệp bảo hiểm phải bảo đảm tra cứu được trên website của DNBH thông tin về giá bán, giá mua đơn vị của quỹ liên kết đơn vị trong khoảng thời gian bao lâu?", "options": ["2 năm", "3 năm", "4 năm", "5 năm"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 85, "source": "Buổi 2 - Câu 23", "question": "Một trong những điều kiện để Doanh nghiệp bảo hiểm được triển khai bảo hiểm liên kết đơn vị là:", "options": ["Biên khả năng thanh toán của Doanh nghiệp bảo hiểm lớn hơn biên khả năng thanh toán tối thiểu 200 tỷ đồng Việt Nam. Vốn điều lệ đóng góp cao hơn mức vốn pháp định từ 200 tỷ đồng Việt Nam trở lên.", "Biên khả năng thanh toán của Doanh nghiệp bảo hiểm lớn hơn biên khả năng thanh toán tối thiểu 300 tỷ đồng Việt Nam. Vốn điều lệ đóng góp cao hơn mức vốn pháp định từ 300 tỷ đồng Việt Nam trở lên.", "Biên khả năng thanh toán của Doanh nghiệp bảo hiểm lớn hơn biên khả năng thanh toán tối thiểu 400 tỷ đồng Việt Nam. Vốn điều lệ đóng góp cao hơn mức vốn pháp định từ 400 tỷ đồng Việt Nam trở lên.", "Biên khả năng thanh toán của Doanh nghiệp bảo hiểm lớn hơn biên khả năng thanh toán tối thiểu 500 tỷ đồng Việt Nam. Vốn điều lệ đóng góp cao hơn mức vốn pháp định từ 500 tỷ đồng Việt Nam trở lên."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 86, "source": "Buổi 2 - Câu 24", "question": "Doanh nghiệp bảo hiểm không được minh họa quyền lợi đầu tư dài hơn bao nhiêu năm?", "options": ["10 năm", "15 năm", "20 năm", "30 năm"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 87, "source": "Buổi 2 - Câu 25", "question": "Lựa chọn phương án đúng:", "options": ["Doanh nghiệp bảo hiểm triển khai sản phẩm Bảo hiểm liên kết đơn vị phải ủy thác cho một đơn vị đầu tư chuyên nghiệp như công ty quản lý quỹ được giám sát bởi Ngân hàng để đảm bảo phù hợp mục tiêu, chính sách đầu tư của quỹ.", "Doanh nghiệp bảo hiểm triển khai sản phẩm bảo hiểm liên kết đơn vị được quyền chủ động quản lý, đầu tư các tài sản từ các quỹ liên kết đơn vị.", "Doanh nghiệp bảo hiểm triển khai sản phẩm bảo hiểm liên kết đơn vị được lựa chọn tự quản lý hoặc thuê công ty quản lý quỹ để quản lý danh mục đầu tư các tài sản của các quỹ liên kết đơn vị."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 88, "source": "Buổi 2 - Câu 26", "question": "Hãy chọn các quy định đúng:", "options": ["Doanh nghiệp bảo hiểm thực hiện giải quyết yêu cầu mua thêm hoặc bán lại đơn vị quỹ liên kết đơn vị tại ngày định giá vừa qua.", "Doanh nghiệp bảo hiểm không được phép từ chối việc Bên mua bảo hiểm mua thêm hoặc bán lại đơn vị quỹ liên kết đơn vị khi Bên mua bảo hiểm đã đáp ứng các điều kiện theo quy định.", "Bên mua bảo hiểm chỉ được mua thêm hoặc bán lại đơn vị quỹ liên kết đơn vị cho doanh nghiệp bảo hiểm.", "Giá mua hoặc giá bán đơn vị quỹ liên kết đơn vị được định giá mỗi ngày."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 89, "source": "Buổi 2 - Câu 27", "question": "Giá trị tài sản ròng của mỗi đơn vị quỹ liên kết đơn vị được xác định bằng:", "options": ["Tổng giá trị tài sản của quỹ liên kết đơn vị chia cho tổng số đơn vị của quỹ liên kết đơn vị.", "Tổng giá trị của các tài sản có trong quỹ liên kết đơn vị trừ đi các công nợ có liên quan chia cho tổng số đơn vị của quỹ liên kết đơn vị.", "Giá bán đơn vị quỹ liên kết đơn vị trừ 5%.", "Giá mua đơn vị quỹ liên kết đơn vị."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 90, "source": "Buổi 2 - Câu 28", "question": "Theo pháp luật kinh doanh bảo hiểm, việc xác định Giá bán – Giá mua các Đơn vị của Quỹ liên kết đơn vị là:", "options": ["Được xác định dựa trên giá trị tài sản ròng của mỗi đơn vị của quỹ liên kết đơn vị vào ngày định giá ngay sau ngày khi doanh nghiệp bảo hiểm nhận được yêu cầu mua hoặc bán đơn vị của quỹ liên kết đơn vị.", "Chênh lệch giữa giá bán và giá mua đơn vị của một quỹ liên kết đơn vị không được vượt quá 5% của giá bán.", "A và B đúng.", "A và B sai."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 91, "source": "Buổi 2 - Câu 29", "question": "Phát biểu nào sau đây là sai khi nói về sản phẩm Bảo hiểm liên kết đơn vị:", "options": ["Là sản phẩm thuộc nghiệp vụ bảo hiểm liên kết đầu tư.", "Là sản phẩm thuộc nghiệp vụ bảo hiểm hỗn hợp.", "Là sản phẩm bảo hiểm có sự tách bạch giữa quyền lợi bảo hiểm rủi ro và quyền lợi đầu tư.", "Là sản phẩm bảo hiểm có cơ cấu phí bảo hiểm được tách bạch giữa phí đem đi đầu tư và phí ban đầu."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 92, "source": "Buổi 2 - Câu 30", "question": "Chọn đáp án đúng khi nói về Cơ chế hoạt động của sản phẩm Bảo hiểm liên kết đơn vị:", "options": ["Công ty Bảo hiểm triển khai sản phẩm bảo hiểm liên kết đơn vị phải thành lập các quỹ liên kết đơn vị, thực hiện định giá tài sản của các quỹ liên kết đơn vị & thực hiện công bố công khai giá bán và giá mua đơn vị quỹ.", "Sau khi trừ đi khoản phí ban đầu, phí bảo hiểm cơ bản và phí bảo hiểm đóng thêm của Bên mua bảo hiểm sẽ được sử dụng để mua đơn vị quỹ của các quỹ liên kết đơn vị do Công ty bảo hiểm thành lập, tương ứng theo chỉ định của Bên mua bảo hiểm", "Giá mua các đơn vị quỹ được tính là giá mua do Công ty bảo hiểm công bố vào ngày định giá kế tiếp sau ngày đóng phí.", "Tất cả các câu trên đều đúng."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 93, "source": "Buổi 2 - Câu 31", "question": "Chọn đáp án đúng khi nói về Cơ chế hoạt động của sản phẩm bảo hiểm liên kết đơn vị:", "options": ["Giá trị tài khoản liên kết đơn vị của Khách hàng có quyền điều chỉnh số tiền đầu tư của mình giữa các quỹ liên kết đơn vị thông qua việc mua & bán các đơn vị quỹ liên kết đơn vị.", "Giá trị tài khoản liên kết đơn vị sẽ được chi trả đáo hạn Hợp đồng hoặc khi xảy ra sự kiện bảo hiểm", "Tại mọi thời điểm hiệu lực của Hợp đồng, Khách hàng có thể rút một phần giá trị tài khoản thông qua việc bán các đơn vị quỹ của quỹ liên kết đơn vị.", "Tất cả các câu trên đều đúng."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 94, "source": "Buổi 2 - Câu 32", "question": "Đối với hợp đồng bảo hiểm liên kết đơn vị đóng phí cơ bản định kỳ, trường hợp có quy định về thời gian bắt buộc đóng phí thì thời gian bắt buộc đóng phí không vượt quá ?", "options": ["02 năm", "03 năm", "04 năm", "05 năm"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 95, "source": "Buổi 2 - Câu 33", "question": "Phí bảo hiểm cơ bản của sản phẩm Bảo hiểm liên kết đơn vị là:", "options": ["Khoản phí bảo hiểm được xác định dựa trên số tiền bảo hiểm do khách hàng lựa chọn và được quy định tại hợp đồng bảo hiểm liên kết đầu tư.", "Khoản Phí bảo hiểm của Sản phẩm Bảo hiểm chính mà Bên Mua Bảo Hiểm chọn đóng tại thời điểm tham gia Hợp đồng bảo hiểm theo quy định.", "A và B đúng", "A và B sai."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 96, "source": "Buổi 2 - Câu 34", "question": "Trong thời gian bắt buộc đóng phí, Doanh nghiệp bảo hiểm phải bảo đảm Hợp đồng bảo hiểm liên kết đầu tư không bị mất hiệu lực nếu :", "options": ["Khách hàng đã đóng đủ phí bảo hiểm cơ bản.", "Khách hàng đã đóng đủ phí bảo hiểm cơ bản và không có giao dịch rút trước giá trị tài khoản.", "Khách hàng đã đóng đủ phí bảo hiểm cơ bản và có giao dịch rút trước giá trị tài khoản.", "Không có câu nào đúng"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 97, "source": "Buổi 2 - Câu 35", "question": "Quy định về khoản phí bảo hiểm đóng thêm của sản phẩm bảo hiểm liên kết đơn vị trong mỗi năm hợp đồng:", "options": ["Đối với hợp đồng đóng phí định kỳ, tổng số phí bảo hiểm đóng thêm không được vượt quá 05 lần mức phí bảo hiểm cơ bản quy năm của năm hợp đồng hiện tại.", "Đối với hợp đồng đóng phí một lần, tổng số phí bảo hiểm đóng thêm không vượt quá phí bảo hiểm cơ bản", "Bên mua bảo hiểm cần phải đóng đủ phí bảo hiểm cơ bản hoặc phí bảo hiểm đóng 1 lần đã thỏa thuận trong Hợp đồng bảo hiểm trước khi đóng thêm khoản phí bảo hiểm đóng thêm.", "Tất cả các câu trên đều đúng."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 98, "source": "Buổi 2 - Câu 36", "question": "Khoản phí tính cho BMBH trong sản phẩm bảo hiểm liên kết đơn vị, phí Ban đầu là:", "options": ["Khoản phí dùng để bù đắp chi phí liên quan tới việc khai thác Hợp đồng bảo hiểm, chi phí vốn của Doanh nghiệp bảo hiểm.", "Khoản phí đối với quyền lợi bảo hiểm rủi ro theo cam kết tại hợp đồng bảo hiểm.", "Khoản phí để bù đắp chi phí liên quan đến việc duy trì hợp đồng bảo hiểm và cung cấp thông tin liên quan đến Hợp đồng bảo hiểm cho Bên mua bảo hiểm.", "Khoản phí tính cho Bên mua bảo hiểm khi thực hiện chuyển đổi tài sản đầu tư giữa các quỹ liên kết đơn vị."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 99, "source": "Buổi 2 - Câu 37", "question": "Khoản phí tính cho BMBH trong sản phẩm Bảo hiểm liên kết đơn vị, phí Rủi ro là:", "options": ["Khoản phí dùng để bù đắp chi phí liên quan tới việc khai thác Hợp đồng bảo hiểm, chi phí vốn của Doanh nghiệp bảo hiểm.", "Khoản phí để chi trả quyền lợi bảo hiểm rủi ro theo cam kết tại Hợp đồng bảo hiểm.", "Khoản phí để bù đắp chi phí liên quan đến việc duy trì Hợp đồng bảo hiểm và cung cấp thông tin liên quan đến Hợp đồng bảo hiểm cho Bên mua bảo hiểm.", "Khoản phí tính cho Bên mua bảo hiểm khi thực hiện chuyển đổi tài sản đầu tư giữa các quỹ liên kết đơn vị."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 100, "source": "Buổi 2 - Câu 38", "question": "Khoản phí tính cho BMBH trong sản phẩm Bảo hiểm liên kết đơn vị, phí Quản lý hợp đồng là:", "options": ["Khoản phí dùng để bù đắp chi phí liên quan tới việc khai thác Hợp đồng bảo hiểm, chi phí vốn của doanh nghiệp bảo hiểm.", "Khoản phí để chi trả quyền lợi bảo hiểm rủi ro theo cam kết tại hợp đồng bảo hiểm.", "Được dùng bù đắp chi phí liên quan đến việc duy trì hợp đồng bảo hiểm và cung cấp thông tin liên quan đến hợp đồng bảo hiểm cho Bên mua bảo hiểm.", "Khoản phí tính cho Bên mua bảo hiểm khi thực hiện chuyển đổi tài sản đầu tư giữa các quỹ liên kết đơn vị."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 101, "source": "Buổi 2 - Câu 39", "question": "Khoản phí tính cho BMBH trong sản phẩm bảo hiểm liên kết đơn vị, phí Quản lý Quỹ là:", "options": ["Khoản phí dùng để bù đắp chi phí liên quan tới việc khai thác hợp đồng bảo hiểm, chi phí vốn của doanh nghiệp bảo hiểm.", "Khoản phí để chi trả quyền lợi bảo hiểm rủi ro theo cam kết tại hợp đồng bảo hiểm.", "Được dùng để chi trả cho các hoạt động đầu tư, hoạt động định giá tài sản, hoạt động giám sát và quản lý quỹ.", "Khoản phí tính cho Bên mua bảo hiểm khi thực hiện chuyển đổi tài sản đầu tư giữa các quỹ liên kết đơn vị."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 102, "source": "Buổi 2 - Câu 40", "question": "Khoản phí tính cho BMBH trong sản phẩm bảo hiểm liên kết đơn vị, phí Chấm dứt hợp đồng trước hạn là:", "options": ["Khoản phí dùng để bù đắp chi phí liên quan tới việc khai thác hợp đồng bảo hiểm, chi phí vốn của doanh nghiệp bảo hiểm.", "Khoản phí để chi trả quyền lợi bảo hiểm rủi ro theo cam kết tại hợp đồng bảo hiểm.", "Được dùng để bù đắp các khoản chi phí hợp lý có liên quan đến việc Bên mua bảo hiểm chấm dứt hợp đồng bảo hiểm trước hạn.", "Khoản phí tính cho Bên mua bảo hiểm khi thực hiện chuyển đổi tài sản đầu tư giữa các quỹ liên kết đơn vị."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 103, "source": "Buổi 2 - Câu 41", "question": "Phần phí bảo hiểm sau khi khấu trừ phần phí ban đầu là phần phí đem đi đầu tư và được phân bổ vào quỹ liên kết đầu tư trong thời hạn không quá ...... kể từ ngày doanh nghiệp bảo hiểm nhận được phí bảo hiểm.", "options": ["15 ngày", "21 ngày", "30 ngày", "45 ngày"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 104, "source": "Buổi 2 - Câu 42", "question": "Doanh nghiệp bảo hiểm có thể thay đổi các mức phí và tỷ lệ các khoản phí áp dụng cho Bên mua bảo hiểm sau khi thông báo cho Bên mua bảo hiểm bằng văn bản ít nhất …...... trước thời điểm chính thức thay đổi.", "options": ["01 tháng", "02 tháng", "03 tháng", "04 tháng"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 105, "source": "Buổi 2 - Câu 43", "question": "Để bảo đảm cho Bên mua bảo hiểm có thể phân biệt các quỹ liên kết đơn vị do Doanh nghiệp bảo hiểm triển khai, Pháp luật kinh doanh bảo hiểm yêu cầu:", "options": ["Các quỹ liên kết đơn vị có chính sách đầu tư, mục tiêu đầu tư, và hạn mức đầu tư riêng biệt.", "Các quỹ liên kết đơn vị có chính sách đầu tư, mục tiêu đầu tư, và hạn mức đầu tư chung cho các quỹ.", "A và B đúng.", "A và B sai."], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 106, "source": "Buổi 2 - Câu 44", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định về quỹ liên kết đơn vị do doanh nghiệp bảo hiểm triển khai là:", "options": ["Doanh nghiệp bảo hiểm phải thông báo bằng văn bản cho Bộ tài chính & công bố thông tin cho Bên mua bảo hiểm về nguyên nhân của các sai lệch về hạn mức đầu tư của quỹ, các biện pháp khắc phục & kết quả của việc khắc phục.", "Doanh nghiệp bảo hiểm có trách nhiệm đền bù thiệt hại với mức đền bù theo thiệt hại thực tế cho Bên mua bảo hiểm và quỹ khi không tuân thủ mục tiêu và chính sách đầu tư đã đăng ký với Bộ tài chính hoặc khi đầu tư vào các tài sản bị hạn chế/vượt mức đầu tư theo quy định.", "A và B đúng.", "A và B sai."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 107, "source": "Buổi 2 - Câu 45", "question": "Theo pháp luật kinh doanh bảo hiểm, trường hợp sai lệch về hạn mức đầu tư của quỹ là do doanh nghiệp hoặc công ty quản lý quỹ không tuân thủ các hạn mức đầu tư theo quy định, DNBH phải yêu cầu công ty quản lý quỹ điều chỉnh lại danh mục đầu tư trong thời hạn ......... kể từ khi sai lệch phát sinh.", "options": ["07 ngày", "15 ngày", "21 ngày", "30 ngày"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 108, "source": "Buổi 2 - Câu 46", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định về việc định giá Quỹ liên kết đơn vị?", "options": ["Định giá tài sản của quỹ liên kết đơn vị theo định kỳ tối thiểu một tuần/lần - quy định cụ thể ngày định giá trong quy tắc điều khoản sản phẩm bảo hiểm & tuân thủ theo quy định của Pháp luật.", "Ngân hàng giám sát được thành lập và hoạt động hợp pháp tại Việt Nam phê duyệt việc xác định giá trị tài sản ròng của quỹ liên kết đơn vị.", "Doanh nghiệp bảo hiểm phải chịu hoàn toàn trách nhiệm trong trường hợp có sai sót khi định giá đơn vị của quỹ liên kết đơn vị và phải bồi thường theo luật định.", "Tất cả các câu trên đều đúng."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 109, "source": "Buổi 2 - Câu 47", "question": "Theo pháp luật kinh doanh bảo hiểm, trường hợp có sai sót khi định giá Quỹ liên kết đơn vị, DNBH phải ?", "options": ["Có báo cáo phương án khắc phục sai sót khi định giá đơn vị quỹ, phương án đền bù thiệt hại cho quỹ, Bên mua bảo hiểm.", "Nêu rõ nguyên nhân xảy ra sự việc, thời gian quỹ bị định giá sai, mức độ thiệt hại của quỹ, mức độ thiệt hại của bên mua bảo hiểm, kèm theo danh sách bên mua bảo hiểm có quyền lợi bị ảnh hưởng.", "Dự kiến được đền bù và mức đền bù của từng Bên mua bảo hiểm cho Bộ Tài chính chậm nhất là bảy (07) ngày làm việc kể từ ngày phát hiện sai sót.", "Tất cả các câu trên đều đúng."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 110, "source": "Buổi 2 - Câu 48", "question": "Theo Pháp luật kinh doanh bảo hiểm, trường hợp có sai sót khi định giá Quỹ liên kết đơn vị, trong vòng bao nhiêu ngày làm việc kể từ ngày có báo cáo cho Bộ Tài chính, DNBH phải tiến hành đền bù thiệt hại phát sinh cho Bên mua bảo hiểm và Quỹ liên kết đơn vị?", "options": ["07 ngày", "15 ngày", "21 ngày", "30 ngày"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 111, "source": "Buổi 2 - Câu 49", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định về việc mua và bán các đơn vị của Quỹ liên kết đơn vị ?", "options": ["Bên mua bảo hiểm thực hiện bán lại đơn vị quỹ liên kết đơn vị khi Hợp đồng bảo hiểm của Bên mua bảo hiểm còn hiệu lực và số đơn vị quỹ muốn bán đáp ứng quy định về số tiền tối thiểu của DNBH.", "Bên mua bảo hiểm có yêu cầu bán đơn vị quỹ liên kết đơn vị theo mẫu của Doanh nghiệp bảo hiểm, trong đó nêu rõ số đơn vị quỹ liên kết đơn vị muốn bán hoặc tỷ lệ % vào mỗi quỹ liên kết đơn vị muốn bán hoặc số tiền muốn rút khỏi quỹ liên kết đơn vị và xác nhận trên yêu cầu bán đơn vị quỹ liên kết đơn vị.", "Doanh nghiệp bảo hiểm thực hiện giải quyết yêu cầu mua thêm hoặc bán lại đơn vị quỹ liên kết đơn vị tại ngày định giá kế tiếp. Giá mua hoặc giá bán đơn vị quỹ liên kết đơn vị được xác định theo quy định.", "Tất cả các câu trên đều đúng."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 112, "source": "Buổi 2 - Câu 50", "question": "Theo pháp luật kinh doanh bảo hiểm, Hội đồng đầu tư quỹ liên kết đơn vị sẽ tiến hành các hoạt động nào sau đây?", "options": ["Phê duyệt chính sách, quy trình đầu tư của từng quỹ liên kết đơn vị.", "Quyết định việc đóng quỹ; thay đổi tên; chia tách hoặc sáp nhập các đơn vị quỹ hiện có;", "Ngừng định giá đơn vị quỹ và các giao dịch liên quan đến Hợp đồng bảo hiểm trong trường hợp đặc biệt.", "Phê duyệt việc lựa chọn tài sản đầu tư phù hợp với các hạn mức đầu tư theo quy định.", "Tất cả các câu trên đều đúng."], "correctAnswer": 4, "explanation": "", "hint": "" }, { "id": 113, "source": "Buổi 2 - Câu 51", "question": "Một công ty bảo hiểm muốn sáp nhập hai quỹ liên kết đơn vị hiện có để tối ưu hóa danh mục đầu tư. Theo Pháp luật kinh doanh bảo hiểm, ai có thẩm quyền quyết định việc này?", "options": ["Ban giám đốc công ty bảo hiểm.", "Bộ Công Thương.", "Hội đồng đầu tư quỹ liên kết đơn vị của DNBH.", "Công ty quản lý quỹ và Ngân hàng giám sát."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 114, "source": "Buổi 2 - Câu 52", "question": "Theo Pháp luật kinh doanh bảo hiểm, Hội đồng đầu tư quỹ liên kết đơn vị có ít nhất bao nhiêu thành viên?", "options": ["02 thành viên", "03 thành viên", "04 thành viên", "05 thành viên"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 115, "source": "Buổi 2 - Câu 53", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định công ty quản lý quỹ liên kết đơn vị sẽ:", "options": ["Nhận ủy thác của Doanh nghiệp bảo hiểm sẽ tiến hành đầu tư các tài sản của các quỹ liên kết đơn vị theo đúng hạn mức, mục tiêu, chiến lược đầu tư của từng quỹ liên kết đơn vị và quy định của pháp luật hiện hành.", "Công ty quản lý quỹ được sử dụng tài sản của quỹ liên kết đơn vị để thực hiện đầu tư ngoài nội dung quy định tại hợp đồng uỷ thác của doanh nghiệp bảo hiểm nhằm nâng cao giá trị của quỹ.", "Có trách nhiệm cung cấp thông tin và giá trị các tài sản đầu tư cho doanh nghiệp bảo hiểm trước thời điểm định giá kế tiếp.", "A và C đúng."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 116, "source": "Buổi 2 - Câu 54", "question": "Theo Pháp luật kinh doanh bảo hiểm, đáp án nào dưới đây là đúng:", "options": ["Công ty quản lý quỹ có trách nhiệm phối hợp với ngân hàng giám sát, định kỳ đánh giá giá trị tài sản ròng của quỹ liên kết đơn vị và giá trị tài sản ròng trên một đơn vị của quỹ liên kết đơn vị và báo cáo về danh mục đầu tư, về định giá và tình hình hoạt động của quỹ liên kết đơn vị.", "Doanh nghiệp bảo hiểm có trách nhiệm đối chiếu các khoản đầu tư của Công ty quản lý quỹ và tài khoản lưu ký tại ngân hàng, đảm bảo thống nhất số liệu quy định tại ngày định giá.", "A và B đúng.", "A và B sai."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 117, "source": "Buổi 2 - Câu 55", "question": "Với bất kỳ sai sót hoặc tổn thất nào gây ra do việc định giá sai quỹ liên kết đơn vị, tổ chức nào dưới đây sẽ chịu trách nhiệm chính:", "options": ["Công ty quản lý quỹ", "Doanh nghiệp bảo hiểm", "Ngân hàng giám sát", "Cả 3 tổ chức trên"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 118, "source": "Buổi 2 - Câu 56", "question": "Theo Pháp luật kinh doanh bảo hiểm, đối với quỹ liên kết đơn vị, tại sao Doanh nghiệp bảo hiểm phải sử dụng Ngân hàng giám sát?", "options": ["Để giám sát việc quản lý tài sản của các quỹ liên kết đơn vị của doanh nghiệp bảo hiểm hoặc công ty quản lý quỹ được doanh nghiệp bảo hiểm ủy quyền.", "Để phối hợp với Doanh nghiệp bảo hiểm và công ty quản lý quỹ định kỳ rà soát giá trị tài sản ròng, định giá quỹ liên kết đơn vị, giá trị tài sản ròng trên một đơn vị của quỹ liên kết đơn vị, bảo đảm các giá trị này được tính đúng, chính xác và phù hợp quy định của pháp luật.", "A và B đúng.", "A và B sai."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 119, "source": "Buổi 2 - Câu 57", "question": "Theo pháp luật kinh doanh bảo hiểm, nhằm xác nhận việc tuân thủ trong hoạt động đầu tư của công ty quản lý quỹ và Doanh nghiệp bảo hiểm so với các mục tiêu đầu tư của quỹ liên kết đơn vị và quy định của pháp luật, Ngân hàng giám sát có trách nhiệm lập và lưu trữ trong thời gian .......... các hồ sơ, chứng từ dưới dạng văn bản và tệp dữ liệu điện tử?", "options": ["03 năm", "05 năm", "07 năm", "10 năm"], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 120, "source": "Buổi 2 - Câu 58", "question": "Đối với sản phẩm bảo hiểm liên kết đơn vị, Bên mua bảo hiểm có quyền nào sau đây:", "options": ["Thay đổi tỷ lệ đầu tư vào các quỹ liên kết đơn vị.", "Thay đổi Số tiền bảo hiểm; Thay đổi Phí bảo hiểm.", "Nhận các báo cáo thường niên và các quyền khác quy định tại quy tắc, điều khoản sản phẩm bảo hiểm liên kết đơn vị.", "Tất cả các đáp án đều đúng."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 121, "source": "Buổi 2 - Câu 59", "question": "Tư vấn cho khách hàng chọn lựa sản phẩm Bảo hiểm liên kết đơn vị thì phải cần xác định nhu cầu sau:", "options": ["Nhu cầu bảo hiểm", "Nhu cầu tài chính tương lai", "Nhu cầu đầu tư", "Tất cả các nhu cầu trên"], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 122, "source": "Buổi 2 - Câu 60", "question": "Tại sao phải phân tích nhu cầu tài chính tương lai và khảo sát mức độ chấp nhận rủi ro trước khi lựa chọn sản phẩm Bảo hiểm liên kết đơn vị và quỹ đầu tư cho khách hàng?", "options": ["Để xác định nhu cầu tài chính ưu tiên của khách hàng trong tương lai.", "Để biết khả năng tài chính hiện tại của khách hàng.", "Để biết khẩu vị rủi ro của khách hàng.", "Tất cả các ý trên."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 123, "source": "Buổi 2 - Câu 61", "question": "Tại sao phải khảo sát mức độ chấp nhận rủi ro cho khách hàng khi tư vấn sản phẩm Bảo hiểm liên kết đơn vị?", "options": ["Để xác định mức độ phù hợp đối với dòng sản phẩm bảo hiểm liên kết đơn vị cho khách hàng.", "Để lựa chọn quỹ đầu tư phù hợp với khẩu vị rủi ro của khách hàng.", "Đảm bảo sự chuyên nghiệp của đội ngũ tư vấn và bảo vệ danh tiếng của Công Ty.", "Tất cả các ý trên."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 124, "source": "Buổi 2 - Câu 62", "question": "Sản phẩm BH liên kết đơn vị không phù hợp với đối tượng khách hàng nào?", "options": ["Khách hàng không có tính thanh khoản cao về mặt tài chính.", "Khách hàng không có khả năng đóng phí đều đặn và liên tục.", "Khách hàng dễ bị tổn thương về mặt tài chính và mức độ chấp nhận rủi ro không cao.", "Tất cả đối tượng khách hàng nêu trên."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 125, "source": "Buổi 2 - Câu 63", "question": "Trong quy trình tư vấn sản phẩm Bảo hiểm liên kết đơn vị cho khách hàng, tại sao bước phân tích nhu cầu tài chính lại quan trọng và là một bước phải thực hiện (theo yêu cầu của Bộ Tài Chính)?", "options": ["Chọn lọc khách hàng trước khi đề xuất sản phẩm Bảo hiểm liên kết đơn vị như một giải pháp tài chính.", "Để tìm hiểu nhu cầu thực sự của khách hàng.", "Đảm bảo sự chuyên nghiệp của đội ngũ tư vấn và bảo vệ danh tiếng của Công Ty.", "Tất cả các ý trên."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 126, "source": "Buổi 2 - Câu 64", "question": "Công cụ nào sau đây sẽ giúp cho khách hàng xác định mức độ chấp nhận rủi ro để lựa chọn quỹ đầu tư phù hợp:", "options": ["Bảng phân tích nhu cầu tài chính.", "Bảng kiểm tra sức khỏe tài chính.", "Phiếu đánh giá mức độ chấp nhận rủi ro.", "Bảng minh họa quyền lợi bảo hiểm."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 127, "source": "Buổi 2 - Câu 65", "question": "Chọn đáp án đúng về quy định Tên của sản phẩm Bảo hiểm liên kết đơn vị?", "options": ["Phù hợp với tính chất của sản phẩm bảo hiểm và phải đảm bảo có thành tố Sản phẩm liên kết đơn vị.", "Phù hợp với tính chất của sản phẩm bảo hiểm và phải đảm bảo có thành tố Sản phẩm bảo hiểm liên kết đơn vị.", "Phù hợp với tính chất của sản phẩm bảo hiểm và phải đảm bảo có thành tố liên kết đơn vị.", "Phù hợp với tính chất của sản phẩm bảo hiểm và phải đảm bảo có thành tố Bảo hiểm liên kết đơn vị."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 128, "source": "Buổi 2 - Câu 66", "question": "Trong thời hạn bao nhiêu tháng kể từ ngày sai lệch phát sinh Doanh nghiệp bảo hiểm phải yêu cầu công ty quản lý quỹ điều chỉnh lại danh mục đầu tư để đảm bảo các hạn mức đầu tư quy định tại mục này?", "options": ["1 tháng", "2 tháng", "3 tháng", "4 tháng"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 129, "source": "Buổi 2 - Câu 67", "question": "Hãy chọn đáp án đúng về nội dung đào tạo Bảo hiểm liên kết đơn vị:", "options": ["Kiến thức chung về thị trường tài chính; Kiến thức cơ bản về đầu tư; Nội dung của sản phẩm bảo hiểm liên kết đơn vị doanh nghiệp bảo hiểm được phép kinh doanh;", "Pháp luật kinh doanh bảo hiểm về sản phẩm bảo hiểm liên kết đơn vị;", "Kỹ năng bán sản phẩm bảo hiểm liên kết đơn vị; Thực hành tư vấn và bán sản phẩm bảo hiểm liên kết đơn vị.", "A, B và C đúng."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 130, "source": "Buổi 2 - Câu 68", "question": "Đại lý bảo hiểm được phép tư vấn, giới thiệu, chào bán sản phẩm liên kết đơn vị khi nào?", "options": ["Khi đạt chứng chỉ đại lý bảo hiểm phi nhân thọ.", "Khi đạt chứng chỉ đại lý bảo hiểm chăm sóc sức khỏe.", "Khi đạt chứng chỉ đại lý bảo hiểm liên kết đơn vị.", "Khi đạt chứng chỉ đại lý bảo hiểm liên kết chung."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 131, "source": "Buổi 2 - Câu 69", "question": "Đối với sản phẩm Bảo hiểm liên kết đơn vị, Bên mua bảo hiểm có quyền yêu cầu Doanh nghiệp bảo hiểm:", "options": ["Cung cấp Bảng phân tích nhu cầu tham gia bảo hiểm.", "Tư vấn đầy đủ thông tin và giải thích các điều kiện, điều khoản bảo hiểm để nhận thức được các rủi ro liên quan.", "Lựa chọn các quỹ liên kết đơn vị phù hợp trước khi giao kết hợp đồng bảo hiểm liên kết đơn vị hoặc khi nhận chuyển giao hợp đồng bảo hiểm liên kết đơn vị theo thỏa thuận trong hợp đồng bảo hiểm liên kết đơn vị.", "Tất cả các đáp án đều đúng."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 132, "source": "Buổi 2 - Câu 70", "question": "Theo Pháp luật kinh doanh bảo hiểm, trước khi giao kết Hợp đồng bảo hiểm liên kết đơn vị, Doanh nghiệp bảo hiểm phải thực hiện những nội dung nào khi phân tích nhu cầu tham gia bảo hiểm của khách hàng?", "options": ["Đánh giá khả năng tài chính của Bên mua bảo hiểm.", "Đánh giá mức độ chấp nhận rủi ro trong đầu tư.", "Báo cáo kết quả tư vấn sản phẩm bảo hiểm.", "Tất cả các câu trên đều đúng."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 133, "source": "Buổi 2 - Câu 71", "question": "Anh A muốn mua sản phẩm bảo hiểm liên kết đơn vị. Đại lý chỉ hỏi về thu nhập và khả năng đóng phí, sau đó lập hợp đồng mà không đánh giá khẩu vị rủi ro hay kinh nghiệm đầu tư của anh A. Theo quy định Pháp luật kinh doanh bảo hiểm thì việc này có đúng không?", "options": ["Đúng, vì đã đánh giá khả năng tài chính.", "Sai, vì phải đánh giá cả mức độ chấp nhận rủi ro và lập báo cáo tư vấn."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 134, "source": "Buổi 2 - Câu 72", "question": "Theo pháp luật kinh doanh bảo hiểm, quy định chung về phân tích nhu cầu tham gia bảo hiểm của khách hàng. Trong đó “Bảng câu hỏi đánh giá mức độ chấp nhận rủi ro trong đầu tư” phải rõ ràng, cụ thể để có thể xác định được mức độ chấp nhận rủi ro của Bên mua bảo hiểm, tối thiểu chi tiết theo bao nhiêu nhóm?", "options": ["3 nhóm", "5 nhóm", "7 nhóm", "9 nhóm"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 135, "source": "Buổi 2 - Câu 73", "question": "Theo Pháp luật kinh doanh bảo hiểm, trong quy định chung về phân tích nhu cầu tham gia bảo hiểm của khách hàng, Doanh nghiệp bảo hiểm cần tư vấn quỹ liên kết đơn vị như thế nào đối với từng nhóm khách hàng?", "options": ["Tư vấn quỹ có lợi nhuận cao nhất cho mọi khách hàng", "Tư vấn quỹ theo lựa chọn ngẫu nhiên của doanh nghiệp", "Tư vấn quỹ phù hợp với mức độ chấp nhận rủi ro của khách hàng", "Tư vấn quỹ theo độ tuổi của khách hàng"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 136, "source": "Buổi 2 - Câu 74", "question": "Theo Pháp luật kinh doanh bảo hiểm, trong quy định chung về phân tích nhu cầu tham gia bảo hiểm của khách hàng, khi Doanh nghiệp bảo hiểm cung cấp nhiều quỹ liên kết đơn vị, điều nào sau đây là bắt buộc?", "options": ["Khách hàng phải chọn ít nhất hai quỹ.", "Doanh nghiệp phải xác định mức độ chấp nhận rủi ro và phân loại nhóm khách hàng tương ứng với từng quỹ.", "Doanh nghiệp chỉ cần giới thiệu quỹ có lợi nhuận tốt nhất.", "Khách hàng không cần xác nhận báo cáo kết quả tư vấn."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 137, "source": "Buổi 2 - Câu 75", "question": "Theo Pháp luật kinh doanh bảo hiểm, Hợp đồng bảo hiểm liên kết đơn vị phải bắt buộc tuân thủ điều gì?", "options": ["Chính sách nội bộ của Doanh nghiệp bảo hiểm", "Quy định pháp luật hiện hành", "Quy định của Đại lý bảo hiểm", "Ý kiến của Bên mua bảo hiểm"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 138, "source": "Buổi 2 - Câu 76", "question": "Theo Pháp luật kinh doanh bảo hiểm, trong quy định chung về Hợp đồng bảo hiểm, thông tin nào sau đây phải có trong hợp đồng bảo hiểm liên kết đơn vị?", "options": ["Sở thích đầu tư của Đại lý bảo hiểm.", "Mục tiêu và chính sách đầu tư của từng quỹ liên kết đơn vị.", "Lịch sử đầu tư của khách hàng.", "Tên người quản lý quỹ."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 139, "source": "Buổi 2 - Câu 77", "question": "Theo pháp luật kinh doanh bảo hiểm, trong quy định chung về Hợp đồng bảo hiểm liên kết đơn vị, BMBH có thể lựa chọn điều gì trong hợp đồng?", "options": ["Không đồng ý Điều khoản loại trừ đã quy định.", "Các quỹ liên kết đơn vị và tỷ lệ phân bổ phí bảo hiểm để mua đơn vị quỹ.", "Mức lãi suất cố định.", "Loại tiền tệ sử dụng trong hợp đồng."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 140, "source": "Buổi 2 - Câu 78", "question": "Theo pháp luật kinh doanh bảo hiểm, trong quy định chung về Hợp đồng bảo hiểm liên kết đơn vị, để bảo vệ & gia tăng quyền lợi của Bên mua bảo hiểm, DNBH phải làm gì trước khi áp dụng các biện pháp như đóng quỹ, đổi tên quỹ, chia tách/sáp nhập quỹ?", "options": ["Xin phép đại lý bảo hiểm và khách hàng", "Thông báo cho khách hàng", "Thay đổi hợp đồng mà không cần báo trước", "Tự động chuyển đổi quỹ cho phù hợp"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 141, "source": "Buổi 2 - Câu 79", "question": "Theo pháp luật kinh doanh bảo hiểm, trong quy định chung về Hợp đồng bảo hiểm liên kết đơn vị, để bảo vệ & gia tăng quyền lợi của Bên mua bảo hiểm, trong trường hợp Sở giao dịch chứng khoán bị tạm ngừng giao dịch, Doanh nghiệp bảo hiểm có thể thực hiện điều gì?", "options": ["Tăng phí bảo hiểm", "Hủy hợp đồng bảo hiểm", "Chuyển toàn bộ quỹ sang tiền mặt", "Ngừng định giá đơn vị quỹ và các giao dịch liên quan đến Hợp đồng bảo hiểm."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 142, "source": "Buổi 2 - Câu 80", "question": "Theo Pháp luật kinh doanh bảo hiểm, trong quy định chung về Hợp đồng bảo hiểm liên kết đơn vị, khách hàng có thể thực hiện thay đổi nào dưới đây trong Hợp đồng bảo hiểm liên kết đơn vị?", "options": ["Thay đổi Người thụ hưởng mà không cần thông báo.", "Thay đổi tên Doanh nghiệp bảo hiểm.", "Thay đổi loại hình bảo hiểm sang bảo hiểm sức khỏe.", "Thay đổi tỷ lệ phí bảo hiểm phân bổ vào quỹ, phí bảo hiểm và chuyển đổi giữa các quỹ."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 143, "source": "Buổi 2 - Câu 81", "question": "Theo Pháp luật kinh doanh bảo hiểm, trong quy định khai thác sản phẩm bảo hiểm liên kết đơn vị, Doanh nghiệp bảo hiểm có quyền gì ?", "options": ["Tự ý thay đổi điều khoản hợp đồng.", "Thu các khoản phí tính cho Bên mua bảo hiểm theo thỏa thuận tại hợp đồng bảo hiểm.", "Từ chối cung cấp thông tin về Quỹ liên kết đơn vị.", "Tự động chuyển đổi quỹ mà không cần sự đồng ý của khách hàng."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 144, "source": "Buổi 2 - Câu 82", "question": "Theo pháp luật kinh doanh bảo hiểm, trong quy định khai thác sản phẩm bảo hiểm liên kết đơn vị, DNBH có nghĩa vụ gì ?", "options": ["Thực hiện các cam kết theo thoả thuận tại hợp đồng bảo hiểm liên kết đơn vị;.", "Phải thông báo kịp thời cho khách hàng về tình trạng của Hợp đồng.", "Kiểm tra độc lập nội dung tư vấn sản phẩm bảo hiểm của đại lý; Lưu trữ và bảo mật các tài liệu, dữ liệu ghi âm theo quy định.", "Tất cả các nghĩa vụ trên."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 145, "source": "Buổi 2 - Câu 83", "question": "Theo Pháp luật kinh doanh bảo hiểm, trong quy định khai thác sản phẩm bảo hiểm liên kết đơn vị, DNBH phải kiểm tra nội dung tư vấn sản phẩm bảo hiểm của đại lý vào thời điểm nào?", "options": ["Sau khi hợp đồng đã phát hành.", "Khi khách hàng yêu cầu.", "Sau khi khách hàng đóng phí bảo hiểm đầu tiên.", "Trước khi quyết định phát hành hợp đồng."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 146, "source": "Buổi 2 - Câu 84", "question": "Theo Pháp luật kinh doanh bảo hiểm, trong quy định khai thác sản phẩm, Thời gian lưu trữ và bảo mật các tài liệu, dữ liệu ghi âm liên quan đến hợp đồng bảo hiểm liên kết đơn vị là bao lâu?", "options": ["Ít nhất 01 năm kể từ ngày ký hợp đồng.", "Đến khi khách hàng yêu cầu hủy hợp đồng.", "Ít nhất 05 năm kể từ ngày hợp đồng có hiệu lực.", "Không có quy định cụ thể."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 147, "source": "Buổi 2 - Câu 85", "question": "Theo Pháp luật kinh doanh bảo hiểm, trong quy định khai thác sản phẩm bảo hiểm liên kết đơn vị, BMBH có quyền yêu cầu Doanh nghiệp bảo hiểm cung cấp tài liệu nào trước khi giao kết hợp đồng?", "options": ["Bảng kê chi tiết các khoản đầu tư của quỹ.", "Bảng phân tích nhu cầu tham gia bảo hiểm.", "Báo cáo tài chính của Ngân hàng giám sát.", "Danh sách đại lý bảo hiểm."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 148, "source": "Buổi 2 - Câu 86", "question": "Theo Pháp luật kinh doanh bảo hiểm, trong quy định khai thác sản phẩm bảo hiểm liên kết đơn vị, BMBH có thể thực hiện việc nào sau đây trong suốt thời hạn hợp đồng?", "options": ["Thay đổi điều khoản hợp đồng.", "Linh hoạt đóng phí ngoài thời gian đóng phí bắt buộc (nếu có).", "A và B đúng.", "A và B sai."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 149, "source": "Buổi 2 - Câu 87", "question": "Theo Pháp luật kinh doanh bảo hiểm, trong quy định khai thác sản phẩm Bảo hiểm liên kết đơn vị, một trong các quyền của Bên mua bảo hiểm là:", "options": ["Yêu cầu doanh nghiệp bảo hiểm cam kết lợi nhuận đầu tư.", "Rút một phần hoặc toàn bộ giá trị tài khoản của hợp đồng.", "Tự định giá đơn vị quỹ.", "Miễn xác nhận vào tài liệu tư vấn của Đại lý bảo hiểm."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 150, "source": "Buổi 2 - Câu 88", "question": "Theo Pháp luật kinh doanh bảo hiểm, trong quy định khai thác sản phẩm bảo hiểm liên kết đơn vị, BMBH có nghĩa vụ gì liên quan đến tài liệu do DNBH cung cấp?", "options": ["Chỉ cần đọc toàn bộ hồ sơ, tài liệu.", "Không cần xác nhận nếu đã nghe Đại lý BH tư vấn đầy đủ.", "Đọc kỹ và xác nhận vào các tài liệu được cung cấp.", "Chỉ xác nhận nếu có yêu cầu bằng văn bản từ DNBH"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 151, "source": "Buổi 2 - Câu 89", "question": "Theo Pháp luật kinh doanh bảo hiểm, trong quy định khai thác sản phẩm bảo hiểm liên kết đơn vị, DNBH phải thông báo bằng văn bản cho BMBH về kết quả hoạt động của từng Quỹ liên kết đơn vị trong vòng ............... kể từ ngày kết thúc năm tài chính hoặc năm hợp đồng?", "options": ["30 ngày", "60 ngày", "90 ngày", "120 ngày"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 152, "source": "Buổi 2 - Câu 90", "question": "Theo Pháp luật kinh doanh bảo hiểm, trong quy định khai thác sản phẩm bảo hiểm liên kết đơn vị, nội dung nào sau đây không cần được DNBH thông báo bằng văn bản cho Bên mua bảo hiểm?", "options": ["Toàn bộ tình trạng của Hợp đồng bảo hiểm khi giá trị tài khoản không đủ để thanh toán cho khoản phí rủi ro.", "Thông tin cá nhân của người Đại diện doanh nghiệp.", "Kết quả hoạt động của từng Quỹ liên kết đơn vị", "Giá trị tài khoản không đủ để thanh toán cho khoản phí rủi ro, phí quản lý hợp đồng cho tháng kế tiếp dẫn đến nguy cơ hợp đồng mất hiệu lực."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 153, "source": "Buổi 2 - Câu 91", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định tài liệu giới thiệu sản phẩm bảo hiểm liên kết đơn vị do DNBH biên soạn, cần khẳng định điều gì về quyền lợi và rủi ro đầu tư của Bên mua bảo hiểm?", "options": ["Bên mua bảo hiểm không chịu rủi ro đầu tư.", "Bên mua bảo hiểm chỉ chịu một phần rủi ro đầu tư.", "Bên mua bảo hiểm được bảo đảm lợi nhuận đầu tư.", "Bên mua bảo hiểm được hưởng toàn bộ kết quả đầu tư và chịu toàn bộ rủi ro đầu tư."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 154, "source": "Buổi 2 - Câu 92", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định tài liệu giới thiệu sản phẩm bảo hiểm liên kết đơn vị do DNBH biên soạn, một trong những yêu cầu đối với tài liệu giới thiệu sản phẩm là điều nào dưới đây?", "options": ["Giới thiệu chi tiết về công ty bảo hiểm.", "Giới thiệu đặc tính cơ bản của sản phẩm bảo hiểm liên kết đơn vị.", "Cung cấp thông tin về tất cả các loại hình bảo hiểm.", "Chỉ ra những rủi ro không liên quan đến đầu tư."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 155, "source": "Buổi 2 - Câu 93", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định tài liệu giới thiệu sản phẩm bảo hiểm liên kết đơn vị do DNBH biên soạn, DNBH cần ghi rõ điều gì khi tạm ngừng việc bán/mua đơn vị quỹ?", "options": ["Lý do tài chính", "Phương án thay thế", "Thời gian tạm ngừng", "Các trường hợp khiến cho DNBH tạm ngừng việc bán/mua đơn vị quỹ"], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 156, "source": "Buổi 2 - Câu 94", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định tài liệu giới thiệu sản phẩm bảo hiểm liên kết đơn vị do DNBH biên soạn, những loại phí nào cần được nêu rõ trong tài liệu giới thiệu sản phẩm?", "options": ["Phí tư vấn và phí chuyển đổi quỹ", "Phí hoa hồng cho đại lý", "Phí bảo trì hệ thống thông tin", "Phí ban đầu, phí quản lý quỹ, phí rủi ro bảo hiểm, phí quản lý hợp đồng và các khoản phí khác"], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 157, "source": "Buổi 2 - Câu 95", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định tài liệu giới thiệu sản phẩm bảo hiểm liên kết đơn vị do DNBH biên soạn, những quyền lợi nào của BMBH cần được nêu rõ trong tài liệu giới thiệu sản phẩm?", "options": ["Các quyền lợi đảm bảo cho Bên mua bảo hiểm (quyền lợi bảo hiểm tử vong, đáo hạn, hủy bỏ Hợp đồng hoặc các cam kết khác).", "Điều kiện để nhận được các quyền lợi bảo hiểm.", "Các quyền lợi không được đảm bảo.", "Tất cả các câu trên."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 158, "source": "Buổi 2 - Câu 96", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định tài liệu giới thiệu sản phẩm bảo hiểm liên kết đơn vị do DNBH biên soạn, kết quả hoạt động của các quỹ được yêu cầu báo cáo trong khoảng thời gian?", "options": ["3 năm tài chính gần nhất", "5 năm tài chính gần nhất", "Toàn bộ thời gian thành lập và hoạt động nếu ngắn hơn 3 năm", "Toàn bộ thời gian thành lập và hoạt động nếu ngắn hơn 7 năm"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 159, "source": "Buổi 2 - Câu 97", "question": "Trong sản phẩm bảo hiểm liên kết đơn vị, tại sao Bên mua bảo hiểm không nên hủy hợp đồng trước thời hạn?", "options": ["Vì sẽ bị phạt tiền", "Vì các khoản phí có thể phải trả rất cao trong thời gian đầu"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 160, "source": "Buổi 2 - Câu 98", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định tài liệu giới thiệu sản phẩm bảo hiểm liên kết đơn vị do DNBH biên soạn, thông tin kết quả hoạt động đầu tư trong quá khứ của quỹ liên kết đơn vị có ý nghĩa gì?", "options": ["Là cam kết cho kết quả đầu tư trong tương lai.", "Chỉ dùng để tham khảo, không đảm bảo cho kết quả đầu tư trong tương lai.", "Là cơ sở để tính toán quyền lợi bảo hiểm", "Là điều kiện bắt buộc để phát hành hợp đồng."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 161, "source": "Buổi 2 - Câu 99", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định tài liệu giới thiệu Sản phẩm Bảo hiểm liên kết đơn vị do DNBH biên soạn, phông chữ nào được quy định sử dụng trong tài liệu giới thiệu sản phẩm?", "options": ["Arial với cỡ chữ 12.", "Time New Roman với cỡ chữ tối thiểu là 12.", "Calibri với cỡ chữ 10.", "Tahoma với cỡ chữ 11."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 162, "source": "Buổi 2 - Câu 100", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định tài liệu giới thiệu sản phẩm bảo hiểm liên kết đơn vị do DNBH biên soạn, phải cảnh báo điều gì đối với BMBH?", "options": ["Phải đóng phí đúng hạn để được hoàn tiền.", "Phải cung cấp thông tin cá nhân đầy đủ.", "Phải tuân thủ các quy định tại Hợp đồng bảo hiểm để nhận các quyền lợi bảo hiểm theo thỏa thuận.", "Phải ký xác nhận vào tài liệu giới thiệu sản phẩm."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 163, "source": "Buổi 2 - Câu 101", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định tài liệu minh họa bán hàng của Sản phẩm Bảo hiểm liên kết đơn vị phải được cung cấp cho BMBH vào thời điểm nào?", "options": ["Sau khi ký hợp đồng bảo hiểm.", "Khi nào khách hàng yêu cầu.", "Trước khi giao kết hợp đồng bảo hiểm.", "Sau khi hoàn tất thanh toán phí bảo hiểm."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 164, "source": "Buổi 2 - Câu 102", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định tài liệu minh họa bán hàng của Sản phẩm Bảo hiểm liên kết đơn vị phải minh họa rõ những quyền lợi nào của khách hàng?", "options": ["Quyền lợi đầu tư khi quỹ có lãi.", "Quyền lợi bảo hiểm rủi ro và quyền lợi đầu tư.", "Quyền lợi bảo hiểm rủi ro và quyền lợi đầu tư kể cả khi kết quả đầu tư bị âm.", "Không có câu nào đúng."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 165, "source": "Buổi 2 - Câu 103", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định tài liệu minh họa bán hàng của Sản phẩm Bảo hiểm liên kết đơn vị phải trình bày như thế nào?", "options": ["Theo ngôn ngữ chuyên ngành tài chính", "Dựa trên kỳ vọng đầu tư cao", "Rõ ràng, dễ hiểu và không tạo kỳ vọng không thực tế vào số tiền có thể được nhận", "Theo mẫu do đại lý bảo hiểm cung cấp"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 166, "source": "Buổi 2 - Câu 104", "question": "Theo Pháp luật kinh doanh bảo hiểm, quy định tài liệu minh họa bán hàng của Sản phẩm Bảo hiểm liên kết đơn vị các khoản phí phải trình bày như thế nào?", "options": ["Gộp chung tất cả các loại phí", "Chỉ nêu phí bảo hiểm rủi ro", "Không cần nêu rõ hạn mức chi trả tối đa", "Tách bạch giữa Phí bảo hiểm cho quyền lợi rủi ro và các khoản phí khác"], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 167, "source": "Buổi 2 - Câu 105", "question": "Theo Pháp luật kinh doanh bảo hiểm, đối với Sản phẩm Bảo hiểm liên kết đơn vị, tỷ lệ hoa hồng tối đa với phương thức nộp phí định kỳ của năm hợp đồng thứ nhất là?", "options": ["7%", "10%", "20%", "30%"], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 168, "source": "Buổi 2 - Câu 106", "question": "Theo Pháp luật kinh doanh bảo hiểm, đối với Sản phẩm Bảo hiểm liên kết đơn vị, tỷ lệ hoa hồng tối đa với phương thức nộp phí định kỳ của năm hợp đồng thứ hai là?", "options": ["7%", "10%", "20%", "30%"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 169, "source": "Buổi 2 - Câu 107", "question": "Theo Pháp luật kinh doanh bảo hiểm, đối với Sản phẩm Bảo hiểm liên kết đơn vị, tỷ lệ hoa hồng tối đa với phương thức nộp phí định kỳ của năm hợp đồng thứ ba là?", "options": ["7%", "10%", "20%", "30%"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 170, "source": "Buổi 2 - Câu 108", "question": "Theo Pháp luật kinh doanh bảo hiểm, đối với Sản phẩm Bảo hiểm liên kết đơn vị, tỷ lệ hoa hồng tối đa với phương thức nộp phí một lần là?", "options": ["7%", "10%", "20%", "30%"], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 171, "source": "Buổi 2 - Câu 109", "question": "Theo Pháp luật kinh doanh bảo hiểm, đối với Sản phẩm Bảo hiểm liên kết đơn vị, trong quá trình tư vấn, đại lý bảo hiểm phải thực hiện khảo sát điều gì từ khách hàng?", "options": ["Lịch sử đầu tư cá nhân khách hàng.", "Mức độ hài lòng với sản phẩm của khách hàng.", "Mức độ chấp nhận rủi ro của khách hàng.", "Sở thích cá nhân của khách hàng."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 172, "source": "Buổi 2 - Câu 110", "question": "Theo Pháp luật kinh doanh bảo hiểm, đối với Sản phẩm Bảo hiểm liên kết đơn vị, trong quá trình tư vấn, thông tin về sản phẩm phải được đại lý cung cấp từ nguồn nào ?", "options": ["Tài liệu cá nhân của đại lý bảo hiểm.", "Bảng minh họa do đại lý bảo hiểm tự soạn.", "Website của Doanh nghiệp bảo hiểm.", "Mạng xã hội và các diễn đàn về bảo hiểm."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 173, "source": "Buổi 2 - Câu 111", "question": "Theo Pháp luật kinh doanh bảo hiểm, đối với Sản phẩm Bảo hiểm liên kết đơn vị, đại lý bảo hiểm phải báo cáo cho DNBH kết quả tư vấn cho khách hàng, bao gồm:", "options": ["Thông tin cơ bản của Khách hàng.", "Khả năng tài chính để tham gia bảo hiểm.", "Tường thuật quá trình tư vấn bảo hiểm thông qua các dữ liệu ghi âm, ghi hình", "Tất cả các câu trên."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 174, "source": "Buổi 2 - Câu 112", "question": "Theo Pháp luật kinh doanh bảo hiểm, đối với Sản phẩm Bảo hiểm liên kết đơn vị, đại lý bảo hiểm không được phép làm gì liên quan đến hợp đồng bảo hiểm cũ của khách hàng?", "options": ["Tư vấn lại quyền lợi của hợp đồng cũ.", "Cung cấp thông tin về hợp đồng mới.", "Tác động hoặc xúi giục khách hàng thay thế hoặc hủy bỏ hợp đồng cũ để tham gia hợp đồng mới.", "So sánh thời hạn bảo hiểm của hợp đồng cũ và mới"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 175, "source": "Buổi 2 - Câu 113", "question": "Theo Pháp luật kinh doanh bảo hiểm, đối với Sản phẩm Bảo hiểm liên kết đơn vị, đại lý bảo hiểm?", "options": ["Không được minh họa kết quả hoạt động trước đây của quỹ liên kết để đảm bảo kết quả trong tương lai.", "Không được so sánh hoặc đảm bảo chắc chắn kết quả đầu tư của Quỹ liên kết đơn vị này là tốt hơn so với quỹ liên kết của đơn vị khác hoặc của Doanh nghiệp bảo hiểm khác.", "A và B đúng.", "A và B sai."], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 176, "source": "Buổi 2 - Câu 114", "question": "Anh A đã có chứng chỉ Đại lý bảo hiểm nhân thọ cơ bản và muốn tư vấn sản phẩm bảo hiểm liên kết đơn vị cho khách hàng. Theo quy định của Pháp luật kinh doanh bảo hiểm, Anh A cần phải làm gì trước khi được phép tư vấn sản phẩm này?", "options": ["Chỉ cần hoàn thành khóa đào tạo kỹ năng tư vấn sản phẩm bảo hiểm liên kết đơn vị.", "Thi và đạt chứng chỉ Đại lý bảo hiểm liên kết đơn vị.", "Chỉ cần được quản lý trực tiếp cho phép.", "Không cần làm gì thêm, nếu muốn thì thực hiện tư vấn."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 177, "source": "Buổi 2 - Câu 115", "question": "Chị B vừa hoàn thành kỳ thi chứng chỉ Đại lý bảo hiểm liên kết đơn vị. Sau bao lâu Doanh nghiệp bảo hiểm sẽ nhận được thông báo kết quả và chứng chỉ từ Viện phát triển Bảo hiểm Việt Nam (VIDI)?", "options": ["03 ngày.", "05 ngày.", "07 ngày.", "10 ngày."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 178, "source": "Buổi 2 - Câu 116", "question": "Một Đại lý tham gia kỳ thi chứng chỉ Đại lý bảo hiểm liên kết đơn vị đạt 14/20 câu trong bài kiểm tra. Đại lý này có đạt yêu cầu không?", "options": ["Có, vì chỉ cần làm hết bài thi là được.", "Có, vì đã đạt trên 50% bài thi.", "Không, vì phải đạt 100% bài thi.", "Không, vì chưa đạt 75% theo quy định."], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 179, "source": "Buổi 2 - Câu 117", "question": "Anh C muốn chuẩn bị học và tham gia kỳ thi chứng chỉ Đại lý bảo hiểm liên kết đơn vị. Nội dung nào sau đây sẽ KHÔNG có trong chương trình đào tạo?", "options": ["Kiến thức chung về thị trường tài chính.", "Kiến thức cơ bản về đầu tư.", "Kiến thức về marketing bảo hiểm.", "Kiến thức cơ bản về nghiệp vụ bảo hiểm liên kết đơn vị"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 180, "source": "Buổi 2 - Câu 118", "question": "Một đại lý chưa có chứng chỉ Đại lý bảo hiểm nhân thọ cơ bản nhưng muốn đăng ký thi chứng chỉ Đại lý bảo hiểm liên kết đơn vị. Vậy có được không?", "options": ["Có, nếu được Doanh nghiệp bảo hiểm đồng ý.", "Không, vì phải có chứng chỉ Đại lý bảo hiểm nhân thọ cơ bản trước.", "Có, nếu hoàn thành các khóa đào tạo nội bộ.", "Có, nếu đạt điểm cao trong các bài kiểm tra thử."], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 181, "source": "Buổi 3 - Câu 1", "question": "[Tính số lượng ĐVQ] Phí ban đầu TK Cơ bản: Năm 1 60%; Năm 2 40%; Năm 3 10%; Năm 4 10%; Năm 5 2%. Phí ban đầu TK Đầu tư: Năm 1 5%; Năm 2-5 2%. Tỷ lệ phân bổ 3 quỹ: Tăng trưởng 30%, Cân bằng 30%, Thận trọng 40%. Giá ĐVQ 3/2: Tăng trưởng 15.000, Cân bằng 12.000, Thận trọng 10.000 VND. Giá ĐVQ 10/2: Tăng trưởng 12.000, Cân bằng 10.000, Thận trọng 10.000 VND. Ngày 2/2 KH đóng 30 triệu Cơ bản và 120 triệu đầu tư. Ngày 5/2 phí BH rủi ro là 400 ngàn đồng, chờ phân bổ vào ngày 10/2/2023. Tính số lượng ĐVQ KH nắm giữ sau khi trừ phí BH rủi ro.", "options": ["5025 ĐVQ quỹ tăng trưởng, 3138 ĐVQ quỹ cân bằng, 2510 ĐVQ quỹ thận trọng", "2510 ĐVQ quỹ tăng trưởng, 3138 ĐVQ quỹ cân bằng, 6285 ĐVQ quỹ thận trọng", "2510 ĐVQ quỹ tăng trưởng, 3138 ĐVQ quỹ cân bằng, 5024 ĐVQ quỹ thận trọng", "3510 ĐVQ quỹ tăng trưởng, 4138 ĐVQ quỹ cân bằng, 5024 ĐVQ quỹ thận trọng"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 182, "source": "Buổi 3 - Câu 2", "question": "[Tính số lượng ĐVQ] Sản phẩm BH liên kết đơn vị có 3 quỹ: Tăng trưởng, Cân bằng, Thận trọng. Phí ban đầu TK Cơ bản: Năm 1 60%; Năm 2 40%; Năm 3 10%; Năm 4 10%; Năm 5 2%. Phí ban đầu TK Đầu tư: Năm 1 5%; Năm 2-5 2%. Ngày 2/2/2023 KH A đóng phí Cơ bản hàng năm 50 triệu, phí đóng thêm 200 triệu; tỷ lệ phân bổ 30% Tăng trưởng, 40% Cân bằng, 30% Thận trọng. Giá ĐVQ (giá mua = giá bán) ngày 03/02/2023: Tăng trưởng 15.000, Cân bằng 12.000, Thận trọng 10.000 VND; ngày 10/02/2023: Tăng trưởng 12.500, Cân bằng 10.000, Thận trọng 10.000 VND. Ngày 5/2/2023 phí BH rủi ro là 500 nghìn đồng/tháng, chờ phân bổ vào ngày định giá kế tiếp 10/2/2023. Tính số lượng ĐVQ của mỗi quỹ KH nắm giữ sau khi bị trừ phí BH rủi ro.", "options": ["Tăng trưởng 4.200, Cân bằng 7.000, Thận trọng 6.300 ĐVQ", "Tăng trưởng 4.190, Cân bằng 6.980, Thận trọng 6.285 ĐVQ", "Tăng trưởng 4.188, Cân bằng 6.980, Thận trọng 6.285 ĐVQ", "Tăng trưởng 4.188, Cân bằng 6.980, Thận trọng 6.300 ĐVQ"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 183, "source": "Buổi 3 - Câu 3", "question": "[Tính số lượng ĐVQ] Phí ban đầu TK Cơ bản: Năm 1 60%; Năm 2 40%; Năm 3 10%; Năm 4 10%; Năm 5 2%. Phí ban đầu TK đầu tư thêm: Năm 1 5%; Năm 2-5 2%. Ngày 2/2/2023 KH A đóng phí Cơ bản hàng năm 50 triệu, phí đóng thêm 200 triệu; tỷ lệ phân bổ 30% Tăng trưởng, 40% Cân bằng, 30% Thận trọng. Giá ĐVQ ngày 3/2/2023 (ngày định giá kế tiếp): Tăng trưởng 15.000, Cân bằng 12.000, Thận trọng 10.000 VND. Phí BH rủi ro là 400 ngàn, chờ phân bổ vào ngày 3/2/2023. Tính số lượng ĐVQ Quỹ Tăng trưởng KH nắm giữ tại ngày 3/2/2023.", "options": ["4.200 ĐVQ", "4.192 ĐVQ", "4.190 ĐVQ", "4.180 ĐVQ"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 184, "source": "Buổi 3 - Câu 4", "question": "[Tính số lượng ĐVQ] Giả định giá mua bằng giá bán ĐVQ, KH A đầu tư vào 2 quỹ. Tỷ lệ đầu tư: 40% Quỹ năng động, 60% Quỹ cân bằng (áp dụng cho phí Cơ bản và phí bảo hiểm đóng thêm). Số lượng ĐVQ trước ngày định giá 5/8/2022: 100 ĐVQ Quỹ năng động và 400 ĐVQ Quỹ cân bằng; KH có khoản phí đóng thêm chờ phân bổ (đã trừ phí ban đầu) là 1.000.000 đồng. Ngày định giá 5/8/2022: Quỹ năng động 20.000 đồng/ĐVQ; Quỹ cân bằng 10.000 đồng/ĐVQ. Hỏi: Số lượng ĐVQ từng quỹ của KH A sau ngày định giá 5/8/2022 còn bao nhiêu?", "options": ["Quỹ năng động 120 ĐVQ, Quỹ cân bằng 460 ĐVQ", "Quỹ năng động 140 ĐVQ, Quỹ cân bằng 430 ĐVQ", "Quỹ năng động 130 ĐVQ, Quỹ cân bằng 440 ĐVQ", "A, B, C sai"], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 185, "source": "Buổi 3 - Câu 5", "question": "[Tính số lượng ĐVQ] Giả định giá mua bằng giá bán ĐVQ, KH A đầu tư vào 2 quỹ. Tỷ lệ đầu tư: 40% Quỹ năng động, 60% Quỹ cân bằng (áp dụng cho Phí cơ bản và Phí bảo hiểm đóng thêm). Số lượng ĐVQ trước ngày định giá 5/8/2021: 100 ĐVQ Quỹ năng động và 400 ĐVQ Quỹ cân bằng; KH có khoản phí đóng thêm chờ phân bổ (đã trừ phí ban đầu) là 100 triệu đồng. Ngày định giá 5/8/2021: Quỹ năng động 20.000 đồng/ĐVQ; Quỹ cân bằng 10.000 đồng/ĐVQ. Hỏi: Số lượng ĐVQ của mỗi quỹ của KH A sau ngày định giá 5/8/2021 còn bao nhiêu?", "options": ["Quỹ năng động 2.000 ĐVQ, Quỹ cân bằng 6.000 ĐVQ", "Quỹ năng động 2.100 ĐVQ, Quỹ cân bằng 6.000 ĐVQ", "Quỹ năng động 2.100 ĐVQ, Quỹ cân bằng 6.400 ĐVQ", "A, B, C sai"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 186, "source": "Buổi 3 - Câu 6", "question": "[Tính số lượng ĐVQ] Phí ban đầu TK Cơ bản: Năm 1 60%; Năm 2 40%; Năm 3 10%; Năm 4 10%; Năm 5 2%. Phí ban đầu Đầu tư thêm: Năm 1 5%; Năm 2-5 2%. Tỷ lệ phân bổ 3 quỹ: Tăng trưởng 30%, Cân bằng 30%, Thận trọng 40%. Giá ĐVQ: Tăng trưởng 15.000, Cân bằng 12.000, Thận trọng 10.000 đồng. KH đóng phí: 30 triệu vào TK cơ bản; 120 triệu vào TK đầu tư thêm. Hỏi: Số lượng ĐVQ Quỹ Cân bằng là bao nhiêu?", "options": ["3.150 ĐVQ", "3.750 ĐVQ", "3.000 ĐVQ", "4.200 ĐVQ"], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 187, "source": "Buổi 3 - Câu 7", "question": "[Tính số lượng ĐVQ] Phí ban đầu TK Cơ bản: Năm 1 60%; Năm 2 40%; Năm 3 10%; Năm 4 10%; Năm 5 2%. Phí ban đầu TK đầu tư thêm: Năm 1 5%; Năm 2-5 2%. Tỷ lệ phân bổ 3 quỹ: Tăng trưởng 20%, Cân bằng 60%, Thận trọng 20%. Giá ĐVQ: Tăng trưởng 15.000, Cân bằng 12.000, Thận trọng 10.000 đồng. KH đóng phí: 25 triệu vào TK cơ bản; 100 triệu vào TK đầu tư thêm. Hỏi: Số lượng ĐVQ Quỹ Cân bằng là bao nhiêu?", "options": ["5.000 ĐVQ", "6.250 ĐVQ", "5.250 ĐVQ", "5.500 ĐVQ"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 188, "source": "Buổi 3 - Câu 8", "question": "[Tính số lượng ĐVQ] Phí ban đầu TK Cơ bản: Năm 1 60%; Năm 2 40%; Năm 3 10%; Năm 4 10%; Năm 5 2%. Phí ban đầu TK Đầu tư thêm: Năm 1 5%; Năm 2-5 2%. Tỷ lệ phân bổ 3 quỹ: Tăng trưởng 30%, Cân bằng 30%, Thận trọng 40%. Giá ĐVQ: Tăng trưởng 15.000, Cân bằng 12.000, Thận trọng 10.000 đồng. KH đóng phí: 30 triệu vào TK cơ bản; 120 triệu vào TK đầu tư thêm. Hỏi: Số lượng ĐVQ Quỹ Tăng trưởng là bao nhiêu?", "options": ["3.000 ĐVQ", "2.520 ĐVQ", "2.800 ĐVQ", "2.250 ĐVQ"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 189, "source": "Buổi 3 - Câu 9", "question": "[Tính số lượng ĐVQ] Phí ban đầu TK Cơ bản: Năm 1 60%; Năm 2 40%; Năm 3 10%; Năm 4 10%; Năm 5 2%. Phí ban đầu TK Đầu tư thêm: Năm 1 5%; Năm 2-5 2%. Tỷ lệ phân bổ 3 quỹ: Tăng trưởng 25%, Cân bằng 50%, Thận trọng 25%. Giá ĐVQ: Tăng trưởng 15.000, Cân bằng 12.000, Thận trọng 10.000 đồng. KH đóng phí: 40 triệu Cơ bản, 160 triệu đầu tư thêm. Hỏi: Số lượng ĐVQ Quỹ Tăng trưởng là bao nhiêu?", "options": ["3.333 ĐVQ", "2.500 ĐVQ", "3.000 ĐVQ", "2.800 ĐVQ"], "correctAnswer": 3, "explanation": "", "hint": "" }, { "id": 190, "source": "Buổi 3 - Câu 10", "question": "[Tính số lượng ĐVQ] Phí ban đầu TK Cơ bản: Năm 1 60%; Năm 2 40%; Năm 3 10%; Năm 4 10%; Năm 5 2%. Phí ban đầu TK Đầu tư thêm: Năm 1 5%; Năm 2-5 2%. Tỷ lệ phân bổ 3 quỹ: Tăng trưởng 25%, Cân bằng 50%, Thận trọng 25%. Giá ĐVQ: Tăng trưởng 15.000, Cân bằng 12.000, Thận trọng 10.000 đồng. KH đóng phí: 40 triệu Cơ bản, 160 triệu Đầu tư thêm. Hỏi: Số lượng ĐVQ Quỹ Thận trọng là bao nhiêu?", "options": ["4.200 ĐVQ", "5.000 ĐVQ", "4.000 ĐVQ", "4.500 ĐVQ"], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 191, "source": "Buổi 3 - Câu 11", "question": "[Tính số lượng ĐVQ] Phí ban đầu TK Cơ bản: Năm 1 60%; Năm 2 40%; Năm 3 10%; Năm 4 10%; Năm 5 2%. Phí ban đầu Đầu tư thêm: Năm 1 5%; Năm 2-5 2%. Tỷ lệ phân bổ 3 quỹ: Tăng trưởng 30%, Cân bằng 30%, Thận trọng 40%. Giá ĐVQ: Tăng trưởng 15.000, Cân bằng 12.000, Thận trọng 10.000 đồng. KH đóng phí: 30 triệu Cơ bản, 120 triệu Đầu tư thêm. Hỏi: Số lượng ĐVQ Quỹ Thận trọng là bao nhiêu?", "options": ["6.000 ĐVQ", "4.800 ĐVQ", "5.040 ĐVQ", "5.400 ĐVQ"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 192, "source": "Buổi 3 - Câu 12", "question": "[Tính Giá trị TK Hợp đồng] Giả định giá mua bằng giá bán ĐVQ, KH A đầu tư vào 2 quỹ. Tỷ lệ đầu tư 40% Quỹ năng động, 60% Quỹ cân bằng. Số lượng ĐVQ định giá trước ngày 5/8/2022: 100 ĐVQ Năng động, 400 ĐVQ Cân bằng. Ngày định giá 5/8/2022: Quỹ Năng động 20.000 đồng/ĐVQ; Quỹ Cân bằng 10.000 đồng/ĐVQ. Xác định giá trị tài khoản của KH sau ngày định giá nêu trên.", "options": ["06 triệu đồng", "02 triệu đồng", "04 triệu đồng", "3,2 triệu đồng"], "correctAnswer": 0, "explanation": "", "hint": "" }, { "id": 193, "source": "Buổi 3 - Câu 13", "question": "[Tính Giá trị TK Hợp đồng] Giả định giá mua bằng giá bán ĐVQ, KH A đầu tư vào 3 quỹ. Số lượng ĐVQ: 3.000 Tăng trưởng; 2.000 Cân bằng; 2.000 Thận trọng. Giá ĐVQ ngày 3/2: Tăng trưởng 15.000, Cân bằng 12.000, Thận trọng 10.000 đồng. Ngày 10/2: 15.500; 12.000; 10.000 đồng. Ngày 17/2: 16.000; 12.500; 10.300 đồng. Ngày 24/2: 16.500; 12.500; 11.000 đồng. Tính GTTK, biết rằng ngày 25/2 không có phí bị trừ từ 3/2 - 25/2.", "options": ["93,6 triệu đồng", "96,5 triệu đồng", "90,5 triệu đồng", "89 triệu đồng"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 194, "source": "Buổi 3 - Câu 14", "question": "[Tính Giá trị TK Hợp đồng] LKĐV 3 quỹ: 3.000 ĐVQ Tăng Trưởng; 4.000 ĐVQ Cân Bằng; 3.000 ĐVQ Thận Trọng. Giá ĐVQ ngày 3/2: Tăng Trưởng 15.000, Cân Bằng 12.000, Thận Trọng 10.000 đồng. Ngày 10/2: 15.500; 12.000; 10.000 đồng. Ngày 17/2: 20.000; 12.000; 10.000 đồng. Ngày 24/2: 20.000; 12.500; 10.000 đồng. Ngày 15/02 phí BH rủi ro là 600 ngàn, trừ theo tỷ lệ 30% Tăng trưởng, 40% Cân bằng, 30% Thận trọng vào ngày 17/02. Tính Giá trị tài khoản của KH vào ngày 25/02/2024.", "options": ["130,56 triệu", "137,4 triệu", "139,39 triệu", "142,55 triệu"], "correctAnswer": 2, "explanation": "", "hint": "" }, { "id": 195, "source": "Buổi 3 - Câu 15", "question": "[Tính Giá trị TK Hợp đồng] LKĐV 3 quỹ: 1.000 ĐVQ Tăng Trưởng; 2.000 ĐVQ Cân Bằng; 1.000 ĐVQ Thận Trọng. Giá ĐVQ ngày 3/2: Tăng Trưởng 15.000, Cân Bằng 12.000, Thận Trọng 10.000 đồng. Ngày 10/2: 15.500; 12.000; 10.000 đồng. Ngày 17/2: 20.000; 12.500; 10.000 đồng. Ngày 24/2: 20.000; 12.500; 11.000 đồng. Công ty tính phí BH rủi ro là 400.000 đồng, khấu trừ theo tỷ lệ 25% Tăng trưởng, 50% Cân bằng, 25% Thận trọng (vào ngày 17/02/2024). Tính giá trị tài khoản của KH vào ngày 25/02/2024.", "options": ["56 triệu đồng", "55,59 triệu đồng", "55,6 triệu đồng", "54,59 triệu đồng"], "correctAnswer": 1, "explanation": "", "hint": "" }, { "id": 196, "source": "Buổi 3 - Câu 16", "question": "[Tính Giá trị TK Hợp đồng] Phí ban đầu TK Cơ bản: Năm 1 60%; Năm 2 40%; Năm 3 10%; Năm 4 10%; Năm 5 2%. Phí ban đầu TK Đầu tư thêm: Năm 1 5%; Năm 2-5 2%. Ngày 2/2/2023 KH A mua sản phẩm BH liên kết đơn vị, đóng phí Cơ bản hàng năm 50 triệu đồng, phí đóng thêm 200 triệu đồng; tỷ lệ phân bổ 30% Tăng trưởng, 40% Cân bằng, 30% Thận trọng. ĐVQ định giá hàng tuần (giá mua = giá bán). Giá ngày 3/2/2023: Tăng Trưởng 15.000, Cân Bằng 12.000, Thận Trọng 10.000 đồng. Ngày 10/2/2023: 15.500; 12.000; 10.000 đồng. Ngày 17/2/2023: 16.000; 12.500; 10.300 đồng. Tính giá trị tài khoản của KH vào ngày 18/2/2023.", "options": ["210 triệu đồng", "212,1 triệu đồng", "217,5 triệu đồng", "219,59 triệu đồng"], "correctAnswer": 3, "explanation": "", "hint": "" }];
+    (() => {
+      'use strict'; const DURATION = 2400, PASS_RATE = 0.75, DEFAULT_TOTAL = 20; let state = null, timerId = null, locked = false; const $ = id => document.getElementById(id); const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { let j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]] } return a }; const fmt = t => `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}`; function buildSet(session) {
+        if (session && session !== 'all') {
+          const pool = QUESTION_BANK.filter(q => q.source.startsWith(session));
+          return shuffle(pool).slice(0, Math.min(DEFAULT_TOTAL, pool.length));
+        }
+        const quotas = { 'Buổi 1': 7, 'Buổi 2': 7, 'Buổi 3': 6 };
+        let set = [];
+        Object.entries(quotas).forEach(([buoi, n]) => {
+          const pool = QUESTION_BANK.filter(q => q.source.startsWith(buoi));
+          set.push(...shuffle(pool).slice(0, n));
+        });
+        return set;
+      }
+      function initial(name, mode, session) {
+        const questions = buildSet(session);
+        return {
+          name, mode, session, questions, total: questions.length,
+          index: 0, correct: 0, score: 0, streak: 0, bestStreak: 0,
+          remaining: DURATION, startedAt: Date.now(), answers: [],
+          selected: null, answered: false, ended: false
+        };
+      }
+      function updateChallengeInfo() {
+        const mode = document.querySelector('input[name="gameMode"]:checked')?.value || 'easy';
+        const session = $('sessionSelect')?.value || 'all';
+        const count = session === 'all' ? 20 : Math.min(20, QUESTION_BANK.filter(q => q.source.startsWith(session)).length);
+        $('targetPercent').textContent = mode === 'hard' ? '100%' : '75%';
+        $('targetCorrect').textContent = `${mode === 'hard' ? count : Math.ceil(count * PASS_RATE)}/${count}`;
+        const countValue = document.querySelector('.stats .stat:first-child b');
+        if (countValue) countValue.textContent = `${count} câu`;
+        const countLabel = document.querySelector('.stats .stat:first-child span');
+        if (countLabel) countLabel.textContent = session === 'all' ? '7 - 7 - 6 theo 3 buổi' : `Chọn từ ngân hàng ${session.toLowerCase()}`;
+      }
+      function start() {
+        let name = $('playerName').value.trim() || 'Anh/Chị';
+        $('nameError').textContent = '';
+        const mode = document.querySelector('input[name="gameMode"]:checked')?.value || 'easy';
+        const session = $('sessionSelect')?.value || 'all';
+        state = initial(name, mode, session);
+        if (!state.total) {
+          $('nameError').textContent = 'Chưa có câu hỏi trong buổi ôn tập này.';
+          return;
+        }
+        $('welcome').classList.remove('active');
+        $('game').classList.add('active');
+        render();
+        timerId = setInterval(tick, 1000);
+      }
+      function tick() { if (!state || state.ended) return; state.remaining = Math.max(0, DURATION - Math.floor((Date.now() - state.startedAt) / 1000)); updateTimer(); if (state.remaining <= 0) finish(true) } function updateTimer() { $('timer').textContent = fmt(state.remaining); $('timerBox').classList.toggle('warn', state.remaining <= 300 && state.remaining > 60); $('timerBox').classList.toggle('danger', state.remaining <= 60) } function stageFor(i) {
+        if (state.session !== 'all') return `Ôn tập ${state.session}`;
+        return i < 7 ? 'Chặng 1 · Buổi 1' : i < 14 ? 'Chặng 2 · Buổi 2' : 'Chặng 3 · Buổi 3';
+      } function render() { if (state.ended) return; locked = false; let q = state.questions[state.index]; $('stage').textContent = `${stageFor(state.index)} · ${state.mode === 'hard' ? 'Chế độ khó' : 'Chế độ dễ'}`; $('progress').style.width = `${state.index / state.total * 100}%`; $('currentHud').textContent = `${state.index}/${state.total}`; $('scoreHud').textContent = state.score; $('streakHud').textContent = `${state.streak} 🔥`; $('qmeta').textContent = `CÂU ${state.index + 1} / ${state.total}`; $('question').textContent = q.question; $('feedback').textContent = ''; $('feedback').className = 'feedback'; $('answers').innerHTML = ''; state.selected = null; state.answered = false; q.options.forEach((o, i) => { let b = document.createElement('button'); b.type = 'button'; b.className = 'answer'; b.dataset.i = i; b.innerHTML = `<span class="letter">${String.fromCharCode(65 + i)}</span><span>${esc(o)}</span>`; b.addEventListener('click', () => select(i)); $('answers').appendChild(b) }); $('confirmBtn').disabled = true; $('confirmBtn').style.display = 'inline-block'; $('nextBtn').style.display = 'none'; updateTimer() } function select(i) { if (locked || state.answered) return; state.selected = i; document.querySelectorAll('.answer').forEach((b, j) => b.classList.toggle('selected', j === i)); $('confirmBtn').disabled = false } function confirm() { if (locked || state.selected === null || state.answered) return; locked = true; let q = state.questions[state.index], ok = state.selected === q.correctAnswer; state.answered = true; document.querySelectorAll('.answer').forEach(b => b.disabled = true); document.querySelector(`.answer[data-i="${q.correctAnswer}"]`).classList.add('correct'); if (ok) { state.correct++; state.score += 100; state.streak++; state.bestStreak = Math.max(state.bestStreak, state.streak); let bonus = state.streak === 3 ? 50 : state.streak === 5 ? 100 : state.streak === 10 ? 200 : 0; if (bonus) { state.score += bonus; showBonus(state.streak, bonus) } let msgs = ['Chính xác!', 'Tuyệt vời!', 'Bạn đang làm rất tốt!', 'Xuất sắc!', 'Hoàn hảo!']; $('feedback').className = 'feedback ok'; $('feedback').textContent = `${msgs[Math.floor(Math.random() * msgs.length)]} +100 điểm` } else { document.querySelector(`.answer[data-i="${state.selected}"]`).classList.add('wrong'); state.streak = 0; $('feedback').className = 'feedback bad'; $('feedback').textContent = 'Chưa chính xác!' } state.answers.push({ q, selected: state.selected, correct: ok }); $('scoreHud').textContent = state.score; $('streakHud').textContent = `${state.streak} 🔥`; $('confirmBtn').style.display = 'none'; $('nextBtn').style.display = 'inline-block'; locked = false } function showBonus(n, b) { let d = document.createElement('div'); d.className = 'bonus'; d.innerHTML = `🔥<br>${n} CÂU LIÊN TIẾP!<br>+${b} ĐIỂM THƯỞNG`; $('fx').appendChild(d); setTimeout(() => d.remove(), 1600) } function getStageRange(completed) {
+        if (state.session !== 'all') return { start: 0, end: state.total, stageNo: 1, label: state.session };
+        if (completed <= 7) return { start: 0, end: 7, stageNo: 1, label: 'Buổi 1' };
+        if (completed <= 14) return { start: 7, end: 14, stageNo: 2, label: 'Buổi 2' };
+        return { start: 14, end: state.total, stageNo: 3, label: 'Buổi 3' };
+      }
+      function stageSummary(completed) {
+        const range = getStageRange(completed);
+        const segment = state.answers.slice(range.start, completed);
+        const total = segment.length;
+        const right = segment.filter(a => a.correct).length;
+        const rate = total ? right / total : 0;
+        return { ...range, segment, total, right, rate };
+      }
+      function next() {
+        if (locked || !state.answered) return;
+        locked = true;
+        const completed = state.index + 1;
+        const isStageEnd = state.session === 'all'
+          ? [7, 14, state.total].includes(completed)
+          : completed === state.total;
+        if (isStageEnd) {
+          if (state.mode === 'hard' && !stagePerfect(completed)) {
+            showHardStop(completed);
+            return;
+          }
+          showMilestone(completed, completed >= state.total);
+          return;
+        }
+        state.index++;
+        render();
+      }
+      function stagePerfect(completed) {
+        const r = stageSummary(completed);
+        return r.total === (r.end - r.start) && r.segment.every(a => a.correct);
+      }
+      function retryHardStage(completed) {
+        const r = stageSummary(completed);
+        state.index = r.start;
+        state.answers = state.answers.slice(0, r.start);
+        state.correct = state.answers.filter(a => a.correct).length;
+        state.score = state.answers.reduce((sum, a) => sum + (a.correct ? 100 : 0), 0);
+        state.streak = 0;
+        let run = 0, best = 0;
+        state.answers.forEach(a => { run = a.correct ? run + 1 : 0; best = Math.max(best, run) });
+        state.bestStreak = best;
+        state.ended = false;
+        $('overlay').classList.remove('show');
+        $('continueBtn').onclick = null;
+        $('continueBtn').textContent = 'TIẾP TỤC HÀNH TRÌNH →';
+        render();
+      }
+      function showHardStop(completed) {
+        const r = stageSummary(completed);
+        $('modalTitle').textContent = r.right === 0 ? 'ĐỪNG NẢN LÒNG, HÃY THỬ LẠI!' : `CHƯA VƯỢT QUA ${r.label.toUpperCase()}`;
+        $('modalText').innerHTML = r.right === 0
+          ? `Chặng này chưa có câu trả lời đúng, nhưng đây là cơ hội để mình học lại và tiến bộ. Bạn hãy bình tĩnh thử lại nhé!<br><b>Kết quả: ${r.right}/${r.total} câu đúng.</b>`
+          : `Bạn đã đúng <b>${r.right}/${r.total} câu (${Math.round(r.rate * 100)}%)</b>. Chế độ khó cần đúng toàn bộ câu hỏi của chặng mới được đi tiếp. Hãy thử lại, bạn làm được!`;
+        $('continueBtn').textContent = 'CHƠI LẠI CHẶNG NÀY';
+        $('continueBtn').onclick = () => retryHardStage(completed);
+        $('overlay').classList.add('show');
+      }
+      function showMilestone(completed, isFinal = false) {
+        const r = stageSummary(completed);
+        const passed = r.rate > 0.75;
+        $('continueBtn').textContent = isFinal ? 'XEM KẾT QUẢ' : 'TIẾP TỤC HÀNH TRÌNH →';
+        $('continueBtn').onclick = isFinal
+          ? () => { $('overlay').classList.remove('show'); finish(false); }
+          : null;
+        if (r.right === 0) {
+          $('modalTitle').textContent = 'ĐỪNG NẢN LÒNG, MÌNH CÙNG CỐ GẮNG NHÉ!';
+          $('modalText').innerHTML = `Chặng ${r.stageNo} đã hoàn thành. Lần đầu có thể chưa dễ, nhưng mỗi câu hỏi là một cơ hội để học thêm.<br><b>Kết quả: ${r.right}/${r.total} câu đúng.</b> Hãy xem lại đáp án và thử sức lần nữa nhé!`;
+        } else if (passed) {
+          $('modalTitle').textContent = '🎉 CHÚC MỪNG BẠN!';
+          $('modalText').innerHTML = `Bạn đã vượt qua ${r.label} rất tốt!<br><b>${r.right}/${r.total} câu đúng · ${Math.round(r.rate * 100)}%</b><br>Tiếp tục giữ phong độ và chinh phục phần tiếp theo nhé!`;
+          celebrate();
+        } else {
+          $('modalTitle').textContent = 'BẠN ĐÃ HOÀN THÀNH MỘT CHẶNG!';
+          $('modalText').innerHTML = `Bạn đạt ${r.right}/${r.total} câu đúng (${Math.round(r.rate * 100)}%). Hãy xem lại những câu chưa đúng, luyện tập thêm và bạn sẽ tiến bộ hơn ở lần sau!`;
+        }
+        $('overlay').classList.add('show');
+      }
+      function continueJourney() {
+        $('overlay').classList.remove('show');
+        if (state.index + 1 >= state.total) { finish(false); return; }
+        state.index++;
+        render();
+      }
+      function finish(timeout) { if (!state || state.ended) return; state.ended = true; clearInterval(timerId); timerId = null; state.remaining = Math.max(0, state.remaining); $('game').classList.remove('active'); $('result').classList.add('active'); let required = state.mode === 'hard' ? state.total : Math.ceil(state.total * PASS_RATE), pass = state.correct >= required, pct = Math.round(state.correct / state.total * 100), elapsed = DURATION - state.remaining; $('resultIcon').textContent = pass ? '🏆' : '💪'; $('resultTitle').textContent = pass ? 'CHÚC MỪNG! BẠN ĐÃ CHINH PHỤC THỬ THÁCH' : 'CHƯA ĐẠT MỤC TIÊU'; $('resultMessage').textContent = pass ? `${state.name}, bạn đã hoàn thành hành trình xuất sắc!` : `${state.name}, hãy xem lại những nội dung chưa chắc chắn và thử lại nhé!`; $('resultStatus').textContent = pass ? 'HOÀN THÀNH' : 'CHƯA HOÀN THÀNH'; $('resultStatus').className = `result-status ${pass ? 'pass' : 'fail'}`; $('scoreBig').textContent = `${state.correct}/${state.total} câu đúng`; $('resPercent').textContent = `${pct}%`; $('resTime').textContent = fmt(elapsed); $('resScore').textContent = `${state.score} điểm`; $('resStreak').textContent = state.bestStreak; renderRecommendation(); if (state.session && state.session !== 'all' && !pass) { $('resultMessage').textContent = `${state.name}, bạn chưa đạt mục tiêu ở ${state.session}. Hãy ôn lại nội dung buổi này và thử lại nhé — bạn sẽ tiến bộ hơn!`; } $('review').classList.remove('show'); renderReview('all'); if (pass) celebrate() } function renderRecommendation() {
+  const box = $('recommendation');
+  const session = state.session || 'all';
+  const required = state.mode === 'hard'
+    ? state.total
+    : Math.ceil(state.total * PASS_RATE);
+  const passed = state.correct >= required;
+
+  const wrongAnswers = state.answers.filter(a => !a.correct);
+  const escapeText = value => esc(String(value || ''));
+
+  // Ôn riêng từng buổi: nếu chưa đạt thì chỉ khuyên ôn lại đúng buổi đã chọn.
+  if (session !== 'all') {
+    if (!passed) {
+      const examples = wrongAnswers.slice(0, 3).map(a =>
+        `<li>${escapeText(a.q.question)}</li>`
+      ).join('');
+      box.innerHTML = `
+        <b>Gợi ý ôn tập: ${escapeText(session)}</b>
+        <p>Bạn chưa đạt mục tiêu ở ${escapeText(session)}. Đừng nản nhé! Hãy dành thêm thời gian ôn lại nội dung của buổi này, đặc biệt là những câu bạn vừa trả lời chưa chính xác.</p>
+        ${examples ? `<p><b>Nên xem lại các câu:</b></p><ul>${examples}</ul>` : ''}
+        <p>Mỗi lần luyện tập là một bước tiến. Bạn hoàn toàn có thể làm tốt hơn ở lần tiếp theo!</p>`;
+      box.className = 'recommendation';
+    } else {
+      box.innerHTML = `
+        <b>Chúc mừng bạn đã hoàn thành ${escapeText(session)}!</b>
+        <p>Bạn đã đạt mục tiêu của buổi ôn tập này. Hãy tiếp tục duy trì kiến thức và luyện thêm những câu hỏi khác trong ngân hàng đề nhé!</p>`;
+      box.className = 'recommendation good';
+    }
+    return;
+  }
+
+  // Ôn tổng hợp: 12 câu trở xuống -> ôn lại toàn bộ chương trình.
+  if (state.correct <= 12) {
+    box.innerHTML = `
+      <b>Khuyến nghị: Ôn tập lại toàn bộ 3 buổi</b>
+      <p>Kết quả hiện tại là <strong>${state.correct}/${state.total} câu đúng</strong>. Bạn nên dành thời gian hệ thống và ôn lại kiến thức của cả Buổi 1, Buổi 2 và Buổi 3 để củng cố nền tảng.</p>
+      <p>Đừng quá lo lắng — hãy học từng phần, xem lại lời giải các câu chưa đúng và thử sức lại. Tiến bộ đến từ từng bước nhỏ!</p>`;
+    box.className = 'recommendation';
+    return;
+  }
+
+  // Trên 12 câu: tìm buổi cần ưu tiên ôn dựa trên tỷ lệ câu sai.
+  const groups = {
+    'Buổi 1': { wrong: 0, total: 0, questions: [] },
+    'Buổi 2': { wrong: 0, total: 0, questions: [] },
+    'Buổi 3': { wrong: 0, total: 0, questions: [] }
+  };
+
+  state.answers.forEach(a => {
+    const key = Object.keys(groups).find(k => a.q.source.startsWith(k));
+    if (!key) return;
+    groups[key].total++;
+    if (!a.correct) {
+      groups[key].wrong++;
+      groups[key].questions.push(a.q.question);
+    }
+  });
+
+  const ranked = Object.entries(groups)
+    .filter(([, value]) => value.total > 0 && value.wrong > 0)
+    .map(([name, value]) => ({
+      name,
+      ...value,
+      errorRate: value.wrong / value.total
+    }))
+    .sort((a, b) =>
+      b.errorRate - a.errorRate ||
+      b.wrong - a.wrong
+    );
+
+  if (!ranked.length) {
+    box.innerHTML = `
+      <b>Rất tốt! Bạn không có câu trả lời sai.</b>
+      <p>Hãy tiếp tục luyện tập để củng cố kiến thức và làm quen thêm với những câu hỏi khác trong ngân hàng đề.</p>`;
+    box.className = 'recommendation good';
+    return;
+  }
+
+  const focus = ranked[0];
+  const examples = focus.questions.slice(0, 3)
+    .map(q => `<li>${escapeText(q)}</li>`).join('');
+
+  box.innerHTML = `
+    <b>Khuyến nghị: Ôn tập trọng tâm ${escapeText(focus.name)}</b>
+    <p>Bạn đã đúng <strong>${state.correct}/${state.total} câu</strong>. Trong các buổi đã làm, ${escapeText(focus.name)} là phần nên được ưu tiên củng cố với ${focus.wrong}/${focus.total} câu chưa chính xác.</p>
+    <p><b>Nội dung nên xem lại:</b></p>
+    <ul>${examples}</ul>
+    <p>Hãy xem lại kiến thức liên quan đến những câu trên, sau đó luyện tập lại để tự tin hơn nhé!</p>`;
+  box.className = 'recommendation';
+}function renderReview(filter) { let list = $('reviewList'); list.innerHTML = ''; state.answers.filter(a => filter === 'all' || (filter === 'correct' && a.correct) || (filter === 'wrong' && !a.correct)).forEach((a, i) => { let d = document.createElement('article'); d.className = `review-item ${a.correct ? 'good' : ''}`; let chosen = a.q.options[a.selected] ?? 'Chưa trả lời'; let exp = a.q.explanation ? `<p><b>Giải thích:</b> ${esc(a.q.explanation)}</p>` : ''; d.innerHTML = `<h3>${esc(a.q.source)} · ${esc(a.q.question)}</h3><p><b>Bạn chọn:</b> ${esc(chosen)}</p><p><b>Đáp án đúng:</b> ${esc(a.q.options[a.q.correctAnswer])}</p><p><b>Kết quả:</b> ${a.correct ? 'Đúng' : 'Sai'}</p>${exp}`; list.appendChild(d) }); if (!list.children.length) list.innerHTML = '<p>Không có câu hỏi trong bộ lọc này.</p>' } function celebrate() { let c = $('confetti'), colors = ['#E31837', '#FDB022', '#12B76A', '#7F56D9']; for (let i = 0; i < 70; i++) { let x = document.createElement('i'); x.style.left = Math.random() * 100 + '%'; x.style.background = colors[i % colors.length]; x.style.animationDelay = Math.random() * 1.2 + 's'; c.appendChild(x); setTimeout(() => x.remove(), 4500) } } function replay() {
+        if (!state) return;
+        const previous = state;
+        $('playerName').value = previous.name;
+        $('sessionSelect').value = previous.session || 'all';
+        const modeOption = document.querySelector(`input[name="gameMode"][value="${previous.mode}"]`);
+        if (modeOption) modeOption.checked = true;
+        $('result').classList.remove('active');
+        $('review').classList.remove('show');
+        $('overlay').classList.remove('show');
+        updateChallengeInfo();
+        start();
+      }
+      function goHome() {
+        if (timerId) { clearInterval(timerId); timerId = null; }
+        $('result').classList.remove('active');
+        $('game').classList.remove('active');
+        $('review').classList.remove('show');
+        $('overlay').classList.remove('show');
+        $('welcome').classList.add('active');
+        updateChallengeInfo();
+        $('playerName').focus();
+      }
+      document.querySelectorAll('input[name="gameMode"]').forEach(r => r.addEventListener('change', updateChallengeInfo)); $('sessionSelect').addEventListener('change', updateChallengeInfo); updateChallengeInfo(); $('startBtn').addEventListener('click', start); $('playerName').addEventListener('keydown', e => { if (e.key === 'Enter') start() }); $('confirmBtn').addEventListener('click', confirm); $('nextBtn').addEventListener('click', next); $('continueBtn').addEventListener('click', continueJourney); $('replayBtn').addEventListener('click', replay); $('homeBtn').addEventListener('click', goHome); $('reviewBtn').addEventListener('click', () => { $('review').classList.toggle('show'); if ($('review').classList.contains('show')) $('review').scrollIntoView({ behavior: 'smooth' }) }); document.querySelectorAll('.filter').forEach(b => b.addEventListener('click', () => { document.querySelectorAll('.filter').forEach(x => x.classList.remove('active')); b.classList.add('active'); renderReview(b.dataset.filter) })); window.addEventListener('beforeunload', e => { if (state && !state.ended) { e.preventDefault(); e.returnValue = '' } });
+    })();</script>
+</body>
+
+</html>
