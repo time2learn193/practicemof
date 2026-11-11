@@ -3605,7 +3605,25 @@ body:has(#welcome.active) .agency-footer { position: fixed; z-index: 5; left: 0;
   #welcome .welcome-top p { font-size: 11px; line-height: 1.35; }
   #welcome .welcome-body { display: flex; flex-direction: column; }
   #welcome .welcome-start { order: 0; border: 0; padding: 9px 15px 12px; }
-  #welcome .welcome-info { display: none; }
+  /* Preserve the full revision structure on phones; show it compactly. */
+  #welcome .welcome-info {
+    display: block;
+    order: 0;
+    padding: 6px 15px 5px;
+    border: 0;
+    flex: none;
+  }
+  #welcome .welcome-info h2 { font-size: 13px; margin: 0 0 5px; }
+  #welcome .stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 4px; margin: 0 0 5px; }
+  #welcome .stat { min-width: 0; padding: 7px 2px 6px; border-radius: 9px; }
+  #welcome .stat b { font-size: 13px; line-height: 1.1; white-space: nowrap; }
+  #welcome .stat span { font-size: 8px; line-height: 1.2; }
+  #welcome .guide { margin: 0; padding: 6px 9px; border-radius: 9px; }
+  #welcome .guide summary { min-height: 20px; }
+  #welcome .guide h3 { font-size: 11px; }
+  #welcome .guide .guide-toggle { font-size: 10px; }
+  #welcome .welcome-body { min-height: 0; }
+  #welcome .welcome-start { order: 1; }
   #welcome .welcome-start h2 { font-size: 18px; margin: 0 0 3px; }
   #welcome .session-label { margin: 5px 0 4px; font-size: 10px; }
   #welcome .session-select { min-height: 38px; font-size: 13px; padding: 7px 36px 7px 12px; }
@@ -3629,6 +3647,14 @@ body:has(#welcome.active) .agency-footer { position: fixed; z-index: 5; left: 0;
   #welcome .welcome-start { padding: 7px 12px 9px; }
   #welcome .mode-card { padding: 6px 9px; }
   #welcome .start-note { display: none; }
+  #welcome .welcome-info { padding: 3px 12px 3px; }
+  #welcome .welcome-info h2 { margin-bottom: 3px; font-size: 12px; }
+  #welcome .stats { gap: 3px; margin-bottom: 3px; }
+  #welcome .stat { padding: 4px 1px; }
+  #welcome .stat b { font-size: 12px; }
+  #welcome .stat span { font-size: 7px; }
+  #welcome .guide { padding: 3px 8px; }
+  #welcome .guide summary { min-height: 17px; }
 }
 
 </style>
