@@ -3521,6 +3521,117 @@
       .agency-footer { font-size: 11px; padding-top: 11px; }
     }
   </style>
+<style>
+/* Keep the welcome viewport still; other screens retain normal scrolling. */
+body:has(#welcome.active) { height: 100svh; overflow: hidden; }
+body:has(#welcome.active) .app { min-height: 100svh; height: 100svh; }
+body:has(#welcome.active) .agency-footer { position: fixed; z-index: 5; left: 0; right: 0; bottom: 0; padding: 3px 8px max(3px, env(safe-area-inset-bottom)); background: transparent; font-size: 10px; }
+/* Viewport-fitted welcome, isolated from question and result screens. */
+#welcome.screen.active {
+  height: 100svh;
+  min-height: 0;
+  padding: 12px clamp(10px, 2vw, 24px);
+  overflow: hidden;
+  align-items: center;
+}
+#welcome .welcome-shell {
+  width: min(1120px, 100%);
+  max-height: calc(100svh - 24px);
+  display: grid;
+  grid-template-columns: minmax(0, .86fr) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  align-content: center;
+  overflow: hidden;
+}
+#welcome .welcome-top {
+  min-height: 0;
+  padding: clamp(16px, 2.4vh, 28px) clamp(20px, 2.8vw, 34px) 10px;
+  align-items: flex-start;
+}
+#welcome .welcome-top h1 {
+  font-size: clamp(32px, 3.6vw, 48px);
+  margin: 6px 0 4px;
+}
+#welcome .welcome-top p { font-size: 13px; line-height: 1.45; }
+#welcome .welcome-top .welcome-logo { margin-bottom: 4px; }
+#welcome .welcome-top .welcome-logo .prudential-logo { width: clamp(128px, 12vw, 160px); }
+#welcome .welcome-progress { display: none; }
+#welcome .welcome-body { display: contents; }
+#welcome .welcome-info {
+  grid-column: 1;
+  grid-row: 2;
+  padding: 10px clamp(20px, 2.8vw, 34px) 20px;
+  border-right: 0;
+}
+#welcome .welcome-start {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  padding: clamp(16px, 2.5vh, 28px) clamp(20px, 3vw, 36px);
+  border-left: 1px solid rgba(90,65,55,.12);
+}
+#welcome .welcome-info h2 { font-size: 17px; margin-bottom: 9px; }
+#welcome .welcome-start h2 { font-size: 21px; margin-bottom: 5px; }
+#welcome .stats { gap: 8px; margin-bottom: 10px; }
+#welcome .stat { padding: 10px 8px; }
+#welcome .stat b { font-size: 18px; }
+#welcome .stat span { font-size: 10px; }
+#welcome .guide { margin-top: 10px; padding: 10px; }
+#welcome .session-label { margin: 7px 0 5px; }
+#welcome .session-select { min-height: 42px; padding-top: 8px; padding-bottom: 8px; }
+#welcome .mode-box { margin: 8px 0; }
+#welcome .mode-box legend { margin-bottom: 4px; }
+#welcome .start-note { font-size: 12px; margin: 0 0 5px; }
+#welcome .mode-card { padding: 10px 12px; margin: 6px 0; }
+#welcome .mode-card b { font-size: 14px; }
+#welcome .mode-card small { font-size: 11px; line-height: 1.3; }
+#welcome .welcome-start>label { margin-bottom: 6px; }
+#welcome .name { min-height: 42px; padding: 9px 12px; }
+#welcome .error { min-height: 10px; margin: 2px 0; }
+#welcome #startBtn { min-height: 44px; margin-top: 4px; padding: 10px 14px; }
+@media (max-width: 700px) {
+  #welcome.screen.active { padding: 7px; align-items: center; }
+  #welcome .welcome-shell {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: calc(100svh - 14px);
+    border-radius: 16px;
+  }
+  #welcome .welcome-top { padding: 12px 16px 7px; flex: none; }
+  #welcome .welcome-top .welcome-logo { margin-bottom: 0; }
+  #welcome .welcome-top .welcome-logo .prudential-logo { width: 118px; }
+  #welcome .welcome-top h1 { font-size: clamp(26px, 7vw, 32px); margin: 1px 0 2px; padding: 0; }
+  #welcome .welcome-top h1 span { padding: 0; line-height: 1.1; }
+  #welcome .welcome-top p { font-size: 11px; line-height: 1.35; }
+  #welcome .welcome-body { display: flex; flex-direction: column; }
+  #welcome .welcome-start { order: 0; border: 0; padding: 9px 15px 12px; }
+  #welcome .welcome-info { display: none; }
+  #welcome .welcome-start h2 { font-size: 18px; margin: 0 0 3px; }
+  #welcome .session-label { margin: 5px 0 4px; font-size: 10px; }
+  #welcome .session-select { min-height: 38px; font-size: 13px; padding: 7px 36px 7px 12px; }
+  #welcome .mode-box { margin: 5px 0; }
+  #welcome .mode-box legend { font-size: 11px; margin-bottom: 2px; }
+  #welcome .start-note { font-size: 11px; line-height: 1.3; margin: 0 0 3px; }
+  #welcome .mode-card { margin: 4px 0; padding: 8px 10px; gap: 9px; }
+  #welcome .mode-card b { font-size: 12px; margin: 0; }
+  #welcome .mode-card small { font-size: 10px; line-height: 1.25; }
+  #welcome .mode-card input { width: 17px; height: 17px; }
+  #welcome .welcome-start>label { font-size: 11px; margin: 4px 0 4px; }
+  #welcome .name { min-height: 38px; font-size: 12px; padding: 8px 10px; }
+  #welcome .error { min-height: 6px; margin: 0; font-size: 10px; }
+  #welcome #startBtn { min-height: 42px; margin-top: 3px; padding: 10px; }
+}
+@media (max-width: 700px) and (max-height: 690px) {
+  #welcome .welcome-top { padding: 8px 13px 5px; }
+  #welcome .welcome-top p { font-size: 10px; line-height: 1.3; }
+  #welcome .welcome-top h1 { font-size: 26px; }
+  #welcome .welcome-top .welcome-logo .prudential-logo { width: 103px; }
+  #welcome .welcome-start { padding: 7px 12px 9px; }
+  #welcome .mode-card { padding: 6px 9px; }
+  #welcome .start-note { display: none; }
+}
+
+</style>
 </head>
 
 <body>
